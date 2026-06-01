@@ -4,7 +4,8 @@ import {
   exportMarkdownSpec,
   exportProjectPlanJson,
   formatChecklistMarkdown,
-  formatPromptPackMarkdown
+  formatPromptPackMarkdown,
+  generateNextJsScaffold
 } from "../../lib/generator";
 import type { CreateProjectInput, Project, RiskLevel } from "@/lib/types";
 
@@ -45,6 +46,7 @@ function createProjectRecord(input: CreateProjectInput, id: string, timestamp: s
   });
   const clarifyingQuestions = createClarifyingQuestions(input.idea);
   const risk = highestRisk(plan.risks.map((item) => item.severity));
+  const scaffoldFiles = generateNextJsScaffold(plan.spec.name, plan.spec, plan.techPlan);
 
   return {
     id,
@@ -68,7 +70,8 @@ function createProjectRecord(input: CreateProjectInput, id: string, timestamp: s
       markdownSpec: exportMarkdownSpec(plan.spec, plan.techPlan),
       jsonProjectPlan: exportProjectPlanJson(plan),
       promptPackMarkdown: formatPromptPackMarkdown(plan.promptPack),
-      checklistMarkdown: formatChecklistMarkdown(plan.reviewChecklist)
+      checklistMarkdown: formatChecklistMarkdown(plan.reviewChecklist),
+      scaffoldFiles
     }
   };
 }

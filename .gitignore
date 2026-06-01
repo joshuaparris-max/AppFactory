@@ -83,3 +83,5 @@ env/
 
 # Don't commit these (they contain real secrets)
 !.env.example
+
+.vercel

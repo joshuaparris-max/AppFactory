@@ -7,7 +7,8 @@ import type {
   ProjectPlan,
   ReviewChecklist,
   Risk,
-  TechPlan
+  TechPlan,
+  ScaffoldFile
 } from "../../lib/generator";
 
 export type {
@@ -19,7 +20,8 @@ export type {
   ProjectPlan,
   ReviewChecklist,
   Risk,
-  TechPlan
+  TechPlan,
+  ScaffoldFile
 };
 
 export type BuildPhase =
@@ -44,6 +46,7 @@ export interface ProjectExports {
   jsonProjectPlan: string;
   promptPackMarkdown: string;
   checklistMarkdown: string;
+  scaffoldFiles: ScaffoldFile[];
 }
 
 export interface Project {

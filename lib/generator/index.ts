@@ -5,3 +5,4 @@ export * from "./spec";
 export * from "./planning";
 export * from "./exports";
 export * from "./services";
+export * from "./scaffold";

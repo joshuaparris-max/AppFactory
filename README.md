@@ -1,17 +1,30 @@
 # AppFactory
 
-AppFactory is a local-first command centre for turning rough app ideas into structured build plans that multiple agents can work from safely.
+AppFactory is a local-first command centre for turning rough app ideas into complete, scaffolded applications that teams can build from safely.
 
-The MVP wires the Round 1 generator into a Next.js app. A user can create a project idea, save it in localStorage, review the generated app spec, inspect the tech/scaffold plan, copy the four-agent prompt pack, and run through a review checklist before any scaffold or deployment work begins.
+The MVP captures app ideas, generates specs, creates complete Next.js project scaffolds, and prepares review artifacts for multi-agent development workflows.
 
 ## What It Does
 
-- Captures a new app idea through `/new`
-- Generates clarifying questions, an app spec, a tech plan, agent tasks, prompts, risks, and a checklist
-- Saves projects locally in the browser
-- Shows saved projects on `/projects`
-- Shows useful project details on `/projects/[projectId]`
-- Keeps GitHub, Vercel, and AI integrations behind safe placeholder service interfaces
+- **Captures ideas** through the `/new` wizard
+- **Generates specs**: Clarifying questions, app specs, tech plans, data models
+- **Creates app scaffolds**: Complete Next.js project structure with starter code
+- **Splits work**: Agent tasks with branch names, ownership, and deliverables
+- **Exports everything**: Markdown specs, agent prompts, checklists, JSON configs, and runnable code
+- **Manages projects** locally in the browser with search, delete, and export features
+- **Stays safe**: No API keys required, all work local, review gates before deployment
+
+## Key Features
+
+✨ **App Scaffolding**: Download complete, runnable Next.js projects with your app's specifications built in
+
+📋 **Project Management**: Create, search, delete, and export projects with full version history
+
+🤖 **Agent Prompts**: Four-agent prompt packs with clear ownership boundaries and guardrails
+
+🔍 **Spec Generation**: Automatic generation of app specs, tech plans, and risk assessments
+
+📦 **Multi-format Export**: Download as Markdown, JSON, or complete project scaffold
 
 ## Safety Rules
 
