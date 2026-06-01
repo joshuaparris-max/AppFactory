@@ -2,6 +2,8 @@
 
 **AppFactory** is an intelligent application development framework designed to enable collaborative, multi-agent development of web applications. It provides guardrails, workflows, and templates to ensure safe, reliable, and iterative development.
 
+The generator engine in `lib/generator` turns rough app ideas into structured app specs, tech plans, scaffold plans, risks, review checklists, and copyable four-agent prompt packs. It is pure TypeScript, unit-testable, and uses safe mock service interfaces for AI, GitHub, and Vercel instead of live calls.
+
 ## Quick Start (5 minutes)
 
 ### What is AppFactory?
@@ -48,10 +50,32 @@ cat examples/example-4-agent-prompt-pack.md
 cat docs/RELEASE_CHECKLIST.md
 cat docs/APPFACTORY_SPEC.md
 
-# 4. Run tests (if available)
+# 4. Run tests
 npm run lint
 npm run build
 npm run test
+```
+
+### Generator Example
+
+```ts
+import {
+  createGeneratorOutput,
+  exportMarkdownSpec,
+  formatPromptPackMarkdown
+} from "./lib/generator";
+
+const output = createGeneratorOutput({
+  idea: "A family chore and allowance app with parent approvals, streaks, and simple dashboards.",
+  audience: "busy families with children aged 8-15",
+  mustHaveFeatures: ["parent approval flow", "allowance ledger", "weekly chore board"],
+  integrations: ["email reminders"],
+  authRequired: true,
+  roles: ["parent", "child"]
+});
+
+console.log(exportMarkdownSpec(output.spec, output.techPlan));
+console.log(formatPromptPackMarkdown(output.promptPack));
 ```
 
 ## Documentation
@@ -79,8 +103,8 @@ npm run test
 
 ```bash
 npm run lint      # Check code style
-npm run build     # Build for production
-npm run test      # Run tests
+npm run build     # Compile the TypeScript generator
+npm run test      # Run generator tests
 npm run dev       # Start development server (if applicable)
 npm run check     # Run all checks (lint + build + test)
 ```
@@ -107,4 +131,4 @@ See [docs/ROADMAP.md](docs/ROADMAP.md) for planned features.
 
 ---
 
-**Last Updated**: June 2026 | **Branch**: feature/qa-docs-copilot-c2
+**Last Updated**: June 2026
