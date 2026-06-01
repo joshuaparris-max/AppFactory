@@ -18,6 +18,10 @@ interface ProjectStoreValue {
   hydrated: boolean;
   createProject: (input: { name: string; idea: string }) => Project;
   getProject: (projectId: string) => Project | undefined;
+  updateProject: (projectId: string, updates: Partial<Project>) => void;
+  deleteProject: (projectId: string) => void;
+  replaceProjects: (projects: Project[]) => void;
+  resetProjects: () => void;
 }
 
 const ProjectStoreContext = createContext<ProjectStoreValue | undefined>(undefined);
@@ -45,14 +49,54 @@ export function ProjectStoreProvider({ children }: { children: ReactNode }) {
     return project;
   }, []);
 
+  const updateProject = useCallback((projectId: string, updates: Partial<Project>) => {
+    setProjects((current) =>
+      current.map((project) =>
+        project.id === projectId
+          ? { ...project, ...updates, updatedAt: new Date().toISOString() }
+          : project,
+      ),
+    );
+  }, []);
+
+  const deleteProject = useCallback((projectId: string) => {
+    setProjects((current) => current.filter((project) => project.id !== projectId));
+  }, []);
+
+  const replaceProjects = useCallback((nextProjects: Project[]) => {
+    setProjects(nextProjects);
+  }, []);
+
+  const resetProjects = useCallback(() => {
+    setProjects(mockProjects);
+  }, []);
+
   const getProject = useCallback(
     (projectId: string) => projects.find((project) => project.id === projectId),
     [projects],
   );
 
   const value = useMemo(
-    () => ({ projects, hydrated, createProject, getProject }),
-    [projects, hydrated, createProject, getProject],
+    () => ({
+      projects,
+      hydrated,
+      createProject,
+      getProject,
+      updateProject,
+      deleteProject,
+      replaceProjects,
+      resetProjects,
+    }),
+    [
+      projects,
+      hydrated,
+      createProject,
+      getProject,
+      updateProject,
+      deleteProject,
+      replaceProjects,
+      resetProjects,
+    ],
   );
 
   return (

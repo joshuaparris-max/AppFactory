@@ -34,9 +34,11 @@ npm run lint
 
 - Home dashboard with project and task summaries
 - New App Wizard for local project creation
-- Projects list and project detail route
-- Agent Task Board route
+- Searchable Projects list and project detail route
+- Project detail planning controls for phase, risk, prompt export, JSON download, and delete
+- Agent Task Board route with project and owner filters
 - Settings route documenting safe placeholder integrations
+- Local backup export, import, and reset controls
 - Shared TypeScript types for `Project`, `AppSpec`, `AgentTask`, `BuildPhase`, and `RiskLevel`
 - Mock data seeded into localStorage on first load
 
