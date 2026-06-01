@@ -133,12 +133,12 @@ export default function NewAppPage() {
             <h2 className="text-base font-semibold text-zinc-950">Wizard steps</h2>
           </div>
           <ol className="space-y-4">
-            {wizardSteps.map((step, index) => {
+            {wizardSteps.map((step) => {
               const Icon = step.icon;
               return (
                 <li key={step.label} className="flex gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
-                    {index + 1}
+                    <Icon className="h-4 w-4" />
                   </div>
                   <div>
                     <p className="font-medium text-zinc-950">{step.label}</p>

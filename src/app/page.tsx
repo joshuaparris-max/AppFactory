@@ -1,6 +1,7 @@
 "use client";
 
-import { AlertTriangle, CheckCircle2, FolderKanban, ListChecks, Sparkles } from "lucide-react";
+import { AlertTriangle, CheckCircle2, FolderKanban, ListChecks, Sparkles, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { MetricCard } from "@/components/metric-card";
 import { PageHeader } from "@/components/page-header";
 import { ProjectCard } from "@/components/project-card";
@@ -12,6 +13,7 @@ export default function DashboardPage() {
   const taskCount = projects.reduce((sum, project) => sum + project.agentTasks.length, 0);
   const highRisk = projects.filter((project) => project.risk === "high").length;
   const inProgress = projects.filter((project) => project.status === "planning" || project.status === "ready-for-agents").length;
+  const recentProjects = projects.slice(0, 3);
 
   return (
     <>
@@ -49,6 +51,23 @@ export default function DashboardPage() {
         />
       </section>
 
+      {recentProjects.length > 0 && (
+        <section className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <h2 className="text-lg font-semibold text-zinc-950">Recent projects</h2>
+            <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-zinc-900">
+              View all
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {recentProjects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
         <div>
           <div className="mb-6 flex items-center justify-between">
@@ -73,7 +92,7 @@ export default function DashboardPage() {
               <FolderKanban className="mx-auto h-12 w-12 text-zinc-400" />
               <h3 className="mt-4 text-lg font-semibold text-zinc-900">No projects yet</h3>
               <p className="mt-2 text-sm text-zinc-600">
-                Get started by creating your first app. We'll guide you through capturing your idea, generating a spec, and planning the scaffold.
+                Get started by creating your first app. We&apos;ll guide you through capturing your idea, generating a spec, and planning the scaffold.
               </p>
               <ButtonLink href="/new" className="mt-6">
                 Create your first app

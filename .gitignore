@@ -32,6 +32,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
+dev-server.*.log
 
 # Testing
 coverage/
@@ -69,6 +70,7 @@ Thumbs.db
 .turbo/
 .cache/
 .eslintcache
+*.tsbuildinfo
 
 # Python (if using Python backend)
 __pycache__/

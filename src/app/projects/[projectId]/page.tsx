@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { ArrowLeft, Check, Copy, ExternalLink } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft, Check, Copy, Download, ExternalLink, Trash2 } from "lucide-react";
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { PageHeader } from "@/components/page-header";
@@ -41,14 +41,62 @@ function TextList({ items }: { items: string[] }) {
 
 export default function ProjectDetailPage() {
   const params = useParams<{ projectId: string }>();
-  const { getProject } = useProjectStore();
+  const router = useRouter();
+  const { getProject, deleteProject } = useProjectStore();
   const project = getProject(params.projectId);
   const [copied, setCopied] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   async function copyText(id: string, text: string) {
     await navigator.clipboard.writeText(text);
     setCopied(id);
     window.setTimeout(() => setCopied(null), 1600);
+  }
+
+  function exportAsJSON() {
+    if (!project) return;
+    const dataStr = JSON.stringify(project, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${project.name.toLowerCase().replace(/\s+/g, "-")}-export.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportAsMarkdown(type: "spec" | "prompts" | "checklist") {
+    if (!project) return;
+    let content = "";
+    let filename = "";
+
+    if (type === "spec") {
+      content = project.exports.markdownSpec;
+      filename = `${project.name.toLowerCase().replace(/\s+/g, "-")}-spec.md`;
+    } else if (type === "prompts") {
+      content = project.exports.promptPackMarkdown;
+      filename = `${project.name.toLowerCase().replace(/\s+/g, "-")}-prompts.md`;
+    } else if (type === "checklist") {
+      content = project.exports.checklistMarkdown;
+      filename = `${project.name.toLowerCase().replace(/\s+/g, "-")}-checklist.md`;
+    }
+
+    const dataBlob = new Blob([content], { type: "text/markdown" });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function handleDelete() {
+    if (!project) return;
+    if (confirm(`Are you sure you want to delete "${project.name}"? This cannot be undone.`)) {
+      setIsDeleting(true);
+      deleteProject(project.id);
+      router.push("/projects");
+    }
   }
 
   if (!project) {
@@ -73,10 +121,30 @@ export default function ProjectDetailPage() {
         title={project.name}
         description={project.appSpec.summary}
         action={
-          <ButtonLink href="/tasks" variant="secondary">
-            Open task board
-            <ExternalLink className="h-4 w-4" />
-          </ButtonLink>
+          <div className="flex flex-wrap gap-2">
+            <ButtonLink href="/tasks" variant="secondary">
+              Open task board
+              <ExternalLink className="h-4 w-4" />
+            </ButtonLink>
+            <button
+              type="button"
+              onClick={exportAsJSON}
+              title="Export project as JSON"
+              className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 text-sm font-medium text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-50"
+            >
+              <Download className="h-4 w-4" />
+              Export JSON
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="inline-flex h-10 items-center gap-2 rounded-lg border border-red-300 bg-red-50 px-4 text-sm font-medium text-red-700 transition hover:border-red-400 hover:bg-red-100 disabled:opacity-50"
+            >
+              <Trash2 className="h-4 w-4" />
+              Delete
+            </button>
+          </div>
         }
       />
 
@@ -180,6 +248,39 @@ export default function ProjectDetailPage() {
                   onCopy={() => copyText(prompt.role, prompt.prompt)}
                 />
               ))}
+            </div>
+          </Panel>
+
+          <Panel title="Export & Download">
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => exportAsMarkdown("spec")}
+                className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
+              >
+                📋 Download Spec
+              </button>
+              <button
+                type="button"
+                onClick={() => exportAsMarkdown("prompts")}
+                className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
+              >
+                💬 Download Prompts
+              </button>
+              <button
+                type="button"
+                onClick={() => exportAsMarkdown("checklist")}
+                className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
+              >
+                ✅ Download Checklist
+              </button>
+              <button
+                type="button"
+                onClick={exportAsJSON}
+                className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
+              >
+                💾 Download Full JSON
+              </button>
             </div>
           </Panel>
 

@@ -86,7 +86,7 @@ export function inferAppType(idea: string, requested?: string): AppType {
     ["staff-training-app", ["staff", "training", "employee", "onboarding", "compliance", "workplace"]]
   ];
 
-  for (const [type, words] of candidates) {
+  for (const [type] of candidates) {
     if (normalizedRequested === type.replace(/-/g, " ") || normalizedRequested === APP_TYPE_LABELS[type]) {
       return type;
     }

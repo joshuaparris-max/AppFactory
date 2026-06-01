@@ -27,8 +27,12 @@ export function ProjectStoreProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setProjects(loadProjects());
-    setHydrated(true);
+    const timer = window.setTimeout(() => {
+      setProjects(loadProjects());
+      setHydrated(true);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
