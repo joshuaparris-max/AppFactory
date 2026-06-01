@@ -2,18 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowRight, Lightbulb, ListChecks, Sparkles } from "lucide-react";
+import { ArrowRight, ClipboardList } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { useProjectStore } from "@/context/project-store";
 
 const wizardSteps = [
-  { icon: Lightbulb, label: "Capture idea", description: "Tell us about your app concept" },
-  { icon: ListChecks, label: "Generate questions", description: "Clarifying questions for your spec" },
-  { icon: Sparkles, label: "Prepare spec", description: "Structured app specification" },
-  { icon: ListChecks, label: "Plan scaffold", description: "Technical implementation plan" },
-  { icon: ListChecks, label: "Split agent tasks", description: "Discrete tasks for agents" },
-  { icon: ListChecks, label: "Review and export", description: "Export prompts for agents" },
+  "Capture idea",
+  "Generate questions",
+  "Prepare spec",
+  "Plan scaffold",
+  "Split agent tasks",
+  "Review and export",
 ];
 
 export default function NewAppPage() {
@@ -43,72 +43,57 @@ export default function NewAppPage() {
         description="This wizard creates a local planning workspace with clarifying questions, a starter spec, agent tasks, and exportable prompts."
       />
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
+      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         <form
           onSubmit={handleSubmit}
-          className="rounded-lg border border-zinc-200 bg-white p-8 shadow-sm"
+          className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm"
         >
-          <div className="space-y-6">
+          <div className="space-y-5">
             <label className="block">
-              <span className="text-sm font-semibold text-zinc-700 uppercase tracking-wide">Project name</span>
+              <span className="text-sm font-medium text-zinc-800">Project name</span>
               <input
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                placeholder="e.g., Client Portal Builder"
-                className="mt-3 h-12 w-full rounded-lg border border-zinc-300 px-4 text-base outline-none transition focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10 placeholder:text-zinc-400"
+                placeholder="Client Portal Builder"
+                className="mt-2 h-11 w-full rounded-md border border-zinc-300 px-3 text-sm outline-none transition focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10"
               />
             </label>
             <label className="block">
-              <span className="text-sm font-semibold text-zinc-700 uppercase tracking-wide">App idea</span>
+              <span className="text-sm font-medium text-zinc-800">App idea</span>
               <textarea
                 value={idea}
                 onChange={(event) => setIdea(event.target.value)}
                 placeholder="Describe the user, problem, workflow, constraints, and anything the app must not do yet."
-                rows={10}
-                className="mt-3 w-full rounded-lg border border-zinc-300 px-4 py-3 text-base leading-6 outline-none transition focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10 placeholder:text-zinc-400"
+                rows={9}
+                className="mt-2 w-full rounded-md border border-zinc-300 px-3 py-3 text-sm leading-6 outline-none transition focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10"
               />
             </label>
           </div>
-          {error ? (
-            <div className="mt-4 rounded-lg bg-rose-50 border border-rose-200 p-4">
-              <p className="text-sm font-medium text-rose-700">{error}</p>
-            </div>
-          ) : null}
-          <div className="mt-8 flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="px-4 py-2.5 text-sm font-medium text-zinc-700 hover:text-zinc-900 transition"
-            >
-              Cancel
-            </button>
-            <Button type="submit" className="flex items-center gap-2">
+          {error ? <p className="mt-4 text-sm font-medium text-rose-700">{error}</p> : null}
+          <div className="mt-6 flex justify-end">
+            <Button type="submit">
               Create planning workspace
               <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </form>
 
-        <aside className="rounded-lg border border-zinc-200 bg-gradient-to-br from-blue-50 to-cyan-50 p-6 shadow-sm sticky top-24 h-fit">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="text-lg font-bold text-blue-700">✨</span>
-            <h2 className="text-base font-semibold text-zinc-950">Wizard steps</h2>
+        <aside className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+          <div className="flex items-center gap-3">
+            <span className="grid h-10 w-10 place-items-center rounded-md bg-sky-50 text-sky-700">
+              <ClipboardList className="h-5 w-5" />
+            </span>
+            <h2 className="text-base font-semibold text-zinc-950">Wizard output</h2>
           </div>
-          <ol className="space-y-4">
-            {wizardSteps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <li key={step.label} className="flex gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
-                    {index + 1}
-                  </div>
-                  <div>
-                    <p className="font-medium text-zinc-950">{step.label}</p>
-                    <p className="text-xs text-zinc-600">{step.description}</p>
-                  </div>
-                </li>
-              );
-            })}
+          <ol className="mt-5 space-y-3">
+            {wizardSteps.map((step, index) => (
+              <li key={step} className="flex gap-3 text-sm text-zinc-700">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md border border-zinc-200 bg-zinc-50 text-xs font-semibold text-zinc-500">
+                  {index + 1}
+                </span>
+                {step}
+              </li>
+            ))}
           </ol>
         </aside>
       </div>

@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { ArrowLeft, Copy, ExternalLink } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { PhaseBadge, RiskBadge } from "@/components/project-badges";
+import { ProjectControls } from "@/components/project-controls";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { useProjectStore } from "@/context/project-store";
@@ -93,6 +94,7 @@ export default function ProjectDetailPage() {
         </div>
 
         <aside className="space-y-6">
+          <ProjectControls project={project} />
           <ListBlock title="Clarifying questions" items={project.clarifyingQuestions} />
           <ListBlock title="Review checklist" items={project.reviewChecklist} />
           <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
