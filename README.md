@@ -1,53 +1,69 @@
 # AppFactory
 
-AppFactory is a local-first command centre for turning rough app ideas into complete, scaffolded applications that teams can build from safely.
+AppFactory is a local-first command centre for turning rough app ideas into complete, scaffolded application plans that agents can build from safely.
 
-The MVP captures app ideas, generates specs, creates complete Next.js project scaffolds, and prepares review artifacts for multi-agent development workflows.
+The MVP captures app ideas, generates specs, creates Next.js scaffold previews, and prepares review artifacts for multi-agent development workflows. It does not call live OpenAI, GitHub, or Vercel APIs.
 
 ## What It Does
 
-- **Captures ideas** through the `/new` wizard
-- **Generates specs**: Clarifying questions, app specs, tech plans, data models
-- **Creates app scaffolds**: Complete Next.js project structure with starter code
-- **Splits work**: Agent tasks with branch names, ownership, and deliverables
-- **Exports everything**: Markdown specs, agent prompts, checklists, JSON configs, and runnable code
-- **Manages projects** locally in the browser with search, delete, and export features
-- **Stays safe**: No API keys required, all work local, review gates before deployment
+- Captures ideas through a step-by-step `/new` wizard
+- Generates clarifying questions, app specs, tech plans, data models, risks, and checklists
+- Creates scaffold previews with file trees, starter files, suggested branches, and downloads
+- Splits work into four agent prompts with branch names, ownership, and guardrails
+- Exports Markdown specs, prompt packs, review checklists, JSON plans, and scaffold ZIPs
+- Manages projects locally in the browser with search, duplicate, edit/regenerate, delete, and export actions
+- Shows safety and version status on `/about`
 
-## Key Features
+## Real vs Placeholder
 
-✨ **App Scaffolding**: Download complete, runnable Next.js projects with your app's specifications built in
+Real in this MVP:
 
-📋 **Project Management**: Create, search, delete, and export projects with full version history
+- Local project creation and localStorage persistence
+- Deterministic generator output from `lib/generator`
+- Copyable prompt packs and downloadable planning files
+- Scaffold preview/export for a starter Next.js project
+- Build, lint, typecheck, tests, formatting, and CI scripts
 
-🤖 **Agent Prompts**: Four-agent prompt packs with clear ownership boundaries and guardrails
+Placeholder only:
 
-🔍 **Spec Generation**: Automatic generation of app specs, tech plans, and risk assessments
-
-📦 **Multi-format Export**: Download as Markdown, JSON, or complete project scaffold
+- Live OpenAI generation
+- GitHub repository creation
+- Vercel production deploy automation
+- Shared cloud storage or multi-user accounts
 
 ## Safety Rules
 
 - No real API keys are required
-- No live OpenAI, GitHub, or Vercel calls are made
-- Projects persist through localStorage only in this MVP
+- No live OpenAI, GitHub, or Vercel calls are made from the app
+- Projects persist through browser localStorage only in this MVP
 - Agent prompts include branch naming, file ownership, PR, no-secret, and deploy-approval guardrails
+- Human approval is required before connecting credentials, creating repos, or deploying production builds
 
 ## Commands
 
 ```bash
 npm install
 npm run dev
-npm run build
 npm run lint
-npm run test
 npm run typecheck
+npm test
+npm run build
 npm run format
 ```
 
-## Automation
+## Manual QA
 
-This project now includes GitHub Actions CI for build, lint, and test runs on push and pull requests, plus local pre-commit checks for formatting and secret scanning.
+Before deployment, check:
+
+- Dashboard loads and project metrics render
+- `/new` wizard moves through every step and creates a project
+- Created projects appear on `/projects`
+- Refreshing the browser keeps projects in localStorage
+- Project detail shows spec, scaffold preview, agent prompts, exports, and review checklist
+- Copy one prompt and copy all prompts
+- Download spec, checklist, JSON, scaffold JSON, and scaffold ZIP
+- Duplicate, edit/regenerate, and delete a project
+- `/tasks`, `/settings`, and `/about` render on desktop and mobile widths
 
 ## Generator Example
 
@@ -71,9 +87,9 @@ console.log(exportMarkdownSpec(output.spec, output.techPlan));
 console.log(formatPromptPackMarkdown(output.promptPack));
 ```
 
-## Kept From Round 1
+## Source Of Truth
 
-The integration keeps the typed generator in `lib/generator` as the source of truth for app specs, tech plans, agent tasks, prompt packs, checklists, complexity, and risks. The earlier standalone UI project model was replaced with a project wrapper that stores generator outputs directly.
+The typed generator in `lib/generator` is the source of truth for app specs, tech plans, agent tasks, prompt packs, checklists, scaffold previews, complexity, and risks. The UI stores generated project artifacts in a local project wrapper instead of maintaining duplicate planning models.
 
 ## Documentation
 
@@ -89,4 +105,4 @@ The integration keeps the typed generator in `lib/generator` as the source of tr
 
 ## Project Status
 
-Round 2 MVP integration: local app creation, generator-backed project details, persistent projects, and copyable prompt packs are wired together.
+Round 3 polish preview: step wizard, scaffold preview, local project management, about/status page, and safe export workflow are wired together.

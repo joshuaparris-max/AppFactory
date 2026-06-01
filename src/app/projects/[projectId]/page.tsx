@@ -5,13 +5,15 @@ import { useParams, useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   Check,
+  Code2,
   Copy,
   Download,
   ExternalLink,
   FileJson,
   FileText,
+  Save,
+  ShieldCheck,
   Trash2,
-  Code2,
 } from 'lucide-react';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
@@ -22,8 +24,8 @@ import { ButtonLink } from '@/components/ui/Button';
 import { useProjectStore } from '@/context/project-store';
 import {
   copyScaffoldFileToClipboard,
-  downloadScaffoldAsZip,
   downloadScaffoldAsJson,
+  downloadScaffoldAsZip,
 } from '@/lib/scaffold-download';
 import type { AgentPrompt } from '@/lib/types';
 
@@ -51,16 +53,27 @@ function TextList({ items }: { items: string[] }) {
 export default function ProjectDetailPage() {
   const params = useParams<{ projectId: string }>();
   const router = useRouter();
-  const { getProject, deleteProject, createProject } = useProjectStore();
+  const { getProject, deleteProject, createProject, updateProject } = useProjectStore();
   const project = getProject(params.projectId);
   const [copied, setCopied] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDuplicating, setIsDuplicating] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editIdea, setEditIdea] = useState('');
+  const [editAudience, setEditAudience] = useState('');
+  const [editFeatures, setEditFeatures] = useState('');
+  const [editIntegrations, setEditIntegrations] = useState('');
 
   async function copyText(id: string, text: string) {
     await navigator.clipboard.writeText(text);
     setCopied(id);
     window.setTimeout(() => setCopied(null), 1600);
+  }
+
+  async function copyAllPrompts() {
+    if (!project) return;
+    await copyText('all-prompts', project.exports.promptPackMarkdown);
   }
 
   function exportAsJSON() {
@@ -117,9 +130,33 @@ export default function ProjectDetailPage() {
       idea: project.idea,
       audience: project.appSpec.primaryAudience,
       mustHaveFeatures: project.appSpec.coreFeatures.map(feature => feature.name),
-      integrations: [],
+      integrations: project.appSpec.integrations.map(integration => integration.name),
     });
     router.push(`/projects/${duplicate.id}`);
+  }
+
+  function beginEdit() {
+    if (!project) return;
+    setEditName(project.name);
+    setEditIdea(project.idea);
+    setEditAudience(project.appSpec.primaryAudience);
+    setEditFeatures(project.appSpec.coreFeatures.map(feature => feature.name).join('\n'));
+    setEditIntegrations(
+      project.appSpec.integrations.map(integration => integration.name).join('\n')
+    );
+    setIsEditing(true);
+  }
+
+  function saveEdits() {
+    if (!project) return;
+    updateProject(project.id, {
+      name: editName,
+      idea: editIdea,
+      audience: editAudience,
+      mustHaveFeatures: splitLines(editFeatures),
+      integrations: splitLines(editIntegrations),
+    });
+    setIsEditing(false);
   }
 
   if (!project) {
@@ -149,6 +186,14 @@ export default function ProjectDetailPage() {
               Open task board
               <ExternalLink className="h-4 w-4" />
             </ButtonLink>
+            <button
+              type="button"
+              onClick={beginEdit}
+              className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 text-sm font-medium text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-50"
+            >
+              <FileText className="h-4 w-4" />
+              Edit
+            </button>
             <button
               type="button"
               onClick={duplicateProject}
@@ -185,6 +230,8 @@ export default function ProjectDetailPage() {
         <RiskBadge risk={project.risk} />
         <Badge>{project.status.replace(/-/g, ' ')}</Badge>
         <Badge>{project.complexity.size} build</Badge>
+        <Badge>Created {formatDateTime(project.createdAt)}</Badge>
+        <Badge>Updated {formatDateTime(project.updatedAt)}</Badge>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_430px]">
@@ -192,6 +239,81 @@ export default function ProjectDetailPage() {
           <Panel title="App idea">
             <p className="text-sm leading-6 text-zinc-700">{project.idea}</p>
           </Panel>
+
+          {isEditing ? (
+            <Panel title="Edit and regenerate">
+              <div className="grid gap-4">
+                <label>
+                  <span className="mb-2 block text-sm font-semibold text-zinc-700">
+                    Project name
+                  </span>
+                  <input
+                    value={editName}
+                    onChange={event => setEditName(event.target.value)}
+                    className="h-11 w-full rounded-md border border-zinc-300 px-3 text-sm outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10"
+                  />
+                </label>
+                <label>
+                  <span className="mb-2 block text-sm font-semibold text-zinc-700">Idea</span>
+                  <textarea
+                    value={editIdea}
+                    onChange={event => setEditIdea(event.target.value)}
+                    rows={5}
+                    className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10"
+                  />
+                </label>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <label>
+                    <span className="mb-2 block text-sm font-semibold text-zinc-700">Audience</span>
+                    <input
+                      value={editAudience}
+                      onChange={event => setEditAudience(event.target.value)}
+                      className="h-11 w-full rounded-md border border-zinc-300 px-3 text-sm outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10"
+                    />
+                  </label>
+                  <label>
+                    <span className="mb-2 block text-sm font-semibold text-zinc-700">
+                      Integrations
+                    </span>
+                    <textarea
+                      value={editIntegrations}
+                      onChange={event => setEditIntegrations(event.target.value)}
+                      rows={3}
+                      className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10"
+                    />
+                  </label>
+                </div>
+                <label>
+                  <span className="mb-2 block text-sm font-semibold text-zinc-700">
+                    Must-have features
+                  </span>
+                  <textarea
+                    value={editFeatures}
+                    onChange={event => setEditFeatures(event.target.value)}
+                    rows={5}
+                    className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10"
+                  />
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={saveEdits}
+                    className="inline-flex h-10 items-center gap-2 rounded-md bg-zinc-950 px-4 text-sm font-medium text-white transition hover:bg-zinc-800"
+                  >
+                    <Save className="h-4 w-4" />
+                    Regenerate plan
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="inline-flex h-10 items-center rounded-md px-4 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </Panel>
+          ) : null}
 
           <Panel title="Generated spec">
             <div className="grid gap-4 md:grid-cols-2">
@@ -248,21 +370,36 @@ export default function ProjectDetailPage() {
             </div>
           </Panel>
 
-          <Panel title="Generated App Scaffold">
+          <Panel title="Scaffold preview">
             <div>
-              <p className="text-sm text-zinc-600 mb-4">
+              <p className="mb-4 text-sm text-zinc-600">
                 Your complete Next.js app structure is ready to download.{' '}
                 {project.exports.scaffoldFiles.length} files generated.
               </p>
-              <div className="space-y-2 max-h-96 overflow-y-auto">
+              <div className="mb-4 grid gap-3 md:grid-cols-2">
+                <SpecField label="Suggested repo" value={project.appSpec.slug} />
+                <SpecField
+                  label="Environment variables"
+                  value="No required secrets for the local-first MVP. Add live API keys only after approval."
+                />
+                <SpecField
+                  label="Agent branches"
+                  value={project.agentTasks.map(task => task.branchName).join(', ')}
+                />
+                <SpecField
+                  label="Deployment gate"
+                  value="Preview deploy only after build passes; production requires human approval."
+                />
+              </div>
+              <div className="max-h-96 space-y-2 overflow-y-auto">
                 {project.exports.scaffoldFiles.map(file => (
                   <div key={file.path} className="rounded-md border border-zinc-200 bg-zinc-50 p-3">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex-1">
-                        <p className="font-mono text-xs font-semibold text-zinc-900 break-all">
+                        <p className="break-all font-mono text-xs font-semibold text-zinc-900">
                           {file.path}
                         </p>
-                        <p className="text-xs text-zinc-600 mt-1">{file.description}</p>
+                        <p className="mt-1 text-xs text-zinc-600">{file.description}</p>
                       </div>
                       <button
                         type="button"
@@ -312,6 +449,18 @@ export default function ProjectDetailPage() {
           </Panel>
 
           <Panel title="Four-agent prompts">
+            <button
+              type="button"
+              onClick={copyAllPrompts}
+              className="mb-4 inline-flex h-9 items-center gap-2 rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:border-zinc-300 hover:bg-zinc-50"
+            >
+              {copied === 'all-prompts' ? (
+                <Check className="h-3.5 w-3.5" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+              {copied === 'all-prompts' ? 'Copied all' : 'Copy all prompts'}
+            </button>
             <div className="space-y-4">
               {project.prompts.map(prompt => (
                 <PromptBlock
@@ -324,11 +473,11 @@ export default function ProjectDetailPage() {
             </div>
           </Panel>
 
-          <Panel title="Export & Download">
+          <Panel title="Export and download">
             <div className="space-y-4">
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wide text-emerald-600 mb-3">
-                  🚀 Build Your App
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-emerald-600">
+                  Scaffold preview
                 </h3>
                 <div className="space-y-2">
                   <button
@@ -339,7 +488,7 @@ export default function ProjectDetailPage() {
                     className="flex w-full items-center gap-2 rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-left text-xs font-medium text-emerald-700 transition hover:bg-emerald-100"
                   >
                     <Code2 className="h-3.5 w-3.5" />
-                    Download Scaffold (JSON)
+                    Download scaffold JSON
                   </button>
                   <button
                     type="button"
@@ -349,17 +498,18 @@ export default function ProjectDetailPage() {
                     className="flex w-full items-center gap-2 rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-left text-xs font-medium text-emerald-700 transition hover:bg-emerald-100"
                   >
                     <Code2 className="h-3.5 w-3.5" />
-                    Download Scaffold ZIP
+                    Download scaffold ZIP
                   </button>
-                  <p className="text-xs text-zinc-600 mt-2 px-2">
-                    Gets you a complete Next.js project structure with all your apps specs built in.
+                  <p className="mt-2 px-2 text-xs text-zinc-600">
+                    Gets you a complete Next.js project structure with the generated app spec built
+                    in.
                   </p>
                 </div>
               </div>
               <hr />
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wide text-blue-600 mb-3">
-                  📋 Documentation
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-blue-600">
+                  Documentation
                 </h3>
                 <div className="space-y-2">
                   <button
@@ -396,6 +546,16 @@ export default function ProjectDetailPage() {
                   </button>
                 </div>
               </div>
+            </div>
+          </Panel>
+
+          <Panel title="Safety gate">
+            <div className="flex gap-3 rounded-md border border-amber-200 bg-amber-50 p-3">
+              <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
+              <p className="text-sm leading-6 text-amber-900">
+                Human approval is required before any live deploy, credential change, repository
+                creation, or external API connection.
+              </p>
             </div>
           </Panel>
 
@@ -462,4 +622,19 @@ function PromptBlock({
       />
     </div>
   );
+}
+
+function splitLines(value: string): string[] {
+  return value
+    .split(/\r?\n/)
+    .map(item => item.trim())
+    .filter(Boolean);
+}
+
+function formatDateTime(value: string): string {
+  return new Intl.DateTimeFormat(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }).format(new Date(value));
 }

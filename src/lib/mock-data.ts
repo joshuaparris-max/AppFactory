@@ -35,7 +35,16 @@ export function createProjectDraft(input: CreateProjectInput): Project {
   return createProjectRecord(input, createProjectId(), timestamp);
 }
 
-function createProjectRecord(input: CreateProjectInput, id: string, timestamp: string): Project {
+export function regenerateProject(existing: Project, input: CreateProjectInput): Project {
+  return createProjectRecord(input, existing.id, existing.createdAt, new Date().toISOString());
+}
+
+function createProjectRecord(
+  input: CreateProjectInput,
+  id: string,
+  timestamp: string,
+  updatedAt = timestamp
+): Project {
   const plan = createGeneratorOutput({
     idea: input.idea.trim(),
     name: input.name.trim(),
@@ -56,7 +65,7 @@ function createProjectRecord(input: CreateProjectInput, id: string, timestamp: s
     phase: 'review',
     risk,
     createdAt: timestamp,
-    updatedAt: timestamp,
+    updatedAt,
     plan,
     appSpec: plan.spec,
     techPlan: plan.techPlan,
