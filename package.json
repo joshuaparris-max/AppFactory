@@ -5,15 +5,17 @@
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
   "scripts": {
-    "lint": "echo 'Linting would run here (configure with eslint, prettier, etc.)'",
-    "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node dist/tests/generator.test.js",
+    "dev": "next dev",
+    "build": "npm run build:generator && next build",
+    "build:generator": "tsc -p tsconfig.generator.json",
+    "lint": "eslint .",
+    "test": "npm run build:generator && node dist/tests/generator.test.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "qa": "npm run lint && npm run build && npm run test",
     "check": "npm run lint && npm run build && npm run test",
-    "dev": "echo 'Development server would run here'",
+    "start": "next start",
     "format": "echo 'Code formatting would run here'",
-    "clean": "node -e \"const fs=require('fs'); for (const dir of ['dist','node_modules','.turbo']) fs.rmSync(dir,{recursive:true,force:true});\""
+    "clean": "node -e \"const fs=require('fs'); for (const dir of ['dist','node_modules','.next','.turbo']) fs.rmSync(dir,{recursive:true,force:true});\""
   },
   "keywords": [
     "appfactory",
@@ -31,7 +33,20 @@
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
   },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "next": "16.2.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "^4.0.0",
     "typescript": "^5.9.3"
   }
 }

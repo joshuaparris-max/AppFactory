@@ -1,62 +1,37 @@
 # AppFactory
 
-**AppFactory** is an intelligent application development framework designed to enable collaborative, multi-agent development of web applications. It provides guardrails, workflows, and templates to ensure safe, reliable, and iterative development.
+AppFactory is a local-first command centre for turning rough app ideas into structured build plans that multiple agents can work from safely.
 
-The generator engine in `lib/generator` turns rough app ideas into structured app specs, tech plans, scaffold plans, risks, review checklists, and copyable four-agent prompt packs. It is pure TypeScript, unit-testable, and uses safe mock service interfaces for AI, GitHub, and Vercel instead of live calls.
+The MVP wires the Round 1 generator into a Next.js app. A user can create a project idea, save it in localStorage, review the generated app spec, inspect the tech/scaffold plan, copy the four-agent prompt pack, and run through a review checklist before any scaffold or deployment work begins.
 
-## Quick Start (5 minutes)
+## What It Does
 
-### What is AppFactory?
+- Captures a new app idea through `/new`
+- Generates clarifying questions, an app spec, a tech plan, agent tasks, prompts, risks, and a checklist
+- Saves projects locally in the browser
+- Shows saved projects on `/projects`
+- Shows useful project details on `/projects/[projectId]`
+- Keeps GitHub, Vercel, and AI integrations behind safe placeholder service interfaces
 
-AppFactory enables **multiple AI agents** to safely collaborate on building applications together. Each agent works on its own branch, follows safety guidelines, and submits changes for review before deployment.
+## Safety Rules
 
-### Key Principles
+- No real API keys are required
+- No live OpenAI, GitHub, or Vercel calls are made
+- Projects persist through localStorage only in this MVP
+- Agent prompts include branch naming, file ownership, PR, no-secret, and deploy-approval guardrails
 
-1. **Multi-Agent Safe**: Agents never silently deploy; humans approve all changes
-2. **Documented**: Specs and workflows are clear and discoverable
-3. **Tested**: Changes must pass checks before merge
-4. **Reversible**: Each agent works on separate branches
-5. **Observable**: All changes are tracked and explainable
-
-### The 4-Agent Workflow
-
-AppFactory uses four agent roles working in parallel:
-
-| Agent | Role | Tools |
-|-------|------|-------|
-| **Copilot** | Architecture & Foundation | Design specs, core setup |
-| **Builder** | Implementation | Code generation, features |
-| **QA** | Testing & Validation | Tests, checks, examples |
-| **Deployer** | Release & Operations | Checklists, deployment configs |
-
-Each agent:
-- Works on its own feature branch
-- Creates pull requests with clear descriptions
-- Waits for human or peer review
-- Never directly merges to main or deploys
-
-### Get Started
+## Commands
 
 ```bash
-# 1. Read the docs (5 min)
-cat docs/AGENT_WORKFLOW.md
-cat docs/SAFETY_GUARDRAILS.md
-
-# 2. See an example project
-cat examples/kids-worship-app-spec.md
-cat examples/example-4-agent-prompt-pack.md
-
-# 3. Check safety before coding
-cat docs/RELEASE_CHECKLIST.md
-cat docs/APPFACTORY_SPEC.md
-
-# 4. Run tests
-npm run lint
+npm install
+npm run dev
 npm run build
+npm run lint
 npm run test
+npm run typecheck
 ```
 
-### Generator Example
+## Generator Example
 
 ```ts
 import {
@@ -78,6 +53,10 @@ console.log(exportMarkdownSpec(output.spec, output.techPlan));
 console.log(formatPromptPackMarkdown(output.promptPack));
 ```
 
+## Kept From Round 1
+
+The integration keeps the typed generator in `lib/generator` as the source of truth for app specs, tech plans, agent tasks, prompt packs, checklists, complexity, and risks. The earlier standalone UI project model was replaced with a project wrapper that stores generator outputs directly.
+
 ## Documentation
 
 | Document | Purpose |
@@ -90,45 +69,6 @@ console.log(formatPromptPackMarkdown(output.promptPack));
 | [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md) | Pre-release verification steps |
 | [docs/PROMPT_TEMPLATES.md](docs/PROMPT_TEMPLATES.md) | Templates for agent prompts |
 
-## Examples
-
-| Example | Description |
-|---------|-------------|
-| [examples/kids-worship-app-spec.md](examples/kids-worship-app-spec.md) | Sample project spec (Kids Worship Music App) |
-| [examples/example-4-agent-prompt-pack.md](examples/example-4-agent-prompt-pack.md) | Four-agent prompt pack template |
-| [examples/example-app-spec.md](examples/example-app-spec.md) | Generic app spec template |
-| [examples/example-review-checklist.md](examples/example-review-checklist.md) | Code review checklist for agents |
-
-## Commands
-
-```bash
-npm run lint      # Check code style
-npm run build     # Compile the TypeScript generator
-npm run test      # Run generator tests
-npm run dev       # Start development server (if applicable)
-npm run check     # Run all checks (lint + build + test)
-```
-
-## First Time?
-
-1. **Read** [CONTRIBUTING.md](CONTRIBUTING.md) to understand the workflow
-2. **Review** [docs/SAFETY_GUARDRAILS.md](docs/SAFETY_GUARDRAILS.md) for safety rules
-3. **Check** [examples/kids-worship-app-spec.md](examples/kids-worship-app-spec.md) for a real example
-4. **Run** the [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md) before any release
-
-## Support
-
-- **Questions about workflow?** → See [docs/AGENT_WORKFLOW.md](docs/AGENT_WORKFLOW.md)
-- **Questions about safety?** → See [docs/SAFETY_GUARDRAILS.md](docs/SAFETY_GUARDRAILS.md)
-- **Questions about specs?** → See [docs/APPFACTORY_SPEC.md](docs/APPFACTORY_SPEC.md)
-- **Need a checklist?** → See [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md)
-
 ## Project Status
 
-🚀 **Foundation Phase**: Building core documentation, workflows, and safety guardrails
-
-See [docs/ROADMAP.md](docs/ROADMAP.md) for planned features.
-
----
-
-**Last Updated**: June 2026
+Round 2 MVP integration: local app creation, generator-backed project details, persistent projects, and copyable prompt packs are wired together.
