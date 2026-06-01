@@ -2,17 +2,18 @@
   "name": "appfactory",
   "version": "1.0.0",
   "description": "AppFactory: Multi-agent development framework for building applications safely and reliably",
-  "main": "index.js",
-  "type": "module",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
   "scripts": {
     "lint": "echo 'Linting would run here (configure with eslint, prettier, etc.)'",
-    "build": "echo 'Build would run here (configure with webpack, esbuild, etc.)'",
-    "test": "echo 'Tests would run here (configure with jest, vitest, etc.)'",
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node dist/tests/generator.test.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "qa": "npm run lint && npm run build && npm run test",
     "check": "npm run lint && npm run build && npm run test",
     "dev": "echo 'Development server would run here'",
     "format": "echo 'Code formatting would run here'",
-    "clean": "rm -rf dist/ node_modules/ .turbo/"
+    "clean": "node -e \"const fs=require('fs'); for (const dir of ['dist','node_modules','.turbo']) fs.rmSync(dir,{recursive:true,force:true});\""
   },
   "keywords": [
     "appfactory",
@@ -21,7 +22,8 @@
     "ai",
     "collaboration",
     "workflow",
-    "safety"
+    "safety",
+    "generator"
   ],
   "author": "Josh Parris",
   "license": "MIT",
@@ -30,9 +32,6 @@
     "npm": ">=9.0.0"
   },
   "devDependencies": {
-    "comment": "Add project-specific dev dependencies as needed"
-  },
-  "dependencies": {
-    "comment": "Add project-specific dependencies as needed"
+    "typescript": "^5.9.3"
   }
 }
