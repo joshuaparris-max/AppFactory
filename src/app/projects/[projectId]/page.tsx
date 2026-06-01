@@ -2,7 +2,17 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Check, Copy, Download, ExternalLink, FileJson, FileText, Trash2, Code2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Copy,
+  Download,
+  ExternalLink,
+  FileJson,
+  FileText,
+  Trash2,
+  Code2,
+} from "lucide-react";
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { PageHeader } from "@/components/page-header";
@@ -10,7 +20,11 @@ import { PhaseBadge, RiskBadge } from "@/components/project-badges";
 import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
 import { useProjectStore } from "@/context/project-store";
-import { downloadScaffoldAsZip, downloadScaffoldAsJson } from "@/lib/scaffold-download";
+import {
+  copyScaffoldFileToClipboard,
+  downloadScaffoldAsZip,
+  downloadScaffoldAsJson,
+} from "@/lib/scaffold-download";
 import type { AgentPrompt } from "@/lib/types";
 
 function Panel({
@@ -43,10 +57,11 @@ function TextList({ items }: { items: string[] }) {
 export default function ProjectDetailPage() {
   const params = useParams<{ projectId: string }>();
   const router = useRouter();
-  const { getProject, deleteProject } = useProjectStore();
+  const { getProject, deleteProject, createProject } = useProjectStore();
   const project = getProject(params.projectId);
   const [copied, setCopied] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isDuplicating, setIsDuplicating] = useState(false);
 
   async function copyText(id: string, text: string) {
     await navigator.clipboard.writeText(text);
@@ -100,6 +115,19 @@ export default function ProjectDetailPage() {
     }
   }
 
+  async function duplicateProject() {
+    if (!project) return;
+    setIsDuplicating(true);
+    const duplicate = createProject({
+      name: `${project.name} Copy`,
+      idea: project.idea,
+      audience: project.appSpec.primaryAudience,
+      mustHaveFeatures: project.appSpec.coreFeatures.map((feature) => feature.name),
+      integrations: [],
+    });
+    router.push(`/projects/${duplicate.id}`);
+  }
+
   if (!project) {
     return (
       <div className="rounded-lg border border-zinc-200 bg-white p-8 shadow-sm">
@@ -127,6 +155,15 @@ export default function ProjectDetailPage() {
               Open task board
               <ExternalLink className="h-4 w-4" />
             </ButtonLink>
+            <button
+              type="button"
+              onClick={duplicateProject}
+              disabled={isDuplicating}
+              className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 text-sm font-medium text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-50 disabled:opacity-50"
+            >
+              <FileText className="h-4 w-4" />
+              Duplicate
+            </button>
             <button
               type="button"
               onClick={exportAsJSON}
@@ -218,11 +255,19 @@ export default function ProjectDetailPage() {
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {project.exports.scaffoldFiles.map((file) => (
                   <div key={file.path} className="rounded-md border border-zinc-200 bg-zinc-50 p-3">
-                    <div className="flex items-start justify-between gap-2">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex-1">
                         <p className="font-mono text-xs font-semibold text-zinc-900 break-all">{file.path}</p>
                         <p className="text-xs text-zinc-600 mt-1">{file.description}</p>
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => copyScaffoldFileToClipboard(file)}
+                        className="inline-flex h-9 items-center gap-2 rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:border-zinc-300 hover:bg-zinc-50"
+                      >
+                        <Copy className="h-3.5 w-3.5" />
+                        Copy content
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -293,10 +338,10 @@ export default function ProjectDetailPage() {
                     className="flex w-full items-center gap-2 rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-left text-xs font-medium text-emerald-700 transition hover:bg-emerald-100"
                   >
                     <Code2 className="h-3.5 w-3.5" />
-                    Download Files (Markdown)
+                    Download Scaffold ZIP
                   </button>
                   <p className="text-xs text-zinc-600 mt-2 px-2">
-                    Gets you a complete Next.js project structure with all your app's specs built in.
+                    Gets you a complete Next.js project structure with all your apps specs built in.
                   </p>
                 </div>
               </div>
