@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check } from 'lucide-react';
 
 interface ProgressProps {
   value: number;
@@ -28,8 +28,14 @@ export function Progress({
     <div className="w-full">
       {(label || showPercent) && (
         <div className="flex justify-between items-center mb-2">
-          {label && <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{label}</span>}
-          {showPercent && <span className="text-sm text-slate-600 dark:text-slate-400">{Math.round(percentage)}%</span>}
+          {label && (
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{label}</span>
+          )}
+          {showPercent && (
+            <span className="text-sm text-slate-600 dark:text-slate-400">
+              {Math.round(percentage)}%
+            </span>
+          )}
         </div>
       )}
       <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
@@ -75,7 +81,9 @@ export function StepProgress({ steps, currentStep }: StepProgressProps) {
                 />
               )}
             </div>
-            <span className="text-xs text-slate-600 dark:text-slate-400 text-center">{step.label}</span>
+            <span className="text-xs text-slate-600 dark:text-slate-400 text-center">
+              {step.label}
+            </span>
           </div>
         ))}
       </div>

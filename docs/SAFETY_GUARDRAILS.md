@@ -3,6 +3,7 @@
 This document collects practical, non-blocking safety rules for multi-agent work in AppFactory.
 
 Core principles
+
 - One branch per agent and clear branch naming: `agent/<project-slug>-<role-slug>`.
 - Never commit secrets, credentials, or private keys. Use `.env.example` for placeholders.
 - Keep live integrations behind service interfaces and disabled by default.
@@ -10,14 +11,17 @@ Core principles
 - Require human approval for production deploys and any live-credential changes.
 
 Quick actions
+
 - Before editing shared files: check branch owner, read diffs, and add a PR comment documenting the handoff.
 - Before merging: run `npm run check` (lint + build + test) and ensure required approvals are present.
 - For integrations: implement a mock adapter and document the live API shape in `docs/integrations.md`.
 
 When in doubt
+
 - Open an issue or flag the PR and ask the project owner for guidance.
 
 See also: `docs/AGENT_WORKFLOW.md`, `lib/generator/guardrails.ts`
+
 # Safety Guardrails for AppFactory
 
 Critical safety rules and best practices for AppFactory development.
@@ -31,6 +35,7 @@ Critical safety rules and best practices for AppFactory development.
 ## TL;DR (Critical Rules)
 
 🚫 **NEVER**:
+
 - Commit API keys, passwords, or secrets
 - Commit `.env` or `.env.local` files
 - Deploy to production without Josh approval
@@ -38,6 +43,7 @@ Critical safety rules and best practices for AppFactory development.
 - Ignore failing tests
 
 ✅ **ALWAYS**:
+
 - Use `.env.example` (with fake values)
 - Review code before merging
 - Pass `npm run check` before commit
@@ -51,14 +57,16 @@ Critical safety rules and best practices for AppFactory development.
 ### Rule 1: Never Commit Secrets
 
 **Forbidden**:
+
 ```javascript
 // ❌ WRONG: Secret in code
-const API_KEY = "sk_live_abc123xyz";
-export const DB_PASSWORD = "super_secret_pass";
-const STRIPE_SECRET = "rk_live_...";
+const API_KEY = 'sk_live_abc123xyz';
+export const DB_PASSWORD = 'super_secret_pass';
+const STRIPE_SECRET = 'rk_live_...';
 ```
 
 **Correct**:
+
 ```javascript
 // ✅ RIGHT: Use environment variables
 const API_KEY = process.env.API_KEY;
@@ -69,6 +77,7 @@ const STRIPE_SECRET = process.env.STRIPE_SECRET;
 ### Rule 2: Use .env.example (Not Real Secrets)
 
 **Correct .env.example**:
+
 ```
 # .env.example (NEVER COMMIT REAL SECRETS)
 API_KEY=your_api_key_here
@@ -79,6 +88,7 @@ GOOGLE_OAUTH_ID=your_oauth_id_here
 ```
 
 **Forbidden .env.example**:
+
 ```
 # ❌ WRONG: Real secret values
 API_KEY=sk_live_abc123xyz
@@ -88,6 +98,7 @@ DB_PASSWORD=productionPassword123
 ### Rule 3: .gitignore Must Protect Secrets
 
 **Correct .gitignore**:
+
 ```
 .env
 .env.local
@@ -99,6 +110,7 @@ DB_PASSWORD=productionPassword123
 ```
 
 **Verify**:
+
 ```bash
 # Make sure these files are not tracked
 git status  # Should NOT show .env files
@@ -110,6 +122,7 @@ git status  # Should NOT show .env files
 ### Rule 4: Setup Instructions for Secrets
 
 **Add to README.md**:
+
 ```markdown
 ## Setup
 
@@ -122,12 +135,13 @@ git status  # Should NOT show .env files
    - Stripe Secret: See team 1Password
 
 3. Never commit `.env.local`
-   git add .env.local  # ❌ NO! Will be caught by pre-commit hook
+   git add .env.local # ❌ NO! Will be caught by pre-commit hook
 ```
 
 ### Rule 5: Audit for Secrets
 
 Before pushing:
+
 ```bash
 # Check for common secret patterns
 git diff HEAD
@@ -143,6 +157,7 @@ git diff HEAD
 ### If You Accidentally Commit a Secret
 
 **IMMEDIATE ACTION**:
+
 1. Stop everything
 2. Tell Josh
 3. Remove from code: `git revert <commit>`
@@ -150,6 +165,7 @@ git diff HEAD
 5. Never push with the secret
 
 **How to remove from history** (only Josh):
+
 ```bash
 # DO NOT do this yourself - ask Josh
 git filter-branch ...  # Complex, dangerous
@@ -162,6 +178,7 @@ git filter-branch ...  # Complex, dangerous
 ### Rule 1: No Silent Deployments
 
 **Forbidden**:
+
 ```javascript
 // ❌ WRONG: Agent auto-deploys
 if (allTestsPass) {
@@ -170,22 +187,25 @@ if (allTestsPass) {
 ```
 
 **Correct**:
+
 ```javascript
 // ✅ RIGHT: Document and wait for human
-console.log("✓ All tests passed");
-console.log("✓ Ready for production deployment");
-console.log("→ Waiting for Josh approval...");
+console.log('✓ All tests passed');
+console.log('✓ Ready for production deployment');
+console.log('→ Waiting for Josh approval...');
 // Josh: Reviews, approves, manually deploys
 ```
 
 ### Rule 2: Staging First
 
 **Required Workflow**:
+
 ```
 Code → Tests Pass → Deploy to Staging → Josh Tests → Deploy to Production
 ```
 
 **Never**:
+
 - Skip staging
 - Deploy directly to production
 - Test on production first
@@ -193,20 +213,23 @@ Code → Tests Pass → Deploy to Staging → Josh Tests → Deploy to Productio
 ### Rule 3: Josh Approves All Productions Deploys
 
 **Process**:
+
 1. Deployer prepares release checklist (see [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md))
 2. Deployer opens PR with checklist
 3. Josh reviews and approves
 4. Only after approval, Deployer deploys
 
 **Code**:
+
 ```markdown
 ## Release Checklist
+
 - [ ] All tests pass
 - [ ] All PRs merged
 - [ ] Version bumped
 - [ ] CHANGELOG updated
 - [ ] Josh reviewed and approved
-→ Only after Josh checks all boxes can deployment happen
+      → Only after Josh checks all boxes can deployment happen
 ```
 
 ### Rule 4: Rollback Plan Required
@@ -217,6 +240,7 @@ Before every release, have a rollback plan:
 ## Rollback Plan for v1.2.3
 
 If something breaks in production:
+
 1. Identify the problem
 2. Run: git revert v1.2.3
 3. Deploy previous version: git deploy v1.2.2
@@ -229,6 +253,7 @@ Time to rollback: < 5 minutes
 ### Rule 5: Monitor After Deployment
 
 After deploying to production:
+
 - [ ] Check error logs
 - [ ] Monitor uptime (if applicable)
 - [ ] Test critical user flows
@@ -242,11 +267,13 @@ After deploying to production:
 ### Rule 1: All Reviews Must Happen
 
 **Before merge, require**:
+
 - [ ] Peer agent code review (5-30 min)
 - [ ] Automatic checks pass (lint, build, test)
 - [ ] Josh approval (for main branch)
 
 **Never**:
+
 - Approve your own PR
 - Skip review to save time
 - Merge without passing checks
@@ -264,6 +291,7 @@ npm run check    # Runs lint + build + test
 ```
 
 **Never commit if**:
+
 - Tests fail
 - Build has errors
 - Lint has errors
@@ -273,21 +301,27 @@ npm run check    # Runs lint + build + test
 If you must make a breaking change:
 
 1. **Document it clearly**:
+
 ```markdown
 ## Breaking Changes
+
 - Changed API endpoint from `/api/user` to `/api/v2/user`
 - Migration: Update imports from `UserAPI` to `UserAPIv2`
 ```
 
 2. **Provide migration guide**:
+
 ```markdown
 ## Migration Guide
+
 For existing users:
+
 1. Update imports: `import { UserAPIv2 as UserAPI } from '...'`
 2. Update calls: `userAPI.v2.getUser()` instead of `userAPI.getUser()`
 ```
 
 3. **Get Josh approval**:
+
 ```markdown
 @josh This is a breaking change. Please confirm we should do this.
 ```
@@ -323,17 +357,20 @@ async function signRequest(request) {
 ### Rule 5: No Unnecessary Dependencies
 
 Before adding a package:
+
 ```bash
 npm install new-package
 ```
 
 Ask:
+
 - Is it necessary?
 - Is it maintained?
 - Does it have security issues? `npm audit`
 - Is it too large?
 
 Never:
+
 - Add unmaintained packages
 - Add packages with known vulnerabilities
 - Add huge packages for tiny functionality
@@ -345,18 +382,21 @@ Never:
 ### Rule 1: Respect File Ownership
 
 **Each agent owns their output**:
+
 - **Copilot**: `docs/specs/`
 - **Builder**: `src/`, production code
 - **QA**: `tests/`, test code
 - **Deployer**: `docs/releases/`, deployment docs
 
 **If you need to change someone else's work**:
+
 1. Ask in PR comment: "Would you mind if I changed X?"
 2. If they don't respond in 24h, proceed with comment
 3. Document why you changed it
 4. Notify in commit message
 
 **Never**:
+
 - Rewrite someone's code without asking
 - Delete someone's work to "clean up"
 - "Fix" code style in someone else's PR
@@ -364,6 +404,7 @@ Never:
 ### Rule 2: Clear Commit Messages
 
 **Bad**:
+
 ```
 git commit -m "update"
 git commit -m "fix"
@@ -371,6 +412,7 @@ git commit -m "changes"
 ```
 
 **Good**:
+
 ```
 git commit -m "feat(auth): add JWT token refresh
 
@@ -385,6 +427,7 @@ Related to #42, closes #40"
 ### Rule 3: Use PR Comments for Discussion
 
 **In PR**:
+
 ```markdown
 @builder This looks good, but one question:
 Why use HTTP-only cookies instead of localStorage?
@@ -392,6 +435,7 @@ Why use HTTP-only cookies instead of localStorage?
 ```
 
 **Never**:
+
 - Use Slack/email for code discussions
 - Merge without addressing comments
 - Ignore feedback
@@ -412,6 +456,7 @@ Josh: "Let's go with Copilot's structure because..."
 ### Rule 5: Regular Sync (If Needed)
 
 If working closely:
+
 - Daily standup comment in PR
 - Weekly check-in on progress
 - Monthly retrospective on process
@@ -526,14 +571,14 @@ See [examples/example-review-checklist.md](examples/example-review-checklist.md)
 
 ## 11. Approval Matrix
 
-| Change | Copilot | Builder | QA | Josh | Deployer |
-|--------|---------|---------|----|----|----------|
-| Docs/Specs | Josh + Any | - | - | - | - |
-| Code/Features | - | Copilot + QA | - | - | - |
-| Tests | - | Builder | Copilot | - | - |
-| Version/Release | - | - | - | Josh | Must have |
-| Production Deploy | - | - | - | **Josh** | Executes |
-| Security changes | Josh | - | - | Josh | - |
+| Change            | Copilot    | Builder      | QA      | Josh     | Deployer  |
+| ----------------- | ---------- | ------------ | ------- | -------- | --------- |
+| Docs/Specs        | Josh + Any | -            | -       | -        | -         |
+| Code/Features     | -          | Copilot + QA | -       | -        | -         |
+| Tests             | -          | Builder      | Copilot | -        | -         |
+| Version/Release   | -          | -            | -       | Josh     | Must have |
+| Production Deploy | -          | -            | -       | **Josh** | Executes  |
+| Security changes  | Josh       | -            | -       | Josh     | -         |
 
 **Rule**: Every change needs at least 1 other person's approval before merge.
 
@@ -542,6 +587,7 @@ See [examples/example-review-checklist.md](examples/example-review-checklist.md)
 ## 12. Summary
 
 ✅ **Do**:
+
 - Use environment variables for secrets
 - Provide `.env.example` (with fake values)
 - Review before merging
@@ -552,6 +598,7 @@ See [examples/example-review-checklist.md](examples/example-review-checklist.md)
 - Rotate secrets immediately if exposed
 
 ❌ **Don't**:
+
 - Commit secrets to git
 - Auto-deploy to production
 - Merge without review

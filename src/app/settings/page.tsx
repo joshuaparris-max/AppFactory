@@ -1,30 +1,33 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { KeyRound, PlugZap, ShieldCheck } from "lucide-react";
-import { PageHeader } from "@/components/page-header";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
+import { useState } from 'react';
+import { KeyRound, PlugZap, ShieldCheck } from 'lucide-react';
+import { PageHeader } from '@/components/page-header';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 
 const settings = [
   {
-    title: "OpenAI connector",
-    status: "Placeholder",
+    title: 'OpenAI connector',
+    status: 'Placeholder',
     icon: KeyRound,
-    detail: "Model calls stay disabled until an approved key-management flow exists.",
+    detail: 'Model calls stay disabled until an approved key-management flow exists.',
   },
   {
-    title: "Vercel deployment",
-    status: "Placeholder",
+    title: 'Vercel deployment',
+    status: 'Placeholder',
     icon: ShieldCheck,
-    detail: "Deployments will require Josh approval and environment checks before execution.",
+    detail: 'Deployments will require Josh approval and environment checks before execution.',
   },
 ];
 
-const GITHUB_REPO_STORAGE_KEY = "appfactory.githubRepository";
+const GITHUB_REPO_STORAGE_KEY = 'appfactory.githubRepository';
 
 export default function SettingsPage() {
-  const initialRepo = typeof window !== "undefined" ? window.localStorage.getItem(GITHUB_REPO_STORAGE_KEY) ?? "" : "";
+  const initialRepo =
+    typeof window !== 'undefined'
+      ? (window.localStorage.getItem(GITHUB_REPO_STORAGE_KEY) ?? '')
+      : '';
   const [githubRepo, setGithubRepo] = useState(initialRepo);
   const [savedRepo, setSavedRepo] = useState(initialRepo);
   const [savedAt, setSavedAt] = useState(initialRepo ? new Date().toLocaleString() : null);
@@ -38,8 +41,8 @@ export default function SettingsPage() {
 
   const clearGithubRepo = () => {
     window.localStorage.removeItem(GITHUB_REPO_STORAGE_KEY);
-    setGithubRepo("");
-    setSavedRepo("");
+    setGithubRepo('');
+    setSavedRepo('');
     setSavedAt(null);
   };
 
@@ -52,7 +55,7 @@ export default function SettingsPage() {
       />
 
       <div className="grid gap-4 lg:grid-cols-3">
-        {settings.map((item) => {
+        {settings.map(item => {
           const Icon = item.icon;
 
           return (
@@ -81,13 +84,14 @@ export default function SettingsPage() {
           </div>
           <h2 className="mt-5 text-base font-semibold text-zinc-950">GitHub repository</h2>
           <p className="mt-2 text-sm leading-6 text-zinc-600">
-            Store your GitHub repository URL here so the app can remember where to push deployments and scaffold exports.
+            Store your GitHub repository URL here so the app can remember where to push deployments
+            and scaffold exports.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-[1fr_auto]">
             <input
               value={githubRepo}
-              onChange={(event) => setGithubRepo(event.target.value)}
+              onChange={event => setGithubRepo(event.target.value)}
               placeholder="https://github.com/owner/repo"
               className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             />
@@ -102,7 +106,12 @@ export default function SettingsPage() {
                 <strong>Saved repository:</strong> {savedRepo}
               </p>
               <p className="mt-1 text-xs text-zinc-500">Last saved at {savedAt}</p>
-              <Button type="button" variant="secondary" onClick={clearGithubRepo} className="mt-3 h-10 px-3">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={clearGithubRepo}
+                className="mt-3 h-10 px-3"
+              >
                 Clear repository
               </Button>
             </div>

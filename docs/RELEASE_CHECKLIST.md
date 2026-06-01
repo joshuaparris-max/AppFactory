@@ -76,6 +76,7 @@ cat package.json | grep version
 ```
 
 **Version Checklist**:
+
 - [ ] Version bumped correctly
 - [ ] git tag created automatically
 - [ ] CHANGELOG.md has version section
@@ -83,36 +84,45 @@ cat package.json | grep version
 ### Update CHANGELOG
 
 **Format**:
+
 ```markdown
 ## [1.2.4] - 2026-06-01
 
 ### Added
+
 - Feature one
 - Feature two
 
 ### Changed
+
 - Behavior change
 - API improvement
 
 ### Fixed
+
 - Bug fix one
 - Bug fix two
 
 ### Security
+
 - Security patch
 
 ### Breaking Changes
+
 - List if any
 
 ### Migration Guide
+
 - If breaking changes
 
 ### Known Issues
+
 - Issue one: workaround
 - Issue two: workaround
 ```
 
 **Checklist**:
+
 - [ ] CHANGELOG.md has new version section
 - [ ] All features listed
 - [ ] All bug fixes listed
@@ -127,12 +137,14 @@ cat package.json | grep version
 ### Deploy to Staging
 
 1. **Build for staging**:
+
    ```bash
    npm run build
    # Should complete without errors
    ```
 
 2. **Deploy binary/code**:
+
    ```bash
    # Example (adjust for your setup)
    # cp -r dist/ /staging/app/
@@ -150,6 +162,7 @@ cat package.json | grep version
    ```
 
 **Staging Checklist**:
+
 - [ ] Build completed without errors
 - [ ] Deployment succeeded
 - [ ] App is running
@@ -176,26 +189,32 @@ Test critical user flows:
 - [ ] Email sends (if applicable)
 
 **Smoke Test Results**:
+
 ```markdown
 ## Staging Smoke Test Results - 2026-06-01
 
 ### ✓ Passed
+
 - Homepage loads in 1.2 sec
 - Login succeeds
 - Dashboard loads data
 - Profile updates work
 
 ### ✗ Failed
+
 (None)
 
 ### ⚠️ Warnings
+
 (None)
 
 ### Tested By
+
 - Deployer Agent
 - QA Agent
 
 ### Date
+
 2026-06-01 14:30 UTC
 ```
 
@@ -209,10 +228,13 @@ Test critical user flows:
 ## Release Approval Request
 
 ### Version: 1.2.4
+
 ### Branch: feature/deployer/v1.2.4-release
+
 ### Date: 2026-06-01
 
 ### Checklist
+
 - [x] All code reviews approved
 - [x] All tests passing
 - [x] No secrets in code
@@ -223,10 +245,13 @@ Test critical user flows:
 - [x] Rollback plan in place
 
 ### Known Issues
+
 (None)
 
 ### Rollback Plan
+
 If production breaks, revert to v1.2.3:
+
 1. git checkout v1.2.3
 2. npm run build
 3. npm run deploy:production
@@ -234,13 +259,16 @@ If production breaks, revert to v1.2.3:
 5. Monitor logs for 30 min
 
 ### Questions?
+
 (Answer any Josh asks)
 
 ### Ready for Production?
+
 @josh Please review and approve. Ready to deploy once you sign off.
 ```
 
 **Josh Approval Checklist**:
+
 - [ ] Reviewed all changes since last release
 - [ ] Read CHANGELOG
 - [ ] Verified staging tests
@@ -266,12 +294,14 @@ If production breaks, revert to v1.2.3:
 ### Deploy to Production
 
 1. **Final checks**:
+
    ```bash
    git status              # Should be clean
    npm run check          # Should pass
    ```
 
 2. **Deploy**:
+
    ```bash
    # Example (adjust for your setup)
    npm run deploy:prod
@@ -288,23 +318,29 @@ If production breaks, revert to v1.2.3:
    ```
 
 **Deployment Log Template**:
+
 ```markdown
 ## Production Deployment Log - 2026-06-01
 
 ### Version: 1.2.4
+
 ### Start Time: 14:30 UTC
+
 ### Duration: 5 minutes
 
 ### Deployment Steps
+
 1. Built binary ✓
 2. Uploaded to server ✓
 3. Restarted application ✓
 4. Verified health check ✓
 
 ### End Time: 14:35 UTC
+
 ### Status: SUCCESS ✓
 
 ### Verified
+
 - App is running
 - Health check passes
 - Critical endpoints respond
@@ -312,6 +348,7 @@ If production breaks, revert to v1.2.3:
 ```
 
 **Deployment Checklist**:
+
 - [ ] Deployment started at [time]
 - [ ] Deployment completed successfully
 - [ ] Health checks passing
@@ -332,6 +369,7 @@ Monitor closely for issues:
 ## Post-Deployment Monitoring - 2026-06-01 14:35 UTC
 
 ### Key Metrics
+
 - [ ] Uptime: 100%
 - [ ] Error rate: < 0.1%
 - [ ] Response time: normal
@@ -340,16 +378,20 @@ Monitor closely for issues:
 - [ ] Database connections: healthy
 
 ### Issues Found
+
 (None)
 
 ### Actions Taken
+
 (None needed)
 
 ### Monitoring Until
+
 2026-06-01 15:05 UTC (30 min window)
 ```
 
 **Monitoring Checklist**:
+
 - [ ] Check uptime monitoring
 - [ ] Check error logs
 - [ ] Check performance metrics
@@ -377,6 +419,7 @@ Continue monitoring:
 ### Immediate Response
 
 **If you see errors**:
+
 1. Check logs: what's the error?
 2. Tell Josh immediately
 3. Assess severity:
@@ -411,6 +454,7 @@ curl https://example.com/health
 ```
 
 **Rollback Checklist**:
+
 - [ ] Previous version identified
 - [ ] Code checked out
 - [ ] Built successfully
@@ -425,40 +469,49 @@ curl https://example.com/health
 ## Incident Report: v1.2.4
 
 ### What Happened
+
 Brief description of the issue
 
 ### When
+
 Start: 2026-06-01 14:35 UTC
 End: 2026-06-01 14:45 UTC
 Duration: 10 minutes
 
 ### Impact
+
 - Affected users: X%
 - Affected endpoints: /api/feature
 - Business impact: $X loss (if applicable)
 
 ### Root Cause
+
 What went wrong? Why wasn't it caught in staging?
 
 ### What We Did
+
 1. Detected issue at 14:40 UTC
 2. Rolled back to v1.2.3 at 14:45 UTC
 3. Verified system stable
 
 ### Prevention
+
 How do we prevent this next time?
+
 - Add test case for this scenario
 - Improve staging tests
 - Add monitoring alert
 - Code review checklist update
 
 ### Follow-up
+
 - [ ] Test case added
 - [ ] Monitoring alert added
 - [ ] Docs updated
 - [ ] Team meeting scheduled
 
 ### Assignee
+
 Josh: Review incident
 Builder: Fix code
 QA: Add test
@@ -495,15 +548,18 @@ After successful production deployment:
 ## 🎉 AppFactory v1.2.4 Released
 
 **Features**:
+
 - New user dashboard
 - Better performance
 - Security improvements
 
 **Bug Fixes**:
+
 - Fixed login issue
 - Fixed profile save
 
 **Breaking Changes**:
+
 - Removed deprecated `/api/v1/` endpoints
   Migration guide: See CHANGELOG.md
 
@@ -511,6 +567,7 @@ After successful production deployment:
 Update imports from `OldAPI` to `NewAPI`
 
 **Timeline**:
+
 - Released: 2026-06-01 14:35 UTC
 - Stable: 2026-06-01 15:35 UTC (after 1 hour monitoring)
 
@@ -523,16 +580,16 @@ Contact Josh for urgent issues
 
 ## Quick Reference
 
-| Step | Owner | Time | Status |
-|------|-------|------|--------|
-| Code quality check | Builder | 5 min | Pre-release |
-| Security check | QA | 5 min | Pre-release |
-| Version update | Deployer | 2 min | Pre-release |
-| Staging deploy | Deployer | 5 min | Staging |
-| Staging test | QA | 10 min | Staging |
-| Josh approval | Josh | 5 min | Approval |
-| Production deploy | Deployer | 5 min | Production |
-| Monitor (30 min) | Deployer | 30 min | Post-deploy |
+| Step               | Owner    | Time    | Status      |
+| ------------------ | -------- | ------- | ----------- |
+| Code quality check | Builder  | 5 min   | Pre-release |
+| Security check     | QA       | 5 min   | Pre-release |
+| Version update     | Deployer | 2 min   | Pre-release |
+| Staging deploy     | Deployer | 5 min   | Staging     |
+| Staging test       | QA       | 10 min  | Staging     |
+| Josh approval      | Josh     | 5 min   | Approval    |
+| Production deploy  | Deployer | 5 min   | Production  |
+| Monitor (30 min)   | Deployer | 30 min  | Post-deploy |
 | Monitor (24 hours) | Deployer | ongoing | Post-deploy |
 
 ---

@@ -8,7 +8,7 @@ interface ChecklistProps {
 export function Checklist({ items, onChange }: ChecklistProps) {
   return (
     <div className="space-y-2">
-      {items.map((item) => (
+      {items.map(item => (
         <label
           key={item.id}
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition-colors"
@@ -16,7 +16,7 @@ export function Checklist({ items, onChange }: ChecklistProps) {
           <input
             type="checkbox"
             checked={item.completed}
-            onChange={(e) => onChange?.(item.id, e.target.checked)}
+            onChange={e => onChange?.(item.id, e.target.checked)}
             className="w-5 h-5 rounded border-slate-300 dark:border-slate-600 cursor-pointer"
           />
           <span
@@ -45,7 +45,7 @@ export function Tabs({ tabs, defaultTab }: TabsProps) {
   return (
     <div className="w-full">
       <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700 mb-4">
-        {tabs.map((tab) => (
+        {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
@@ -59,9 +59,7 @@ export function Tabs({ tabs, defaultTab }: TabsProps) {
           </button>
         ))}
       </div>
-      <div>
-        {tabs.find((tab) => tab.id === activeTab)?.content}
-      </div>
+      <div>{tabs.find(tab => tab.id === activeTab)?.content}</div>
     </div>
   );
 }
@@ -71,25 +69,19 @@ interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
 }
 
-export function Alert({
-  variant = 'info',
-  title,
-  className = '',
-  children,
-  ...props
-}: AlertProps) {
+export function Alert({ variant = 'info', title, className = '', children, ...props }: AlertProps) {
   const variantStyles = {
     info: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-300',
-    success: 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-900 dark:text-green-300',
-    warning: 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-300',
-    danger: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-900 dark:text-red-300',
+    success:
+      'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-900 dark:text-green-300',
+    warning:
+      'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-300',
+    danger:
+      'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-900 dark:text-red-300',
   };
 
   return (
-    <div
-      className={`border rounded-lg p-4 ${variantStyles[variant]} ${className}`}
-      {...props}
-    >
+    <div className={`border rounded-lg p-4 ${variantStyles[variant]} ${className}`} {...props}>
       {title && <p className="font-semibold mb-1">{title}</p>}
       <p className="text-sm">{children}</p>
     </div>

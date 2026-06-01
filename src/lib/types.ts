@@ -8,8 +8,8 @@ import type {
   ReviewChecklist,
   Risk,
   TechPlan,
-  ScaffoldFile
-} from "../../lib/generator";
+  ScaffoldFile,
+} from '../../lib/generator';
 
 export type {
   AgentPrompt,
@@ -21,25 +21,20 @@ export type {
   ReviewChecklist,
   Risk,
   TechPlan,
-  ScaffoldFile
+  ScaffoldFile,
 };
 
 export type BuildPhase =
-  | "idea"
-  | "questions"
-  | "spec"
-  | "technical-plan"
-  | "agent-split"
-  | "review";
+  | 'idea'
+  | 'questions'
+  | 'spec'
+  | 'technical-plan'
+  | 'agent-split'
+  | 'review';
 
-export type ProjectStatus =
-  | "draft"
-  | "planning"
-  | "ready-for-agents"
-  | "review"
-  | "approved";
+export type ProjectStatus = 'draft' | 'planning' | 'ready-for-agents' | 'review' | 'approved';
 
-export type RiskLevel = Risk["severity"];
+export type RiskLevel = Risk['severity'];
 
 export interface ProjectExports {
   markdownSpec: string;

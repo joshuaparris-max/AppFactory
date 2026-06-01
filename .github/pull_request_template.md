@@ -3,6 +3,7 @@
 Describe the change and link the spec or issue.
 
 ## Checklist
+
 - [ ] `npm run check` (lint + build + test) passed locally
 - [ ] No secrets, tokens, or credentials in changed files
 - [ ] Branch name follows `agent/<project-slug>-<role-slug>` when applicable
@@ -11,10 +12,13 @@ Describe the change and link the spec or issue.
 - [ ] CI is green and all checks required for merge are passing
 
 ## Risks
+
 - List any risks and mitigations (live calls, data sensitivity, agent collisions)
 
 ## Handoffs and Ownership
+
 - Files owned by other agents touched? Document coordination and PR comments.
 
 ## Approval
+
 - Project owner approval: (add approver's GitHub username)

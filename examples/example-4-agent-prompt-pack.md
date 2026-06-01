@@ -44,6 +44,7 @@ Follow the template in docs/PROMPT_TEMPLATES.md under "Feature Specification Tem
 ```
 
 **Expected Output**:
+
 - Complete spec in docs/specs/kids-worship-app-spec.md
 - Clear enough that Builder can implement without asking questions
 - Edge cases documented
@@ -101,6 +102,7 @@ Report back when ready for code review.
 ```
 
 **Expected Output**:
+
 - Working React/Vue project
 - All pages functional
 - Unit tests passing
@@ -155,6 +157,7 @@ Report back when test plan is ready.
 ```
 
 **Expected Output**:
+
 - Test plan document
 - QA checklist
 - Code review of Builder's PR
@@ -214,6 +217,7 @@ Report back with deployment infrastructure designed.
 ```
 
 **Expected Output**:
+
 - Deployment runbook
 - Monitoring plan
 - Release checklist template
@@ -225,12 +229,14 @@ Report back with deployment infrastructure designed.
 ## After Phase 1: Full Team Sync
 
 **All agents read**:
+
 - Builder's code PR
 - QA's test plan
 - Deployer's deployment runbook
 - Each agent reviews others' work
 
 **Team meeting points**:
+
 1. Does the code match the spec? (Copilot)
 2. Are tests comprehensive? (QA)
 3. Can we deploy this? (Deployer)
@@ -259,6 +265,7 @@ Use the code review template from docs/PROMPT_TEMPLATES.md
 ```
 
 **Expected Output**:
+
 - Code review comments in GitHub PR
 - Approval or requests for changes
 - Clear feedback for Builder
@@ -291,6 +298,7 @@ Use the review checklist from examples/example-review-checklist.md
 ```
 
 **Expected Output**:
+
 - Code review feedback
 - Testing results
 - Approval or change requests
@@ -322,6 +330,7 @@ Focus areas if feedback:
 ```
 
 **Expected Output**:
+
 - Updated code
 - All feedback addressed
 - Tests passing
@@ -334,6 +343,7 @@ Focus areas if feedback:
 **Once Phase 1 is merged:**
 
 ### Copilot - Prompt #3
+
 ```
 Phase 1 is merged. Now let's plan Phase 2.
 
@@ -353,6 +363,7 @@ Create: docs/specs/kids-worship-app-phase2.md
 ```
 
 ### Builder - Prompt #3
+
 ```
 Phase 2 design is done. Time to implement.
 
@@ -369,6 +380,7 @@ When done: Open PR #2 for Phase 2 code review
 ```
 
 ### QA - Prompt #3
+
 ```
 Builder is working on Phase 2.
 
@@ -383,6 +395,7 @@ Create: docs/qa/kids-worship-qa-phase2.md
 ```
 
 ### Deployer - Prompt #3
+
 ```
 Phase 2 is in progress.
 
@@ -403,6 +416,7 @@ Doc: docs/operations/kids-worship-ci-cd.md
 **Once Phase 2 is merged:**
 
 ### All Agents - Prep for Release
+
 ```
 Phase 2 merged. Time to prepare v1.0 release.
 
@@ -428,28 +442,33 @@ Ask Josh for approval to release.
 ## Key Prompting Principles
 
 ### 1. Always Reference Specs
+
 ```
 "Read docs/specs/kids-worship-app-spec.md"
 (Don't ask agent to figure out requirements)
 ```
 
 ### 2. Be Specific About What's Needed
+
 ```
 Good: "Write integration tests for API calls with mock data"
 Bad: "Write tests"
 ```
 
 ### 3. Provide Examples
+
 ```
 "Use the template in examples/example-review-checklist.md"
 ```
 
 ### 4. Ask for Specific Formats
+
 ```
 "Use markdown format with # for headers, - for bullets"
 ```
 
 ### 5. Ask for Validation
+
 ```
 "How will you verify this meets the performance requirement?"
 ```
@@ -459,6 +478,7 @@ Bad: "Write tests"
 ## Common Issues & How to Prompt
 
 ### If Builder is Stuck
+
 ```
 "You're building [feature]. The spec says [relevant section].
 
@@ -466,6 +486,7 @@ You're stuck on [problem]. What approach would work?"
 ```
 
 ### If Tests Fail
+
 ```
 "Tests are failing. Run: npm run test -- --verbose
 
@@ -473,6 +494,7 @@ What's breaking? How should you fix it?"
 ```
 
 ### If Security Issue Found
+
 ```
 "QA found potential security issue: [issue].
 
@@ -480,6 +502,7 @@ How should we fix this? What tests would catch this?"
 ```
 
 ### If Performance Problem
+
 ```
 "App load time is 4 seconds, target is 2 seconds.
 

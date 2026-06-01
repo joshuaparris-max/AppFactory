@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   createContext,
@@ -8,9 +8,9 @@ import {
   useMemo,
   useState,
   type ReactNode,
-} from "react";
-import { loadProjects, makeProject, saveProjects } from "@/lib/storage";
-import type { CreateProjectInput, Project } from "@/lib/types";
+} from 'react';
+import { loadProjects, makeProject, saveProjects } from '@/lib/storage';
+import type { CreateProjectInput, Project } from '@/lib/types';
 
 interface ProjectStoreValue {
   projects: Project[];
@@ -43,36 +43,32 @@ export function ProjectStoreProvider({ children }: { children: ReactNode }) {
 
   const createProject = useCallback((input: CreateProjectInput) => {
     const project = makeProject(input);
-    setProjects((current) => [project, ...current]);
+    setProjects(current => [project, ...current]);
     return project;
   }, []);
 
   const getProject = useCallback(
-    (projectId: string) => projects.find((project) => project.id === projectId),
-    [projects],
+    (projectId: string) => projects.find(project => project.id === projectId),
+    [projects]
   );
 
   const deleteProject = useCallback((projectId: string) => {
-    setProjects((current) => current.filter((project) => project.id !== projectId));
+    setProjects(current => current.filter(project => project.id !== projectId));
   }, []);
 
   const value = useMemo(
     () => ({ projects, hydrated, createProject, getProject, deleteProject }),
-    [projects, hydrated, createProject, getProject, deleteProject],
+    [projects, hydrated, createProject, getProject, deleteProject]
   );
 
-  return (
-    <ProjectStoreContext.Provider value={value}>
-      {children}
-    </ProjectStoreContext.Provider>
-  );
+  return <ProjectStoreContext.Provider value={value}>{children}</ProjectStoreContext.Provider>;
 }
 
 export function useProjectStore() {
   const context = useContext(ProjectStoreContext);
 
   if (!context) {
-    throw new Error("useProjectStore must be used inside ProjectStoreProvider");
+    throw new Error('useProjectStore must be used inside ProjectStoreProvider');
   }
 
   return context;

@@ -1,4 +1,4 @@
-import type { ServiceResult } from "./types";
+import type { ServiceResult } from './types';
 
 export interface GitHubBranchRequest {
   repository: string;
@@ -17,21 +17,29 @@ export interface PullRequestRequest {
 
 export interface GitHubService {
   createBranch(request: GitHubBranchRequest): Promise<ServiceResult<{ branchName: string }>>;
-  openPullRequest(request: PullRequestRequest): Promise<ServiceResult<{ url: string; draft: boolean }>>;
-  getRepositoryStatus(repository: string): Promise<ServiceResult<{ repository: string; defaultBranch: string }>>;
+  openPullRequest(
+    request: PullRequestRequest
+  ): Promise<ServiceResult<{ url: string; draft: boolean }>>;
+  getRepositoryStatus(
+    repository: string
+  ): Promise<ServiceResult<{ repository: string; defaultBranch: string }>>;
 }
 
 export interface DeploymentRequest {
   projectName: string;
   branchName: string;
-  environment: "preview" | "production";
+  environment: 'preview' | 'production';
   humanApproved: boolean;
 }
 
 export interface VercelService {
   createPreviewDeployment(request: DeploymentRequest): Promise<ServiceResult<{ url: string }>>;
-  getDeploymentStatus(deploymentId: string): Promise<ServiceResult<{ deploymentId: string; status: "mocked" }>>;
-  promoteProductionDeployment(request: DeploymentRequest): Promise<ServiceResult<{ promoted: boolean }>>;
+  getDeploymentStatus(
+    deploymentId: string
+  ): Promise<ServiceResult<{ deploymentId: string; status: 'mocked' }>>;
+  promoteProductionDeployment(
+    request: DeploymentRequest
+  ): Promise<ServiceResult<{ promoted: boolean }>>;
 }
 
 export interface AICompletionRequest {
@@ -50,68 +58,78 @@ export class MockGitHubService implements GitHubService {
   async createBranch(request: GitHubBranchRequest): Promise<ServiceResult<{ branchName: string }>> {
     return {
       ok: true,
-      mode: "mock",
+      mode: 'mock',
       message: `Mock GitHub branch creation skipped for ${request.repository}.`,
-      data: { branchName: request.branchName }
+      data: { branchName: request.branchName },
     };
   }
 
-  async openPullRequest(request: PullRequestRequest): Promise<ServiceResult<{ url: string; draft: boolean }>> {
+  async openPullRequest(
+    request: PullRequestRequest
+  ): Promise<ServiceResult<{ url: string; draft: boolean }>> {
     return {
       ok: true,
-      mode: "mock",
+      mode: 'mock',
       message: `Mock pull request creation skipped for ${request.repository}.`,
       data: {
         url: `https://example.invalid/${request.repository}/pull/mock-${encodeURIComponent(request.headBranch)}`,
-        draft: request.draft
-      }
+        draft: request.draft,
+      },
     };
   }
 
-  async getRepositoryStatus(repository: string): Promise<ServiceResult<{ repository: string; defaultBranch: string }>> {
+  async getRepositoryStatus(
+    repository: string
+  ): Promise<ServiceResult<{ repository: string; defaultBranch: string }>> {
     return {
       ok: true,
-      mode: "mock",
+      mode: 'mock',
       message: `Mock repository status returned for ${repository}.`,
-      data: { repository, defaultBranch: "main" }
+      data: { repository, defaultBranch: 'main' },
     };
   }
 }
 
 export class MockVercelService implements VercelService {
-  async createPreviewDeployment(request: DeploymentRequest): Promise<ServiceResult<{ url: string }>> {
+  async createPreviewDeployment(
+    request: DeploymentRequest
+  ): Promise<ServiceResult<{ url: string }>> {
     return {
       ok: true,
-      mode: "mock",
+      mode: 'mock',
       message: `Mock ${request.environment} deployment skipped for ${request.projectName}.`,
-      data: { url: `https://example.invalid/${request.projectName}/${request.branchName}` }
+      data: { url: `https://example.invalid/${request.projectName}/${request.branchName}` },
     };
   }
 
-  async getDeploymentStatus(deploymentId: string): Promise<ServiceResult<{ deploymentId: string; status: "mocked" }>> {
+  async getDeploymentStatus(
+    deploymentId: string
+  ): Promise<ServiceResult<{ deploymentId: string; status: 'mocked' }>> {
     return {
       ok: true,
-      mode: "mock",
-      message: "Mock deployment status returned.",
-      data: { deploymentId, status: "mocked" }
+      mode: 'mock',
+      message: 'Mock deployment status returned.',
+      data: { deploymentId, status: 'mocked' },
     };
   }
 
-  async promoteProductionDeployment(request: DeploymentRequest): Promise<ServiceResult<{ promoted: boolean }>> {
+  async promoteProductionDeployment(
+    request: DeploymentRequest
+  ): Promise<ServiceResult<{ promoted: boolean }>> {
     if (!request.humanApproved) {
       return {
         ok: false,
-        mode: "mock",
-        message: "Production promotion blocked: human approval is required.",
-        data: { promoted: false }
+        mode: 'mock',
+        message: 'Production promotion blocked: human approval is required.',
+        data: { promoted: false },
       };
     }
 
     return {
       ok: true,
-      mode: "mock",
+      mode: 'mock',
       message: `Mock production promotion skipped for ${request.projectName}.`,
-      data: { promoted: false }
+      data: { promoted: false },
     };
   }
 }
@@ -126,26 +144,29 @@ export class MockAIService implements AIService {
   async complete(request: AICompletionRequest): Promise<ServiceResult<{ text: string }>> {
     return {
       ok: this.enabled,
-      mode: "mock",
+      mode: 'mock',
       message: this.enabled
-        ? "Mock AI completion returned. No live provider was called."
-        : "AI completion disabled by default. No live provider was called.",
+        ? 'Mock AI completion returned. No live provider was called.'
+        : 'AI completion disabled by default. No live provider was called.',
       data: {
         text: this.enabled
           ? `Mock AI response for: ${request.prompt.slice(0, 120)}`
-          : "AI disabled. Use deterministic generator functions or enable a future live adapter explicitly."
-      }
+          : 'AI disabled. Use deterministic generator functions or enable a future live adapter explicitly.',
+      },
     };
   }
 
-  async generateStructured<T>(request: AICompletionRequest, fallback: T): Promise<ServiceResult<T>> {
+  async generateStructured<T>(
+    request: AICompletionRequest,
+    fallback: T
+  ): Promise<ServiceResult<T>> {
     return {
       ok: this.enabled,
-      mode: "mock",
+      mode: 'mock',
       message: this.enabled
         ? `Mock structured AI response returned for: ${request.prompt.slice(0, 80)}`
-        : "Structured AI generation disabled by default. Fallback returned.",
-      data: fallback
+        : 'Structured AI generation disabled by default. Fallback returned.',
+      data: fallback,
     };
   }
 }
@@ -154,6 +175,6 @@ export function createMockServices() {
   return {
     github: new MockGitHubService(),
     vercel: new MockVercelService(),
-    ai: new MockAIService(false)
+    ai: new MockAIService(false),
   };
 }

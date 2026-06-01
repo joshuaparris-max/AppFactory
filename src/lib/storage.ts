@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { createProjectDraft, demoProjects } from "@/lib/mock-data";
-import type { CreateProjectInput, Project } from "@/lib/types";
+import { createProjectDraft, demoProjects } from '@/lib/mock-data';
+import type { CreateProjectInput, Project } from '@/lib/types';
 
-const STORAGE_KEY = "appfactory.projects.v2";
+const STORAGE_KEY = 'appfactory.projects.v2';
 
 export function loadProjects(): Project[] {
   if (!canUseStorage()) {
@@ -42,24 +42,24 @@ export function makeProject(input: CreateProjectInput): Project {
 }
 
 function canUseStorage(): boolean {
-  return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
+  return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 }
 
 function isProject(value: unknown): value is Project {
-  if (!value || typeof value !== "object") {
+  if (!value || typeof value !== 'object') {
     return false;
   }
 
   const candidate = value as Partial<Project>;
   return Boolean(
     candidate.id &&
-      candidate.name &&
-      candidate.idea &&
-      candidate.appSpec &&
-      candidate.techPlan &&
-      Array.isArray(candidate.agentTasks) &&
-      Array.isArray(candidate.prompts) &&
-      candidate.reviewChecklist &&
-      candidate.exports
+    candidate.name &&
+    candidate.idea &&
+    candidate.appSpec &&
+    candidate.techPlan &&
+    Array.isArray(candidate.agentTasks) &&
+    Array.isArray(candidate.prompts) &&
+    candidate.reviewChecklist &&
+    candidate.exports
   );
 }

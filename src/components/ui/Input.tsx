@@ -6,14 +6,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   helperText?: string;
 }
 
-export function Input({
-  label,
-  error,
-  helperText,
-  className = '',
-  id,
-  ...props
-}: InputProps) {
+export function Input({ label, error, helperText, className = '', id, ...props }: InputProps) {
   const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
 
   return (
@@ -32,7 +25,9 @@ export function Input({
         {...props}
       />
       {error && <p className="text-sm text-red-600 dark:text-red-400 mt-1">{error}</p>}
-      {helperText && <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{helperText}</p>}
+      {helperText && (
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{helperText}</p>
+      )}
     </div>
   );
 }
@@ -69,7 +64,9 @@ export function Textarea({
         {...props}
       />
       {error && <p className="text-sm text-red-600 dark:text-red-400 mt-1">{error}</p>}
-      {helperText && <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{helperText}</p>}
+      {helperText && (
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{helperText}</p>
+      )}
     </div>
   );
 }

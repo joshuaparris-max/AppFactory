@@ -1,5 +1,5 @@
-import JSZip from "jszip";
-import type { ScaffoldFile } from "./types";
+import JSZip from 'jszip';
+import type { ScaffoldFile } from './types';
 
 export async function downloadScaffoldAsZip(
   projectName: string,
@@ -7,20 +7,20 @@ export async function downloadScaffoldAsZip(
 ): Promise<void> {
   try {
     const zip = new JSZip();
-    files.forEach((file) => {
+    files.forEach(file => {
       zip.file(file.path, file.content);
     });
 
-    const blob = await zip.generateAsync({ type: "blob" });
+    const blob = await zip.generateAsync({ type: 'blob' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = `${projectName.toLowerCase().replace(/\s+/g, "-")}-scaffold.zip`;
+    link.download = `${projectName.toLowerCase().replace(/\s+/g, '-')}-scaffold.zip`;
     link.click();
     URL.revokeObjectURL(url);
   } catch (error) {
-    console.error("Failed to download scaffold:", error);
-    alert("Unable to download. Please try again.");
+    console.error('Failed to download scaffold:', error);
+    alert('Unable to download. Please try again.');
   }
 }
 
@@ -32,7 +32,7 @@ export async function downloadScaffoldAsJson(
     const content = JSON.stringify(
       {
         projectName,
-        files: files.map((f) => ({
+        files: files.map(f => ({
           path: f.path,
           description: f.description,
           content: f.content,
@@ -42,16 +42,16 @@ export async function downloadScaffoldAsJson(
       2
     );
 
-    const blob = new Blob([content], { type: "application/json" });
+    const blob = new Blob([content], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = `${projectName.toLowerCase().replace(/\s+/g, "-")}-scaffold.json`;
+    link.download = `${projectName.toLowerCase().replace(/\s+/g, '-')}-scaffold.json`;
     link.click();
     URL.revokeObjectURL(url);
   } catch (error) {
-    console.error("Failed to download scaffold:", error);
-    alert("Unable to download. Please try again.");
+    console.error('Failed to download scaffold:', error);
+    alert('Unable to download. Please try again.');
   }
 }
 

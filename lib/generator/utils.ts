@@ -1,14 +1,14 @@
-import type { AppType, Priority } from "./types";
+import type { AppType, Priority } from './types';
 
 export const APP_TYPE_LABELS: Record<AppType, string> = {
-  dashboard: "dashboard",
-  "learning-app": "learning app",
-  "family-life-app": "family/life app",
-  "simple-business-app": "simple business app",
-  "game-prototype": "game prototype",
-  "data-analyser": "data analyser",
-  "staff-training-app": "staff training app",
-  custom: "custom app"
+  dashboard: 'dashboard',
+  'learning-app': 'learning app',
+  'family-life-app': 'family/life app',
+  'simple-business-app': 'simple business app',
+  'game-prototype': 'game prototype',
+  'data-analyser': 'data analyser',
+  'staff-training-app': 'staff training app',
+  custom: 'custom app',
 };
 
 export function compactList(values: Array<string | undefined | null>): string[] {
@@ -16,7 +16,7 @@ export function compactList(values: Array<string | undefined | null>): string[] 
   const result: string[] = [];
 
   for (const value of values) {
-    const normalized = normalizeWhitespace(value ?? "");
+    const normalized = normalizeWhitespace(value ?? '');
     if (!normalized) {
       continue;
     }
@@ -32,17 +32,17 @@ export function compactList(values: Array<string | undefined | null>): string[] 
 }
 
 export function normalizeWhitespace(value: string): string {
-  return value.replace(/\s+/g, " ").trim();
+  return value.replace(/\s+/g, ' ').trim();
 }
 
 export function slugify(value: string): string {
   const slug = normalizeWhitespace(value)
     .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 
-  return slug || "appfactory-project";
+  return slug || 'appfactory-project';
 }
 
 export function sentenceCase(value: string): string {
@@ -62,32 +62,44 @@ export function titleFromIdea(idea: string, fallbackType: AppType): string {
   }
 
   const keywords = clean
-    .replace(/^(an?|the)\s+/i, "")
+    .replace(/^(an?|the)\s+/i, '')
     .split(/\s+/)
-    .filter((word) => !["app", "for", "that", "with", "and", "to", "a", "an", "the"].includes(word.toLowerCase()))
+    .filter(
+      word =>
+        !['app', 'for', 'that', 'with', 'and', 'to', 'a', 'an', 'the'].includes(word.toLowerCase())
+    )
     .slice(0, 3);
 
   if (keywords.length > 0) {
-    return keywords.map(sentenceCase).join(" ");
+    return keywords.map(sentenceCase).join(' ');
   }
 
   return sentenceCase(APP_TYPE_LABELS[fallbackType]);
 }
 
 export function inferAppType(idea: string, requested?: string): AppType {
-  const normalizedRequested = slugify(requested ?? "").replace(/-/g, " ");
+  const normalizedRequested = slugify(requested ?? '').replace(/-/g, ' ');
   const candidates: Array<[AppType, string[]]> = [
-    ["dashboard", ["dashboard", "admin", "analytics", "metrics", "reporting", "operations"]],
-    ["learning-app", ["learning", "course", "lesson", "quiz", "student", "education", "study"]],
-    ["family-life-app", ["family", "chore", "children", "kids", "household", "allowance", "meal"]],
-    ["simple-business-app", ["business", "booking", "invoice", "quote", "client", "crm", "service"]],
-    ["game-prototype", ["game", "rpg", "prototype", "level", "combat", "quest", "player"]],
-    ["data-analyser", ["data", "analyser", "analyzer", "csv", "insight", "dataset", "analysis"]],
-    ["staff-training-app", ["staff", "training", "employee", "onboarding", "compliance", "workplace"]]
+    ['dashboard', ['dashboard', 'admin', 'analytics', 'metrics', 'reporting', 'operations']],
+    ['learning-app', ['learning', 'course', 'lesson', 'quiz', 'student', 'education', 'study']],
+    ['family-life-app', ['family', 'chore', 'children', 'kids', 'household', 'allowance', 'meal']],
+    [
+      'simple-business-app',
+      ['business', 'booking', 'invoice', 'quote', 'client', 'crm', 'service'],
+    ],
+    ['game-prototype', ['game', 'rpg', 'prototype', 'level', 'combat', 'quest', 'player']],
+    ['data-analyser', ['data', 'analyser', 'analyzer', 'csv', 'insight', 'dataset', 'analysis']],
+    [
+      'staff-training-app',
+      ['staff', 'training', 'employee', 'onboarding', 'compliance', 'workplace'],
+    ],
   ];
 
   for (const [type] of candidates) {
-    if (normalizedRequested === type.replace(/-/g, " ") || normalizedRequested === APP_TYPE_LABELS[type]) {
+    if (
+      normalizedRequested === type.replace(/-/g, ' ') ||
+      normalizedRequested === APP_TYPE_LABELS[type]
+    ) {
       return type;
     }
   }
@@ -103,16 +115,19 @@ export function inferAppType(idea: string, requested?: string): AppType {
     return ideaScore.type;
   }
 
-  return "custom";
+  return 'custom';
 }
 
-function scoreCandidates(haystack: string, candidates: Array<[AppType, string[]]>): { type: AppType; score: number } {
+function scoreCandidates(
+  haystack: string,
+  candidates: Array<[AppType, string[]]>
+): { type: AppType; score: number } {
   return candidates.reduce(
     (best, [type, words]) => {
       const score = words.reduce((total, word) => total + (haystack.includes(word) ? 1 : 0), 0);
       return score > best.score ? { type, score } : best;
     },
-    { type: "custom" as AppType, score: 0 }
+    { type: 'custom' as AppType, score: 0 }
   );
 }
 
@@ -125,7 +140,7 @@ export function priorityRank(priority: Priority): number {
     must: 0,
     should: 1,
     could: 2,
-    later: 3
+    later: 3,
   };
   return ranks[priority];
 }
@@ -143,7 +158,7 @@ export function listToSentence(items: string[], fallback: string): string {
     return `${items[0]} and ${items[1]}`;
   }
 
-  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
 }
 
 export function asSentence(value: string): string {

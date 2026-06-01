@@ -12,5 +12,6 @@ Minimal checklist to run before approving a feature PR:
 - Validate that review checklist items from `docs/APP_REVIEW_TEMPLATE.md` are covered.
 
 Optional checks
+
 - Manual smoke test of the primary user journey.
 - Cross-agent coordination: verify handoff notes and owned paths.

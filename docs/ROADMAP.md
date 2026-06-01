@@ -45,18 +45,19 @@ Current status and planned features for AppFactory.
 ## Q3 2026 (Jul-Sep)
 
 ### Goal
+
 Get the first complete example project working end-to-end.
 
 ### Tasks
 
-| Task | Owner | Status | Due |
-|------|-------|--------|-----|
-| Set up GitHub Actions CI/CD | Deployer | 📋 | Jul 31 |
-| Create example project (Kids Worship App) | Builder | 📋 | Aug 15 |
-| Write first set of tests | QA | 📋 | Aug 15 |
-| Document deployment for example | Deployer | 📋 | Aug 31 |
-| Security audit | Josh | 📋 | Sep 15 |
-| First production deployment | Deployer + Josh | 📋 | Sep 30 |
+| Task                                      | Owner           | Status | Due    |
+| ----------------------------------------- | --------------- | ------ | ------ |
+| Set up GitHub Actions CI/CD               | Deployer        | 📋     | Jul 31 |
+| Create example project (Kids Worship App) | Builder         | 📋     | Aug 15 |
+| Write first set of tests                  | QA              | 📋     | Aug 15 |
+| Document deployment for example           | Deployer        | 📋     | Aug 31 |
+| Security audit                            | Josh            | 📋     | Sep 15 |
+| First production deployment               | Deployer + Josh | 📋     | Sep 30 |
 
 ### Success Criteria
 
@@ -71,17 +72,18 @@ Get the first complete example project working end-to-end.
 ## Q4 2026 (Oct-Dec)
 
 ### Goal
+
 Optimize workflows, add automation, and build 2-3 more examples.
 
 ### Tasks
 
-| Task | Owner | Status | Due |
-|------|-------|--------|-----|
-| Pre-commit hooks for secrets | QA | 📋 | Oct 15 |
-| ESLint + Prettier setup | Builder | 📋 | Oct 31 |
-| 2 more example projects | Builder | 📋 | Nov 30 |
-| Database migration framework | Copilot | 📋 | Nov 30 |
-| Agent optimization | Copilot | 📋 | Dec 15 |
+| Task                         | Owner   | Status | Due    |
+| ---------------------------- | ------- | ------ | ------ |
+| Pre-commit hooks for secrets | QA      | 📋     | Oct 15 |
+| ESLint + Prettier setup      | Builder | 📋     | Oct 31 |
+| 2 more example projects      | Builder | 📋     | Nov 30 |
+| Database migration framework | Copilot | 📋     | Nov 30 |
+| Agent optimization           | Copilot | 📋     | Dec 15 |
 
 ### Success Criteria
 
@@ -96,17 +98,18 @@ Optimize workflows, add automation, and build 2-3 more examples.
 ## Q1 2027 (Jan-Mar)
 
 ### Goal
+
 Stabilize and scale to full production.
 
 ### Tasks
 
-| Task | Owner | Status | Due |
-|------|-------|--------|-----|
-| Monitoring/error tracking | Deployer | 📋 | Jan 31 |
-| Sentry integration | Deployer | 📋 | Feb 15 |
-| Load testing | QA | 📋 | Feb 28 |
-| Performance optimization | Builder | 📋 | Mar 15 |
-| Agent prompt refinement | Copilot | 📋 | Mar 31 |
+| Task                      | Owner    | Status | Due    |
+| ------------------------- | -------- | ------ | ------ |
+| Monitoring/error tracking | Deployer | 📋     | Jan 31 |
+| Sentry integration        | Deployer | 📋     | Feb 15 |
+| Load testing              | QA       | 📋     | Feb 28 |
+| Performance optimization  | Builder  | 📋     | Mar 15 |
+| Agent prompt refinement   | Copilot  | 📋     | Mar 31 |
 
 ### Success Criteria
 
@@ -121,16 +124,17 @@ Stabilize and scale to full production.
 ## Q2 2027 (Apr-Jun)
 
 ### Goal
+
 Advanced features and ecosystem.
 
 ### Tasks
 
-| Task | Owner | Status | Due |
-|------|-------|--------|-----|
-| Multi-tenant support | Copilot | 📋 | Apr 30 |
-| API documentation | Copilot | 📋 | May 15 |
-| SDK/library | Builder | 📋 | May 31 |
-| Community examples | Builder | 📋 | Jun 30 |
+| Task                 | Owner   | Status | Due    |
+| -------------------- | ------- | ------ | ------ |
+| Multi-tenant support | Copilot | 📋     | Apr 30 |
+| API documentation    | Copilot | 📋     | May 15 |
+| SDK/library          | Builder | 📋     | May 31 |
+| Community examples   | Builder | 📋     | Jun 30 |
 
 ---
 
@@ -259,6 +263,7 @@ Advanced features and ecosystem.
 ## Feedback & Changes
 
 This roadmap is **living** and changes based on:
+
 - User feedback
 - Discovered blockers
 - New opportunities

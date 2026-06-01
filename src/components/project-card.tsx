@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { ArrowRight, Calendar, Zap } from "lucide-react";
-import { PhaseBadge, RiskBadge } from "@/components/project-badges";
-import type { Project } from "@/lib/types";
+import Link from 'next/link';
+import { ArrowRight, Calendar, Zap } from 'lucide-react';
+import { PhaseBadge, RiskBadge } from '@/components/project-badges';
+import type { Project } from '@/lib/types';
 
 export function ProjectCard({ project }: { project: Project }) {
   const formatDate = (dateString: string) => {
@@ -9,9 +9,9 @@ export function ProjectCard({ project }: { project: Project }) {
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) return "Today";
-    if (diffDays === 1) return "Yesterday";
+
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
     if (diffDays < 7) return `${diffDays} days ago`;
     return date.toLocaleDateString();
   };
@@ -26,9 +26,7 @@ export function ProjectCard({ project }: { project: Project }) {
           <h3 className="text-base font-semibold text-zinc-950 group-hover:text-zinc-700">
             {project.name}
           </h3>
-          <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-600">
-            {project.idea}
-          </p>
+          <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-600">{project.idea}</p>
         </div>
         <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-zinc-300 transition group-hover:translate-x-1 group-hover:text-zinc-500" />
       </div>
@@ -46,7 +44,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="flex items-center gap-1.5">
           <Zap className="h-3.5 w-3.5 text-blue-600" />
           <span className="text-xs font-medium text-zinc-700">
-            {project.agentTasks.length} {project.agentTasks.length === 1 ? "task" : "tasks"}
+            {project.agentTasks.length} {project.agentTasks.length === 1 ? 'task' : 'tasks'}
           </span>
         </div>
       </div>

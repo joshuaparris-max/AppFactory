@@ -1,0 +1,14 @@
+node_modules
+.next
+dist
+build
+out
+.vercel
+.git
+.husky
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+*.log
+coverage
+next-env.d.ts

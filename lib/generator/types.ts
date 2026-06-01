@@ -1,37 +1,37 @@
 export type AppType =
-  | "dashboard"
-  | "learning-app"
-  | "family-life-app"
-  | "simple-business-app"
-  | "game-prototype"
-  | "data-analyser"
-  | "staff-training-app"
-  | "custom";
+  | 'dashboard'
+  | 'learning-app'
+  | 'family-life-app'
+  | 'simple-business-app'
+  | 'game-prototype'
+  | 'data-analyser'
+  | 'staff-training-app'
+  | 'custom';
 
 export type QuestionKind =
-  | "short-text"
-  | "long-text"
-  | "single-choice"
-  | "multi-choice"
-  | "boolean";
+  | 'short-text'
+  | 'long-text'
+  | 'single-choice'
+  | 'multi-choice'
+  | 'boolean';
 
-export type Priority = "must" | "should" | "could" | "later";
+export type Priority = 'must' | 'should' | 'could' | 'later';
 
-export type RiskSeverity = "low" | "medium" | "high";
+export type RiskSeverity = 'low' | 'medium' | 'high';
 
-export type RiskLikelihood = "unlikely" | "possible" | "likely";
+export type RiskLikelihood = 'unlikely' | 'possible' | 'likely';
 
-export type ComplexitySize = "small" | "medium" | "large" | "epic";
+export type ComplexitySize = 'small' | 'medium' | 'large' | 'epic';
 
-export type DataSensitivity = "low" | "moderate" | "high";
+export type DataSensitivity = 'low' | 'moderate' | 'high';
 
-export type PlatformTarget = "web" | "mobile-web" | "desktop" | "api";
+export type PlatformTarget = 'web' | 'mobile-web' | 'desktop' | 'api';
 
 export type AgentRole =
-  | "Foundation / architecture"
-  | "UI / UX"
-  | "Backend / integrations"
-  | "QA / tests / docs";
+  | 'Foundation / architecture'
+  | 'UI / UX'
+  | 'Backend / integrations'
+  | 'QA / tests / docs';
 
 export interface ClarifyingQuestion {
   id: string;
@@ -63,7 +63,7 @@ export interface ClarifyingAnswers {
   inspiration?: string[];
   contentTone?: string;
   existingAssets?: string[];
-  riskTolerance?: "low" | "medium" | "high";
+  riskTolerance?: 'low' | 'medium' | 'high';
   customAnswers?: Record<string, string | string[] | boolean | number | undefined>;
 }
 
@@ -109,7 +109,7 @@ export interface FeatureSpec {
 
 export interface EntityFieldSpec {
   name: string;
-  type: "string" | "number" | "boolean" | "date" | "json" | "relation";
+  type: 'string' | 'number' | 'boolean' | 'date' | 'json' | 'relation';
   required: boolean;
   description: string;
 }
@@ -123,7 +123,7 @@ export interface EntitySpec {
 export interface IntegrationSpec {
   name: string;
   purpose: string;
-  mode: "stubbed" | "planned" | "optional";
+  mode: 'stubbed' | 'planned' | 'optional';
   safetyNotes: string[];
 }
 
@@ -141,7 +141,7 @@ export interface UserJourneySpec {
 }
 
 export interface AppSpec {
-  schemaVersion: "1.0";
+  schemaVersion: '1.0';
   id: string;
   name: string;
   slug: string;
@@ -272,7 +272,7 @@ export interface ProjectPlan {
 
 export interface ServiceResult<T> {
   ok: boolean;
-  mode: "mock";
+  mode: 'mock';
   message: string;
   data?: T;
 }

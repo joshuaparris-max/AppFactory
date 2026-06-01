@@ -17,6 +17,7 @@ git checkout -b feature/<your-agent-name>/<short-description>
 ```
 
 Examples:
+
 - `feature/copilot-c2/auth-spec`
 - `feature/builder-agent/user-dashboard`
 - `feature/qa-agent/test-suite`
@@ -27,6 +28,7 @@ Examples:
 ### Step 2: Make Your Changes
 
 **Do**:
+
 - Make small, focused changes
 - Write clear commit messages
 - Add tests for new functionality
@@ -34,6 +36,7 @@ Examples:
 - Reference the spec in PRs
 
 **Don't**:
+
 - Commit API keys or secrets
 - Modify other agents' files without discussion
 - Skip testing or checks
@@ -60,6 +63,7 @@ git push origin feature/<your-branch>
 ```
 
 Then open a **Pull Request** on GitHub with:
+
 - Clear title (what changed)
 - Description of changes
 - Reference to spec sections affected
@@ -70,6 +74,7 @@ Then open a **Pull Request** on GitHub with:
 ### Step 5: Wait for Review
 
 **PRs must be reviewed and approved before merging:**
+
 - For core changes: Josh reviews and approves
 - For feature changes: Any agent can review
 - For docs/examples: Any agent can review
@@ -141,6 +146,7 @@ Use these as starting points:
 **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
 **Examples**:
+
 - `feat(auth): add JWT token refresh`
 - `docs(workflow): clarify agent roles`
 - `fix(build): resolve webpack config issue`

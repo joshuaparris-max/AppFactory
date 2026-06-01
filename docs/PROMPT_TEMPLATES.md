@@ -54,9 +54,11 @@ When asked to design a feature, use this structure:
 # Feature: [Feature Name]
 
 ## Overview
+
 [1-2 sentence description]
 
 ## User Story
+
 As a [user type]
 I want to [action]
 So that [benefit]
@@ -64,11 +66,13 @@ So that [benefit]
 ## Requirements
 
 ### Functional Requirements
+
 - Requirement 1
 - Requirement 2
 - Requirement 3
 
 ### Non-Functional Requirements
+
 - Performance: [target]
 - Security: [considerations]
 - Scalability: [plan]
@@ -77,15 +81,18 @@ So that [benefit]
 ## Architecture
 
 ### Data Model
+
 [Describe entities, relationships, storage]
 
 ### API Design
 ```
-GET /api/v1/resource       → Get all
-POST /api/v1/resource      → Create new
-GET /api/v1/resource/:id   → Get one
-PUT /api/v1/resource/:id   → Update
+
+GET /api/v1/resource → Get all
+POST /api/v1/resource → Create new
+GET /api/v1/resource/:id → Get one
+PUT /api/v1/resource/:id → Update
 DELETE /api/v1/resource/:id → Delete
+
 ```
 
 ### Component Structure
@@ -174,6 +181,7 @@ Remember:
 When implementing a feature:
 
 1. **Read the spec completely**
+
    ```
    - Understand all requirements
    - Understand all edge cases
@@ -182,6 +190,7 @@ When implementing a feature:
    ```
 
 2. **Plan the implementation**
+
    ```
    - Break into steps
    - Identify dependencies
@@ -189,6 +198,7 @@ When implementing a feature:
    ```
 
 3. **Implement incrementally**
+
    ```
    - Implement base functionality
    - Add tests as you go
@@ -196,6 +206,7 @@ When implementing a feature:
    ```
 
 4. **Run checks before pushing**
+
    ```
    npm run lint      # Must pass
    npm run build     # Must pass
@@ -203,6 +214,7 @@ When implementing a feature:
    ```
 
 5. **Create clear commit message**
+
    ```
    feat(feature): description
 
@@ -262,9 +274,11 @@ When planning tests for a feature:
 # Test Plan: [Feature Name]
 
 ## Overview
+
 [Description of what will be tested]
 
 ## Spec Compliance
+
 - [ ] All requirements from spec are testable
 - [ ] All user stories covered
 - [ ] All API endpoints tested
@@ -273,26 +287,33 @@ When planning tests for a feature:
 ## Test Strategy
 
 ### Unit Tests
+
 What to test:
+
 - Function 1: [test cases]
 - Function 2: [test cases]
 - Function 3: [test cases]
 
 ### Integration Tests
+
 What to test:
+
 - Component interaction with API
 - Database operations
 - Auth flows
 - Error handling
 
 ### E2E Tests
+
 What to test:
+
 - User happy path
 - Error scenarios
 - Edge cases
 - Cross-browser (if applicable)
 
 ## Manual QA Checklist
+
 - [ ] Feature works as described
 - [ ] Error messages are clear
 - [ ] Performance is acceptable
@@ -302,14 +323,17 @@ What to test:
 - [ ] No visual bugs
 
 ## Edge Cases to Test
+
 1. [Edge case 1]: [expected result]
 2. [Edge case 2]: [expected result]
 3. [Edge case 3]: [expected result]
 
 ## Test Coverage
+
 Target: 80%+ coverage of new code
 
 ## Success Criteria
+
 - [ ] All tests pass
 - [ ] Coverage target met
 - [ ] Edge cases covered
@@ -325,12 +349,14 @@ When reviewing Builder's code:
 # Code Review: [PR Title]
 
 ## Specification Compliance
+
 - [ ] Code matches spec
 - [ ] All requirements implemented
 - [ ] No extra features
 - [ ] No missing features
 
 ## Code Quality
+
 - [ ] Code is readable
 - [ ] No obvious bugs
 - [ ] No hardcoded values
@@ -339,6 +365,7 @@ When reviewing Builder's code:
 - [ ] Code consistent with repo style
 
 ## Testing
+
 - [ ] Unit tests written
 - [ ] Tests are clear
 - [ ] Tests cover main cases
@@ -347,6 +374,7 @@ When reviewing Builder's code:
 - [ ] No skipped tests
 
 ## Security
+
 - [ ] No secrets in code
 - [ ] Input validation present
 - [ ] No SQL injection risks
@@ -354,21 +382,25 @@ When reviewing Builder's code:
 - [ ] Auth correct
 
 ## Performance
+
 - [ ] No obvious bottlenecks
 - [ ] Database queries efficient
 - [ ] No N+1 queries
 - [ ] Load time acceptable
 
 ## Documentation
+
 - [ ] Code comments explain why
 - [ ] Complex logic documented
 - [ ] Function signatures clear
 - [ ] Error cases documented
 
 ## Questions/Suggestions
+
 [List any questions or suggestions]
 
 ## Approved?
+
 - [ ] Yes, ready to merge
 - [ ] Needs revisions (see above)
 ```
@@ -424,24 +456,28 @@ When preparing a release:
 ## Pre-Release Checks
 
 ### Code Quality
+
 - [ ] npm run lint passes
 - [ ] npm run build succeeds
 - [ ] npm run test passes
 - [ ] No console errors
 
 ### Security
+
 - [ ] npm audit passes
 - [ ] No secrets in code
 - [ ] All deps updated
 - [ ] Security review done
 
 ### Documentation
+
 - [ ] CHANGELOG updated
 - [ ] README updated
 - [ ] API docs updated
 - [ ] Migration guides (if breaking)
 
 ### Testing
+
 - [ ] All unit tests pass
 - [ ] All integration tests pass
 - [ ] Manual QA complete
@@ -505,6 +541,7 @@ When preparing a release:
 ### Starting a New Feature
 
 **Use this to ask Copilot**:
+
 ```
 I need to build [feature description].
 
@@ -526,6 +563,7 @@ Can you design this? Please provide:
 ### Implementation is Stuck
 
 **Use this to ask Copilot**:
+
 ```
 I'm building [feature] per spec in docs/specs/[spec].md
 
@@ -541,6 +579,7 @@ What should I do?
 ### Code Review Found Issues
 
 **Use this to report**:
+
 ```
 PR #123: [feature]
 
@@ -554,6 +593,7 @@ Builder, can you fix these?
 ### Ready to Release
 
 **Use this to ask Josh**:
+
 ```
 v1.2.4 is ready for production.
 
@@ -577,42 +617,47 @@ Ready to proceed with production deployment?
 
 ## Quick Reference
 
-| Agent | Input | Output | Template |
-|-------|-------|--------|----------|
-| Copilot | Idea/requirement | Spec/design | Feature Spec Template |
-| Builder | Spec | Code/tests | Implementation Checklist |
-| QA | Spec + Code | Tests/checklist | Test Plan Template |
-| Deployer | Merged code | Release/deploy | Release Checklist |
+| Agent    | Input            | Output          | Template                 |
+| -------- | ---------------- | --------------- | ------------------------ |
+| Copilot  | Idea/requirement | Spec/design     | Feature Spec Template    |
+| Builder  | Spec             | Code/tests      | Implementation Checklist |
+| QA       | Spec + Code      | Tests/checklist | Test Plan Template       |
+| Deployer | Merged code      | Release/deploy  | Release Checklist        |
 
 ---
 
 ## Tips for Effective Prompting
 
 ### Be Specific
+
 ```
 Good: "Design a user authentication system using JWT tokens with 15-minute expiry"
 Bad: "Design auth"
 ```
 
 ### Ask for Structure
+
 ```
 Good: "Provide the API design as a table with method, endpoint, and response"
 Bad: "Design the API"
 ```
 
 ### Reference Documents
+
 ```
 Good: "Follow the security guidelines in docs/SAFETY_GUARDRAILS.md"
 Bad: "Make sure it's secure"
 ```
 
 ### Ask for Examples
+
 ```
 Good: "Provide example API requests and responses for each endpoint"
 Bad: "Show me the API"
 ```
 
 ### Ask for Validation
+
 ```
 Good: "How would you verify this design meets the performance requirements?"
 Bad: "Is this good?"

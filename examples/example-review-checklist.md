@@ -16,12 +16,14 @@ This checklist helps agents review code systematically. Use it in pull request c
 ## Code Review: [PR Title]
 
 ### ✓ Spec Compliance
+
 - [ ] Matches specification
-...
+      ...
 
 ### ✓ Code Quality
+
 - [ ] Readable code
-...
+      ...
 ```
 
 ---
@@ -58,6 +60,7 @@ This checklist helps agents review code systematically. Use it in pull request c
   - _If different: Why? Approved by Copilot?_
 
 **Questions for Builder**:
+
 - [ ] Any requirements you couldn't implement?
 - [ ] Any parts you interpreted differently?
 - [ ] Did you find issues with the spec?
@@ -69,16 +72,19 @@ This checklist helps agents review code systematically. Use it in pull request c
 **Is the code clean, readable, and maintainable?**
 
 ### Readability
+
 - [ ] **Variable names are clear**
+
   ```javascript
   Good:   const userPreferences = getUserPrefs();
   Bad:    const up = getUp();
   ```
 
 - [ ] **Function names describe what they do**
+
   ```javascript
-  Good:   function calculateTotalPrice(items) { }
-  Bad:    function calc(x) { }
+  Good: function calculateTotalPrice(items) {}
+  Bad: function calc(x) {}
   ```
 
 - [ ] **Code is DRY (Don't Repeat Yourself)**
@@ -93,7 +99,9 @@ This checklist helps agents review code systematically. Use it in pull request c
   - _If complex: Could be simplified?_
 
 ### Comments & Documentation
+
 - [ ] **Comments explain WHY, not WHAT**
+
   ```javascript
   Good:   // Retry 3 times because AWS SigV4 sometimes has timing issues
   Bad:    // Retry loop
@@ -111,6 +119,7 @@ This checklist helps agents review code systematically. Use it in pull request c
   ```
 
 ### Structure
+
 - [ ] **Related code is grouped together**
   - [ ] Related functions in same file (if file is <500 lines)
   - [ ] Related files in same directory
@@ -128,6 +137,7 @@ This checklist helps agents review code systematically. Use it in pull request c
   ```
 
 ### No Code Smells
+
 - [ ] **No console.log left in production code** (only debug when needed)
 - [ ] **No TODO comments without context**
   ```javascript
@@ -148,15 +158,17 @@ This checklist helps agents review code systematically. Use it in pull request c
 **Is the code well-tested?**
 
 ### Unit Tests
+
 - [ ] **Unit tests exist** for new code
   - [ ] Utility functions tested
   - [ ] Component logic tested
   - _Missing tests: For which functions?_
 
 - [ ] **Tests are clear and understandable**
+
   ```javascript
-  Good:   it('should calculate discount for VIP members', () => { })
-  Bad:    it('test function', () => { })
+  Good: it('should calculate discount for VIP members', () => {});
+  Bad: it('test function', () => {});
   ```
 
 - [ ] **Happy path is tested**
@@ -173,10 +185,13 @@ This checklist helps agents review code systematically. Use it in pull request c
 
 - [ ] **Error cases are tested**
   ```javascript
-  expect(() => { divideByZero(); }).toThrow();
+  expect(() => {
+    divideByZero();
+  }).toThrow();
   ```
 
 ### Integration Tests
+
 - [ ] **API calls are tested**
   - [ ] API mocked or stubbed
   - [ ] Success and error responses tested
@@ -188,6 +203,7 @@ This checklist helps agents review code systematically. Use it in pull request c
   - [ ] Transactions handled correctly
 
 ### Test Quality
+
 - [ ] **Tests don't have side effects**
   - [ ] Each test independent
   - [ ] Tests can run in any order
@@ -203,12 +219,14 @@ This checklist helps agents review code systematically. Use it in pull request c
   - [ ] No tests that sometimes pass/sometimes fail
 
 ### Coverage
+
 - [ ] **Code coverage is adequate**
   - [ ] Target: 80%+ for new code
   - [ ] Critical paths covered
   - [ ] Edge cases covered
 
 **Questions for Builder**:
+
 - [ ] Why is this function not tested?
 - [ ] Why this specific test case?
 - [ ] Did you manually test locally?
@@ -221,7 +239,9 @@ This checklist helps agents review code systematically. Use it in pull request c
 **Is the code secure?**
 
 ### Secrets & Credentials
+
 - [ ] **No hardcoded secrets**
+
   ```javascript
   Bad:    const API_KEY = "sk_live_abc123";
   Good:   const API_KEY = process.env.API_KEY;
@@ -233,7 +253,9 @@ This checklist helps agents review code systematically. Use it in pull request c
 - [ ] **No database credentials in code**
 
 ### Input Validation
+
 - [ ] **User input is validated**
+
   ```javascript
   Good:   const schema = z.object({ email: z.string().email() });
            const validated = schema.parse(userInput);
@@ -241,18 +263,20 @@ This checklist helps agents review code systematically. Use it in pull request c
   ```
 
 - [ ] **No SQL injection risks** (if SQL database)
+
   ```javascript
-  Good:   db.query("SELECT * FROM users WHERE id = ?", [userId]);
-  Bad:    db.query("SELECT * FROM users WHERE id = " + userId);
+  Good: db.query('SELECT * FROM users WHERE id = ?', [userId]);
+  Bad: db.query('SELECT * FROM users WHERE id = ' + userId);
   ```
 
 - [ ] **No XSS risks** (if web app)
   ```javascript
-  Good:   <div>{sanitize(userContent)}</div>
-  Bad:    <div dangerouslySetInnerHTML={{__html: userContent}} />
+  Good: <div>{sanitize(userContent)}</div>;
+  Bad: <div dangerouslySetInnerHTML={{ __html: userContent }} />;
   ```
 
 ### Authentication & Authorization
+
 - [ ] **Auth tokens validated**
   - [ ] JWT verified
   - [ ] Expiry checked
@@ -267,6 +291,7 @@ This checklist helps agents review code systematically. Use it in pull request c
 - [ ] **No hardcoded admin accounts**
 
 ### Data Protection
+
 - [ ] **Sensitive data encrypted** (passwords, tokens, etc.)
   - [ ] Passwords hashed (bcrypt, Argon2, etc.)
   - [ ] Tokens encrypted
@@ -277,12 +302,14 @@ This checklist helps agents review code systematically. Use it in pull request c
   - [ ] No plaintext passwords
 
 ### Dependencies
+
 - [ ] **No known vulnerabilities** in dependencies
   - [ ] `npm audit` passes
   - [ ] Dependencies are maintained
   - [ ] No old/abandoned packages
 
 **Questions for Builder**:
+
 - [ ] How is user input validated?
 - [ ] How are secrets stored?
 - [ ] What's the auth/authorization approach?
@@ -295,6 +322,7 @@ This checklist helps agents review code systematically. Use it in pull request c
 **Does the code perform well?**
 
 ### Efficiency
+
 - [ ] **No obvious bottlenecks**
   - [ ] Heavy operations don't block UI (if web app)
   - [ ] No synchronous I/O in performance-critical paths
@@ -312,6 +340,7 @@ This checklist helps agents review code systematically. Use it in pull request c
   - [ ] Circular references avoided
 
 ### Load & Scale
+
 - [ ] **Code handles load**
   - [ ] Can handle concurrent requests
   - [ ] No obvious race conditions
@@ -323,6 +352,7 @@ This checklist helps agents review code systematically. Use it in pull request c
   - [ ] Database scaling plan considered
 
 ### Frontend Performance (if applicable)
+
 - [ ] **Bundle size reasonable**
   - [ ] No huge dependencies for small features
   - [ ] Unused code removed
@@ -339,6 +369,7 @@ This checklist helps agents review code systematically. Use it in pull request c
   - [ ] Compression used
 
 **Questions for Builder**:
+
 - [ ] How does this scale to 1000s of items?
 - [ ] What's the database query like?
 - [ ] Any performance concerns you're aware of?
@@ -410,11 +441,13 @@ This checklist helps agents review code systematically. Use it in pull request c
 ## Summary Questions
 
 **Overall**:
+
 1. Would you be comfortable supporting this code in production?
 2. Would another developer be able to understand and modify this code?
 3. Is this code maintainable long-term?
 
 **Approval Decision**:
+
 - [ ] **Approved**: Ready to merge
 - [ ] **Approved with minor notes**: Merge after builder addresses notes
 - [ ] **Request changes**: Builder should make revisions
@@ -427,40 +460,47 @@ This checklist helps agents review code systematically. Use it in pull request c
 ## Code Review: feat(auth): add JWT refresh token
 
 ### ✓ Spec Compliance
+
 - [x] Implements all requirements
 - [x] No scope creep
 - [x] Handles edge cases (expired tokens, invalid tokens)
 - [x] Matches architecture from spec
 
 ### ✓ Code Quality
+
 - [x] Variable names clear
 - [x] Functions well-named
 - [x] No DRY violations
 - [x] Comments explain WHY
 
 ### ✓ Testing
+
 - [x] Unit tests for token validation
 - [x] Integration tests for refresh endpoint
 - [x] Edge cases tested (expired, malformed)
 - [x] 87% coverage on new code ✓
 
 ### ⚠️ Security
+
 - [x] No secrets in code
 - [x] Tokens validated
 - [x] Authorization enforced
 - [ ] Question: Are refresh tokens also short-lived? Spec says 15 minutes for access token, but doesn't mention refresh token lifetime.
 
 ### ✓ Performance
+
 - [x] No obvious bottlenecks
 - [x] Database query efficient
 - [x] No memory leaks
 
 ### Questions for Builder
+
 1. How is the refresh token stored? HTTP-only cookie? localStorage?
 2. What's the refresh token expiry time?
 3. Did you test expired token handling?
 
 ### Recommendation
+
 Approved with one clarification needed on refresh token lifetime. Once addressed, ready to merge.
 
 Cc: @builder

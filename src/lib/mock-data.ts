@@ -5,29 +5,29 @@ import {
   exportProjectPlanJson,
   formatChecklistMarkdown,
   formatPromptPackMarkdown,
-  generateNextJsScaffold
-} from "../../lib/generator";
-import type { CreateProjectInput, Project, RiskLevel } from "@/lib/types";
+  generateNextJsScaffold,
+} from '../../lib/generator';
+import type { CreateProjectInput, Project, RiskLevel } from '@/lib/types';
 
-const demoTimestamp = "2026-06-01T06:00:00.000Z";
+const demoTimestamp = '2026-06-01T06:00:00.000Z';
 
 export const demoProjects: Project[] = [
   createProjectRecord(
     {
-      name: "AppFactory",
-      idea: "A guided AI app-building command centre that helps Josh plan, scaffold, review, and prepare new apps safely.",
-      audience: "Josh and trusted build agents",
+      name: 'AppFactory',
+      idea: 'A guided AI app-building command centre that helps Josh plan, scaffold, review, and prepare new apps safely.',
+      audience: 'Josh and trusted build agents',
       mustHaveFeatures: [
-        "New app wizard",
-        "local project persistence",
-        "copyable four-agent prompt pack",
-        "review checklist"
+        'New app wizard',
+        'local project persistence',
+        'copyable four-agent prompt pack',
+        'review checklist',
       ],
-      integrations: ["GitHub placeholder", "Vercel placeholder", "AI placeholder"]
+      integrations: ['GitHub placeholder', 'Vercel placeholder', 'AI placeholder'],
     },
-    "project-appfactory-demo",
+    'project-appfactory-demo',
     demoTimestamp
-  )
+  ),
 ];
 
 export function createProjectDraft(input: CreateProjectInput): Project {
@@ -42,18 +42,18 @@ function createProjectRecord(input: CreateProjectInput, id: string, timestamp: s
     audience: input.audience?.trim() || undefined,
     mustHaveFeatures: input.mustHaveFeatures?.filter(Boolean),
     integrations: input.integrations?.filter(Boolean),
-    authRequired: true
+    authRequired: true,
   });
   const clarifyingQuestions = createClarifyingQuestions(input.idea);
-  const risk = highestRisk(plan.risks.map((item) => item.severity));
+  const risk = highestRisk(plan.risks.map(item => item.severity));
   const scaffoldFiles = generateNextJsScaffold(plan.spec.name, plan.spec, plan.techPlan);
 
   return {
     id,
     name: plan.spec.name,
     idea: input.idea.trim(),
-    status: "ready-for-agents",
-    phase: "review",
+    status: 'ready-for-agents',
+    phase: 'review',
     risk,
     createdAt: timestamp,
     updatedAt: timestamp,
@@ -71,14 +71,14 @@ function createProjectRecord(input: CreateProjectInput, id: string, timestamp: s
       jsonProjectPlan: exportProjectPlanJson(plan),
       promptPackMarkdown: formatPromptPackMarkdown(plan.promptPack),
       checklistMarkdown: formatChecklistMarkdown(plan.reviewChecklist),
-      scaffoldFiles
-    }
+      scaffoldFiles,
+    },
   };
 }
 
 function createProjectId(): string {
   const randomId =
-    typeof globalThis.crypto?.randomUUID === "function"
+    typeof globalThis.crypto?.randomUUID === 'function'
       ? globalThis.crypto.randomUUID()
       : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
@@ -86,13 +86,13 @@ function createProjectId(): string {
 }
 
 function highestRisk(levels: RiskLevel[]): RiskLevel {
-  if (levels.includes("high")) {
-    return "high";
+  if (levels.includes('high')) {
+    return 'high';
   }
 
-  if (levels.includes("medium")) {
-    return "medium";
+  if (levels.includes('medium')) {
+    return 'medium';
   }
 
-  return "low";
+  return 'low';
 }

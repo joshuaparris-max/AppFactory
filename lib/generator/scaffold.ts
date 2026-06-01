@@ -1,4 +1,4 @@
-import type { AppSpec, TechPlan } from "./types";
+import type { AppSpec, TechPlan } from './types';
 
 export interface ScaffoldFile {
   path: string;
@@ -12,12 +12,12 @@ export function generateNextJsScaffold(
   techPlan: TechPlan
 ): ScaffoldFile[] {
   const files: ScaffoldFile[] = [];
-  const slug = projectName.toLowerCase().replace(/\s+/g, "-");
+  const slug = projectName.toLowerCase().replace(/\s+/g, '-');
 
   // package.json
   files.push({
-    path: "package.json",
-    description: "Project dependencies and scripts",
+    path: 'package.json',
+    description: 'Project dependencies and scripts',
     content: `{
   "name": "${slug}",
   "version": "0.1.0",
@@ -47,13 +47,13 @@ export function generateNextJsScaffold(
     "@tailwindcss/postcss": "^4.0.0"
   }
 }
-`
+`,
   });
 
   // tsconfig.json
   files.push({
-    path: "tsconfig.json",
-    description: "TypeScript configuration",
+    path: 'tsconfig.json',
+    description: 'TypeScript configuration',
     content: `{
   "compilerOptions": {
     "target": "ES2020",
@@ -79,13 +79,13 @@ export function generateNextJsScaffold(
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
-`
+`,
   });
 
   // next.config.ts
   files.push({
-    path: "next.config.ts",
-    description: "Next.js configuration",
+    path: 'next.config.ts',
+    description: 'Next.js configuration',
     content: `import type { NextConfig } from "next";
 
 const config: NextConfig = {
@@ -93,13 +93,13 @@ const config: NextConfig = {
 };
 
 export default config;
-`
+`,
   });
 
   // Tailwind config
   files.push({
-    path: "tailwind.config.js",
-    description: "Tailwind CSS configuration",
+    path: 'tailwind.config.js',
+    description: 'Tailwind CSS configuration',
     content: `/** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -110,26 +110,26 @@ export default {
   },
   plugins: [],
 }
-`
+`,
   });
 
   // PostCSS config
   files.push({
-    path: "postcss.config.mjs",
-    description: "PostCSS configuration",
+    path: 'postcss.config.mjs',
+    description: 'PostCSS configuration',
     content: `export default {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
   },
 }
-`
+`,
   });
 
   // .gitignore
   files.push({
-    path: ".gitignore",
-    description: "Git ignore file",
+    path: '.gitignore',
+    description: 'Git ignore file',
     content: `# Dependencies
 node_modules/
 .pnp
@@ -159,13 +159,13 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
-`
+`,
   });
 
   // README
   files.push({
-    path: "README.md",
-    description: "Project README",
+    path: 'README.md',
+    description: 'Project README',
     content: `# ${projectName}
 
 ${spec.summary}
@@ -200,19 +200,21 @@ src/
 
 ## Core Features
 
-${spec.coreFeatures.map((f) => `- **${f.name}**: ${f.description}`).join("\n")}
+${spec.coreFeatures.map(f => `- **${f.name}**: ${f.description}`).join('\n')}
 
 ## Data Model
 
-${spec.dataModel.map((e) => `- **${e.name}**: ${e.description}`).join("\n")}
+${spec.dataModel.map(e => `- **${e.name}**: ${e.description}`).join('\n')}
 
 ## Tech Stack
 
-${Object.entries(techPlan.stack).map(([k, v]) => `- **${k}**: ${v}`).join("\n")}
+${Object.entries(techPlan.stack)
+  .map(([k, v]) => `- **${k}**: ${v}`)
+  .join('\n')}
 
 ## Architecture
 
-${techPlan.architectureDecisions.map((d) => `- ${d}`).join("\n")}
+${techPlan.architectureDecisions.map(d => `- ${d}`).join('\n')}
 
 ## Development
 
@@ -235,13 +237,13 @@ npm run lint
 - [Next.js Documentation](https://nextjs.org/docs)
 - [React Documentation](https://react.dev)
 - [Tailwind CSS](https://tailwindcss.com)
-`
+`,
   });
 
   // src/app/layout.tsx
   files.push({
-    path: "src/app/layout.tsx",
-    description: "Root layout component",
+    path: 'src/app/layout.tsx',
+    description: 'Root layout component',
     content: `import type { Metadata } from "next";
 import "./globals.css";
 
@@ -263,13 +265,13 @@ export default function RootLayout({
     </html>
   );
 }
-`
+`,
   });
 
   // src/app/globals.css
   files.push({
-    path: "src/app/globals.css",
-    description: "Global styles",
+    path: 'src/app/globals.css',
+    description: 'Global styles',
     content: `@tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -285,13 +287,13 @@ body {
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
-`
+`,
   });
 
   // src/app/page.tsx - Simplified without JSX syntax in string
   files.push({
-    path: "src/app/page.tsx",
-    description: "Home page",
+    path: 'src/app/page.tsx',
+    description: 'Home page',
     content: `export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
@@ -306,7 +308,7 @@ body {
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-white mb-6">Core Features</h2>
           <ul className="space-y-3">
-            ${spec.coreFeatures.map((f) => `<li className="text-zinc-300">• <strong>${f.name}</strong>: ${f.description}</li>`).join("\n            ")}
+            ${spec.coreFeatures.map(f => `<li className="text-zinc-300">• <strong>${f.name}</strong>: ${f.description}</li>`).join('\n            ')}
           </ul>
         </div>
 
@@ -317,13 +319,13 @@ body {
     </main>
   );
 }
-`
+`,
   });
 
   // src/components/Button.tsx
   files.push({
-    path: "src/components/Button.tsx",
-    description: "Reusable Button component",
+    path: 'src/components/Button.tsx',
+    description: 'Reusable Button component',
     content: `import { ReactNode } from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -352,17 +354,17 @@ export function Button({
     </button>
   );
 }
-`
+`,
   });
 
   // src/lib/types.ts
   files.push({
-    path: "src/lib/types.ts",
-    description: "Shared TypeScript types",
+    path: 'src/lib/types.ts',
+    description: 'Shared TypeScript types',
     content: `// Add your shared types here
 ${spec.dataModel
   .map(
-    (entity) => `export interface ${entity.name} {
+    entity => `export interface ${entity.name} {
   id: string;
   // Add properties based on your data model
   createdAt: Date;
@@ -370,8 +372,8 @@ ${spec.dataModel
 }
 `
   )
-  .join("\n")}
-`
+  .join('\n')}
+`,
   });
 
   return files;

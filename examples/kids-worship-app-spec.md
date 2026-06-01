@@ -9,14 +9,17 @@ Complete specification for the "Kids Worship Music App" example project.
 ## 1. Overview
 
 ### Vision
+
 A simple, fun music app where kids can listen to worship songs, sing along with lyrics, and learn about worship.
 
 ### Target Users
+
 - Kids (ages 6-12)
 - Parents
 - Church music programs
 
 ### Core Features
+
 - Browse and play worship songs
 - View lyrics (karaoke-style)
 - Create favorites
@@ -24,6 +27,7 @@ A simple, fun music app where kids can listen to worship songs, sing along with 
 - Offline mode (songs cached)
 
 ### Technology Stack
+
 - Frontend: React or Vue
 - Backend: Node.js + Express (minimal)
 - Database: PostgreSQL or SQLite
@@ -34,11 +38,13 @@ A simple, fun music app where kids can listen to worship songs, sing along with 
 ## 2. User Stories
 
 ### Story 1: Listen to Worship Songs
+
 **As a** kid  
 **I want to** browse and play worship songs  
 **So that** I can listen to music I like
 
 **Acceptance Criteria**:
+
 - [ ] Can see list of 50+ songs
 - [ ] Can search by song name
 - [ ] Can play/pause/skip songs
@@ -46,69 +52,82 @@ A simple, fun music app where kids can listen to worship songs, sing along with 
 - [ ] Can see current time and duration
 
 **Edge Cases**:
+
 - Network disconnect while playing
 - Song file not found
 - Invalid audio format
 
 ### Story 2: Sing Along with Lyrics
+
 **As a** kid  
 **I want to** see lyrics while a song plays  
 **So that** I can sing along
 
 **Acceptance Criteria**:
+
 - [ ] Lyrics display while song plays
 - [ ] Lyrics scroll in sync with music
 - [ ] Can adjust text size
 - [ ] Lyrics are readable on mobile
 
 **Edge Cases**:
+
 - Missing lyrics for some songs
 - Lyrics out of sync
 - Very long verses
 
 ### Story 3: Save Favorite Songs
+
 **As a** kid  
 **I want to** save favorite songs  
 **So that** I can find them easily
 
 **Acceptance Criteria**:
+
 - [ ] Can click "Add to Favorites"
 - [ ] Favorites appear in dedicated section
 - [ ] Can remove from favorites
 - [ ] Favorites persist (using localStorage)
 
 **Edge Cases**:
+
 - Browser cache cleared
 - Favorites exceed storage
 - Same song added twice
 
 ### Story 4: Simple User Profile
+
 **As a** parent  
 **I want to** set my child's name  
 **So that** the app feels personal
 
 **Acceptance Criteria**:
+
 - [ ] Can set/edit child's name
 - [ ] Name displays on home screen
 - [ ] Profile data saved
 
 **Edge Cases**:
+
 - Empty name
 - Very long name
 - Special characters
 
 ### Story 5: Offline Mode
+
 **As a** kid  
 **I want to** listen to songs offline  
 **So that** I can use the app without internet
 
 **Acceptance Criteria**:
+
 - [ ] Can download songs
 - [ ] Downloaded songs play offline
 - [ ] Offline indicator shown
 - [ ] Can see storage usage
 
 **Edge Cases**:
+
 - Storage full
 - Download interrupted
 - Song deleted during download
@@ -118,6 +137,7 @@ A simple, fun music app where kids can listen to worship songs, sing along with 
 ## 3. Data Model
 
 ### Entity: Song
+
 ```
 {
   id: "unique-id",
@@ -132,6 +152,7 @@ A simple, fun music app where kids can listen to worship songs, sing along with 
 ```
 
 ### Entity: User (Client-Side)
+
 ```
 {
   id: "generated",
@@ -144,6 +165,7 @@ A simple, fun music app where kids can listen to worship songs, sing along with 
 ```
 
 ### Storage
+
 - **Songs**: API endpoint (read-only)
 - **User data**: localStorage (client-only, no server)
 - **Favorites**: localStorage
@@ -170,12 +192,14 @@ GET /api/v1/songs/:id/stream
 ```
 
 ### Frontend: Local State
+
 - Songs list (fetched once on app load)
 - User profile (localStorage)
 - Favorites (localStorage)
 - Downloaded songs (IndexedDB)
 
 ### No Backend Auth
+
 - No login required
 - All data client-side
 - No user accounts (first phase)
@@ -187,6 +211,7 @@ GET /api/v1/songs/:id/stream
 ### Pages
 
 #### Home Page
+
 ```
 ┌─────────────────────┐
 │  🎵 Kids Worship    │
@@ -207,6 +232,7 @@ GET /api/v1/songs/:id/stream
 ```
 
 #### Song Player
+
 ```
 ┌─────────────────────┐
 │ Awesome Worship     │
@@ -226,6 +252,7 @@ GET /api/v1/songs/:id/stream
 ```
 
 #### Favorites Page
+
 ```
 ┌─────────────────────┐
 │ ❤️ My Favorites     │
@@ -239,6 +266,7 @@ GET /api/v1/songs/:id/stream
 ```
 
 ### Design Rules
+
 - Colorful, kid-friendly design
 - Large, easy-to-tap buttons
 - Simple navigation
@@ -252,6 +280,7 @@ GET /api/v1/songs/:id/stream
 ## 6. Technical Requirements
 
 ### Frontend
+
 - **Framework**: React or Vue.js
 - **Styling**: Tailwind CSS or similar
 - **Audio**: HTML5 `<audio>` element
@@ -259,6 +288,7 @@ GET /api/v1/songs/:id/stream
 - **Offline**: Service Workers (optional for MVP)
 
 ### Backend (Minimal)
+
 - **Runtime**: Node.js
 - **Framework**: Express.js
 - **Database**: SQLite (simple) or PostgreSQL (scalable)
@@ -266,6 +296,7 @@ GET /api/v1/songs/:id/stream
 - **Audio Storage**: AWS S3 or similar (optional)
 
 ### Security
+
 - No auth required (public app)
 - No sensitive data
 - HTTPS only
@@ -273,12 +304,14 @@ GET /api/v1/songs/:id/stream
 - No API keys exposed
 
 ### Performance
+
 - **Page load**: < 2 seconds
 - **Song load**: < 1 second
 - **Lyrics render**: instant
 - **Offline mode**: instant (cached)
 
 ### Accessibility
+
 - WCAG 2.1 Level AA target
 - Keyboard navigation
 - Screen reader support
@@ -290,9 +323,11 @@ GET /api/v1/songs/:id/stream
 ## 7. Implementation Plan
 
 ### Phase 1: MVP (Week 1-2)
+
 **Goal**: Minimal playable product
 
 **Tasks**:
+
 1. Setup project structure (Copilot)
 2. Design data model (Copilot)
 3. Build UI shell (Builder)
@@ -301,15 +336,18 @@ GET /api/v1/songs/:id/stream
 6. Basic testing (QA)
 
 **Deliverables**:
+
 - List of songs
 - Play/pause control
 - Song progress bar
 - Tests passing
 
 ### Phase 2: Full Features (Week 3-4)
+
 **Goal**: All features working
 
 **Tasks**:
+
 1. Add lyrics display (Builder)
 2. Add favorites (Builder)
 3. Add user profile (Builder)
@@ -318,15 +356,18 @@ GET /api/v1/songs/:id/stream
 6. Full test coverage (QA)
 
 **Deliverables**:
+
 - All features working
 - 80%+ test coverage
 - Mobile responsive
 - Offline mode working
 
 ### Phase 3: Polish & Deploy (Week 5)
+
 **Goal**: Production-ready
 
 **Tasks**:
+
 1. Performance optimization (Builder)
 2. Security audit (QA)
 3. Accessibility audit (QA)
@@ -334,6 +375,7 @@ GET /api/v1/songs/:id/stream
 5. Deploy to production (Deployer)
 
 **Deliverables**:
+
 - Production-ready code
 - Security verified
 - Accessibility verified
@@ -344,6 +386,7 @@ GET /api/v1/songs/:id/stream
 ## 8. Success Criteria
 
 ### Technical
+
 - [ ] Loads in < 2 seconds
 - [ ] Tests passing (80%+ coverage)
 - [ ] No lint errors
@@ -353,6 +396,7 @@ GET /api/v1/songs/:id/stream
 - [ ] Accessibility AA compliant
 
 ### Functional
+
 - [ ] Can browse and play songs
 - [ ] Lyrics sync with music
 - [ ] Favorites persist
@@ -360,6 +404,7 @@ GET /api/v1/songs/:id/stream
 - [ ] Download works offline
 
 ### Operational
+
 - [ ] Deployed to production
 - [ ] No security issues
 - [ ] Documentation complete
@@ -409,6 +454,7 @@ GET /api/v1/songs/:id/stream
 ## 10. Known Limitations
 
 ### Current (MVP)
+
 - No user accounts
 - No social features
 - No playlists
@@ -416,6 +462,7 @@ GET /api/v1/songs/:id/stream
 - Limited to 50 songs
 
 ### Future
+
 - User accounts
 - Playlists and sharing
 - AI recommendations
@@ -427,15 +474,18 @@ GET /api/v1/songs/:id/stream
 ## 11. Security Considerations
 
 ### Public Data
+
 - Songs, lyrics, artists: public (OK to expose)
 - Audio URLs: public (can serve from CDN)
 
 ### Private Data
+
 - User preferences: client-only (no server)
 - Favorites: localStorage (no server)
 - Downloaded songs: local cache
 
 ### No Auth
+
 - No login system
 - No user accounts
 - No sensitive data
@@ -446,18 +496,21 @@ GET /api/v1/songs/:id/stream
 ## 12. Testing Strategy
 
 ### Unit Tests
+
 - Lyrics formatting
 - Song filtering
 - Favorite management
 - LocalStorage handling
 
 ### Integration Tests
+
 - API responses
 - Audio playback
 - Lyrics sync
 - Download functionality
 
 ### E2E Tests (Manual)
+
 - Browse and play songs
 - Add to favorites
 - Download and offline mode
@@ -465,6 +518,7 @@ GET /api/v1/songs/:id/stream
 - Mobile UI
 
 ### QA Checklist
+
 - [ ] All songs load
 - [ ] All songs play
 - [ ] Lyrics display correctly
@@ -479,6 +533,7 @@ GET /api/v1/songs/:id/stream
 ## 13. Questions for Implementation
 
 **Builder**: Before you start, please confirm:
+
 1. Should we use React or Vue?
 2. Database: SQLite or PostgreSQL?
 3. Hosting: Vercel, Render, or self-hosted?
@@ -486,11 +541,13 @@ GET /api/v1/songs/:id/stream
 5. How many songs for MVP?
 
 **QA**: Before you test:
+
 1. What's the minimum test coverage target?
 2. Should we test on real devices or browser emulation?
 3. What's the acceptable offline load time?
 
 **Deployer**: Before you release:
+
 1. What's the deployment environment?
 2. Staging URL?
 3. Production URL?
@@ -501,11 +558,13 @@ GET /api/v1/songs/:id/stream
 ## Appendix: Similar Apps
 
 ### Reference Apps
+
 - Spotify Kids (music app example)
 - YouTube Music (lyric display)
 - Lyrics apps (offline functionality)
 
 ### Features to Consider
+
 - Discover new songs (algorithm)
 - Share with friends (social)
 - Create playlists

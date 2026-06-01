@@ -1,23 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  ClipboardCheck,
-  FolderKanban,
-  Home,
-  PlusCircle,
-  Settings,
-  Workflow,
-} from "lucide-react";
-import { ProjectStoreProvider } from "@/context/project-store";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { ClipboardCheck, FolderKanban, Home, PlusCircle, Settings, Workflow } from 'lucide-react';
+import { ProjectStoreProvider } from '@/context/project-store';
 
 const navItems = [
-  { href: "/", label: "Dashboard", icon: Home },
-  { href: "/new", label: "New App", icon: PlusCircle },
-  { href: "/projects", label: "Projects", icon: FolderKanban },
-  { href: "/tasks", label: "Task Board", icon: ClipboardCheck },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: '/', label: 'Dashboard', icon: Home },
+  { href: '/new', label: 'New App', icon: PlusCircle },
+  { href: '/projects', label: 'Projects', icon: FolderKanban },
+  { href: '/tasks', label: 'Task Board', icon: ClipboardCheck },
+  { href: '/settings', label: 'Settings', icon: Settings },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -42,10 +35,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </Link>
             </div>
             <nav className="flex-1 space-y-1 px-3 py-4">
-              {navItems.map((item) => {
+              {navItems.map(item => {
                 const Icon = item.icon;
                 const active =
-                  item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+                  item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
 
                 return (
                   <Link
@@ -53,8 +46,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     href={item.href}
                     className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition ${
                       active
-                        ? "bg-zinc-950 text-white"
-                        : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950"
+                        ? 'bg-zinc-950 text-white'
+                        : 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950'
                     }`}
                   >
                     <Icon className="h-4 w-4" />
@@ -83,12 +76,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </Link>
             </div>
             <nav className="flex gap-1 overflow-x-auto px-2 pb-2">
-              {navItems.map((item) => (
+              {navItems.map(item => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={`whitespace-nowrap rounded-md px-3 py-2 text-xs font-medium ${
-                    pathname === item.href ? "bg-zinc-950 text-white" : "text-zinc-600"
+                    pathname === item.href ? 'bg-zinc-950 text-white' : 'text-zinc-600'
                   }`}
                 >
                   {item.label}

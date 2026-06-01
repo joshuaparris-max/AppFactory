@@ -1,46 +1,43 @@
-"use client";
+'use client';
 
-import { Search } from "lucide-react";
-import { FolderKanban } from "lucide-react";
-import { useState } from "react";
-import { PageHeader } from "@/components/page-header";
-import { ProjectCard } from "@/components/project-card";
-import { ButtonLink } from "@/components/ui/Button";
-import { useProjectStore } from "@/context/project-store";
+import { Search } from 'lucide-react';
+import { FolderKanban } from 'lucide-react';
+import { useState } from 'react';
+import { PageHeader } from '@/components/page-header';
+import { ProjectCard } from '@/components/project-card';
+import { ButtonLink } from '@/components/ui/Button';
+import { useProjectStore } from '@/context/project-store';
 
-const riskOptions = ["all", "low", "medium", "high"] as const;
+const riskOptions = ['all', 'low', 'medium', 'high'] as const;
 const statusOptions = [
-  "all",
-  "draft",
-  "planning",
-  "ready-for-agents",
-  "review",
-  "approved",
+  'all',
+  'draft',
+  'planning',
+  'ready-for-agents',
+  'review',
+  'approved',
 ] as const;
 
 export default function ProjectsPage() {
   const { projects } = useProjectStore();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [riskFilter, setRiskFilter] = useState<typeof riskOptions[number]>("all");
-  const [statusFilter, setStatusFilter] = useState<typeof statusOptions[number]>("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [riskFilter, setRiskFilter] = useState<(typeof riskOptions)[number]>('all');
+  const [statusFilter, setStatusFilter] = useState<(typeof statusOptions)[number]>('all');
 
-  const filteredProjects = projects.filter((project) => {
+  const filteredProjects = projects.filter(project => {
     const query = searchQuery.toLowerCase();
     if (
       query &&
-      !(
-        project.name.toLowerCase().includes(query) ||
-        project.idea.toLowerCase().includes(query)
-      )
+      !(project.name.toLowerCase().includes(query) || project.idea.toLowerCase().includes(query))
     ) {
       return false;
     }
 
-    if (riskFilter !== "all" && project.risk !== riskFilter) {
+    if (riskFilter !== 'all' && project.risk !== riskFilter) {
       return false;
     }
 
-    if (statusFilter !== "all" && project.status !== statusFilter) {
+    if (statusFilter !== 'all' && project.status !== statusFilter) {
       return false;
     }
 
@@ -64,7 +61,7 @@ export default function ProjectsPage() {
                 type="text"
                 placeholder="Search projects by name or idea..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 className="flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-400"
               />
             </div>
@@ -72,12 +69,14 @@ export default function ProjectsPage() {
               Risk filter
               <select
                 value={riskFilter}
-                onChange={(e) => setRiskFilter(e.target.value as typeof riskOptions[number])}
+                onChange={e => setRiskFilter(e.target.value as (typeof riskOptions)[number])}
                 className="rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none"
               >
-                {riskOptions.map((option) => (
+                {riskOptions.map(option => (
                   <option key={option} value={option}>
-                    {option === "all" ? "All risks" : option.charAt(0).toUpperCase() + option.slice(1)}
+                    {option === 'all'
+                      ? 'All risks'
+                      : option.charAt(0).toUpperCase() + option.slice(1)}
                   </option>
                 ))}
               </select>
@@ -86,17 +85,17 @@ export default function ProjectsPage() {
               Status filter
               <select
                 value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as typeof statusOptions[number])}
+                onChange={e => setStatusFilter(e.target.value as (typeof statusOptions)[number])}
                 className="rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none"
               >
-                {statusOptions.map((option) => (
+                {statusOptions.map(option => (
                   <option key={option} value={option}>
-                    {option === "all"
-                      ? "All statuses"
+                    {option === 'all'
+                      ? 'All statuses'
                       : option
-                          .split("-")
-                          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-                          .join(" ")}
+                          .split('-')
+                          .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+                          .join(' ')}
                   </option>
                 ))}
               </select>
@@ -104,7 +103,7 @@ export default function ProjectsPage() {
           </div>
           {filteredProjects.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filteredProjects.map((project) => (
+              {filteredProjects.map(project => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </div>
@@ -113,9 +112,10 @@ export default function ProjectsPage() {
               <FolderKanban className="mx-auto h-12 w-12 text-zinc-400" />
               <h3 className="mt-4 text-xl font-semibold text-zinc-900">No matching projects</h3>
               <p className="mt-3 max-w-md mx-auto text-zinc-600">
-                We couldn&apos;t find any projects matching &quot;{searchQuery}&quot;. Try adjusting your search.
+                We couldn&apos;t find any projects matching &quot;{searchQuery}&quot;. Try adjusting
+                your search.
               </p>
-              <ButtonLink href="/projects" className="mt-6" onClick={() => setSearchQuery("")}>
+              <ButtonLink href="/projects" className="mt-6" onClick={() => setSearchQuery('')}>
                 Clear search
               </ButtonLink>
             </div>
@@ -126,7 +126,8 @@ export default function ProjectsPage() {
           <FolderKanban className="mx-auto h-12 w-12 text-zinc-400" />
           <h3 className="mt-4 text-xl font-semibold text-zinc-900">No projects yet</h3>
           <p className="mt-3 max-w-md mx-auto text-zinc-600">
-            Start building by creating your first app. We&apos;ll help you capture your idea, generate a specification, plan the technical approach, and export prompts for AI agents.
+            Start building by creating your first app. We&apos;ll help you capture your idea,
+            generate a specification, plan the technical approach, and export prompts for AI agents.
           </p>
           <ButtonLink href="/new" className="mt-6">
             Create your first app

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   Check,
@@ -12,28 +12,22 @@ import {
   FileText,
   Trash2,
   Code2,
-} from "lucide-react";
-import { useState } from "react";
-import type { ReactNode } from "react";
-import { PageHeader } from "@/components/page-header";
-import { PhaseBadge, RiskBadge } from "@/components/project-badges";
-import { Badge } from "@/components/ui/Badge";
-import { ButtonLink } from "@/components/ui/Button";
-import { useProjectStore } from "@/context/project-store";
+} from 'lucide-react';
+import { useState } from 'react';
+import type { ReactNode } from 'react';
+import { PageHeader } from '@/components/page-header';
+import { PhaseBadge, RiskBadge } from '@/components/project-badges';
+import { Badge } from '@/components/ui/Badge';
+import { ButtonLink } from '@/components/ui/Button';
+import { useProjectStore } from '@/context/project-store';
 import {
   copyScaffoldFileToClipboard,
   downloadScaffoldAsZip,
   downloadScaffoldAsJson,
-} from "@/lib/scaffold-download";
-import type { AgentPrompt } from "@/lib/types";
+} from '@/lib/scaffold-download';
+import type { AgentPrompt } from '@/lib/types';
 
-function Panel({
-  title,
-  children
-}: {
-  title: string;
-  children: ReactNode;
-}) {
+function Panel({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
       <h2 className="text-base font-semibold text-zinc-950">{title}</h2>
@@ -45,7 +39,7 @@ function Panel({
 function TextList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-3">
-      {items.map((item) => (
+      {items.map(item => (
         <li key={item} className="text-sm leading-6 text-zinc-700">
           {item}
         </li>
@@ -72,34 +66,34 @@ export default function ProjectDetailPage() {
   function exportAsJSON() {
     if (!project) return;
     const dataStr = JSON.stringify(project, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = `${project.name.toLowerCase().replace(/\s+/g, "-")}-export.json`;
+    link.download = `${project.name.toLowerCase().replace(/\s+/g, '-')}-export.json`;
     link.click();
     URL.revokeObjectURL(url);
   }
 
-  function exportAsMarkdown(type: "spec" | "prompts" | "checklist") {
+  function exportAsMarkdown(type: 'spec' | 'prompts' | 'checklist') {
     if (!project) return;
-    let content = "";
-    let filename = "";
+    let content = '';
+    let filename = '';
 
-    if (type === "spec") {
+    if (type === 'spec') {
       content = project.exports.markdownSpec;
-      filename = `${project.name.toLowerCase().replace(/\s+/g, "-")}-spec.md`;
-    } else if (type === "prompts") {
+      filename = `${project.name.toLowerCase().replace(/\s+/g, '-')}-spec.md`;
+    } else if (type === 'prompts') {
       content = project.exports.promptPackMarkdown;
-      filename = `${project.name.toLowerCase().replace(/\s+/g, "-")}-prompts.md`;
-    } else if (type === "checklist") {
+      filename = `${project.name.toLowerCase().replace(/\s+/g, '-')}-prompts.md`;
+    } else if (type === 'checklist') {
       content = project.exports.checklistMarkdown;
-      filename = `${project.name.toLowerCase().replace(/\s+/g, "-")}-checklist.md`;
+      filename = `${project.name.toLowerCase().replace(/\s+/g, '-')}-checklist.md`;
     }
 
-    const dataBlob = new Blob([content], { type: "text/markdown" });
+    const dataBlob = new Blob([content], { type: 'text/markdown' });
     const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
     link.download = filename;
     link.click();
@@ -111,7 +105,7 @@ export default function ProjectDetailPage() {
     if (confirm(`Are you sure you want to delete "${project.name}"? This cannot be undone.`)) {
       setIsDeleting(true);
       deleteProject(project.id);
-      router.push("/projects");
+      router.push('/projects');
     }
   }
 
@@ -122,7 +116,7 @@ export default function ProjectDetailPage() {
       name: `${project.name} Copy`,
       idea: project.idea,
       audience: project.appSpec.primaryAudience,
-      mustHaveFeatures: project.appSpec.coreFeatures.map((feature) => feature.name),
+      mustHaveFeatures: project.appSpec.coreFeatures.map(feature => feature.name),
       integrations: [],
     });
     router.push(`/projects/${duplicate.id}`);
@@ -189,7 +183,7 @@ export default function ProjectDetailPage() {
       <div className="mb-6 flex flex-wrap gap-2">
         <PhaseBadge phase={project.phase} />
         <RiskBadge risk={project.risk} />
-        <Badge>{project.status.replace(/-/g, " ")}</Badge>
+        <Badge>{project.status.replace(/-/g, ' ')}</Badge>
         <Badge>{project.complexity.size} build</Badge>
       </div>
 
@@ -210,8 +204,11 @@ export default function ProjectDetailPage() {
               <div>
                 <h3 className="text-sm font-semibold text-zinc-950">Core features</h3>
                 <div className="mt-3 space-y-3">
-                  {project.appSpec.coreFeatures.map((feature) => (
-                    <div key={feature.id} className="rounded-md border border-zinc-200 bg-zinc-50 p-3">
+                  {project.appSpec.coreFeatures.map(feature => (
+                    <div
+                      key={feature.id}
+                      className="rounded-md border border-zinc-200 bg-zinc-50 p-3"
+                    >
                       <p className="text-sm font-semibold text-zinc-950">{feature.name}</p>
                       <p className="mt-1 text-sm leading-6 text-zinc-700">{feature.description}</p>
                     </div>
@@ -220,7 +217,11 @@ export default function ProjectDetailPage() {
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-zinc-950">Data model</h3>
-                <TextList items={project.appSpec.dataModel.map((entity) => `${entity.name}: ${entity.description}`)} />
+                <TextList
+                  items={project.appSpec.dataModel.map(
+                    entity => `${entity.name}: ${entity.description}`
+                  )}
+                />
               </div>
             </div>
           </Panel>
@@ -240,7 +241,7 @@ export default function ProjectDetailPage() {
                 <h3 className="text-sm font-semibold text-zinc-950">Scaffold plan</h3>
                 <TextList
                   items={project.techPlan.scaffoldPlan.map(
-                    (item) => `${item.path} (${item.ownerRole}): ${item.purpose}`
+                    item => `${item.path} (${item.ownerRole}): ${item.purpose}`
                   )}
                 />
               </div>
@@ -250,14 +251,17 @@ export default function ProjectDetailPage() {
           <Panel title="Generated App Scaffold">
             <div>
               <p className="text-sm text-zinc-600 mb-4">
-                Your complete Next.js app structure is ready to download. {project.exports.scaffoldFiles.length} files generated.
+                Your complete Next.js app structure is ready to download.{' '}
+                {project.exports.scaffoldFiles.length} files generated.
               </p>
               <div className="space-y-2 max-h-96 overflow-y-auto">
-                {project.exports.scaffoldFiles.map((file) => (
+                {project.exports.scaffoldFiles.map(file => (
                   <div key={file.path} className="rounded-md border border-zinc-200 bg-zinc-50 p-3">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex-1">
-                        <p className="font-mono text-xs font-semibold text-zinc-900 break-all">{file.path}</p>
+                        <p className="font-mono text-xs font-semibold text-zinc-900 break-all">
+                          {file.path}
+                        </p>
                         <p className="text-xs text-zinc-600 mt-1">{file.description}</p>
                       </div>
                       <button
@@ -277,8 +281,11 @@ export default function ProjectDetailPage() {
 
           <Panel title="Agent task split">
             <div className="grid gap-4 md:grid-cols-2">
-              {project.agentTasks.map((task) => (
-                <article key={task.role} className="rounded-md border border-zinc-200 bg-zinc-50 p-4">
+              {project.agentTasks.map(task => (
+                <article
+                  key={task.role}
+                  className="rounded-md border border-zinc-200 bg-zinc-50 p-4"
+                >
                   <p className="text-sm font-semibold text-zinc-950">{task.role}</p>
                   <p className="mt-1 text-xs font-medium text-zinc-500">{task.branchName}</p>
                   <p className="mt-3 text-sm leading-6 text-zinc-700">{task.mission}</p>
@@ -295,7 +302,7 @@ export default function ProjectDetailPage() {
         <aside className="space-y-6">
           <Panel title="Clarifying questions">
             <div className="space-y-3">
-              {project.clarifyingQuestions.map((question) => (
+              {project.clarifyingQuestions.map(question => (
                 <div key={question.id} className="rounded-md border border-zinc-200 bg-zinc-50 p-3">
                   <p className="text-sm font-medium leading-6 text-zinc-900">{question.question}</p>
                   <p className="mt-1 text-xs leading-5 text-zinc-500">{question.why}</p>
@@ -306,7 +313,7 @@ export default function ProjectDetailPage() {
 
           <Panel title="Four-agent prompts">
             <div className="space-y-4">
-              {project.prompts.map((prompt) => (
+              {project.prompts.map(prompt => (
                 <PromptBlock
                   key={prompt.role}
                   prompt={prompt}
@@ -326,7 +333,9 @@ export default function ProjectDetailPage() {
                 <div className="space-y-2">
                   <button
                     type="button"
-                    onClick={() => downloadScaffoldAsJson(project.name, project.exports.scaffoldFiles)}
+                    onClick={() =>
+                      downloadScaffoldAsJson(project.name, project.exports.scaffoldFiles)
+                    }
                     className="flex w-full items-center gap-2 rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-left text-xs font-medium text-emerald-700 transition hover:bg-emerald-100"
                   >
                     <Code2 className="h-3.5 w-3.5" />
@@ -334,7 +343,9 @@ export default function ProjectDetailPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => downloadScaffoldAsZip(project.name, project.exports.scaffoldFiles)}
+                    onClick={() =>
+                      downloadScaffoldAsZip(project.name, project.exports.scaffoldFiles)
+                    }
                     className="flex w-full items-center gap-2 rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-left text-xs font-medium text-emerald-700 transition hover:bg-emerald-100"
                   >
                     <Code2 className="h-3.5 w-3.5" />
@@ -353,7 +364,7 @@ export default function ProjectDetailPage() {
                 <div className="space-y-2">
                   <button
                     type="button"
-                    onClick={() => exportAsMarkdown("spec")}
+                    onClick={() => exportAsMarkdown('spec')}
                     className="flex w-full items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
                   >
                     <Download className="h-3.5 w-3.5" />
@@ -361,7 +372,7 @@ export default function ProjectDetailPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => exportAsMarkdown("prompts")}
+                    onClick={() => exportAsMarkdown('prompts')}
                     className="flex w-full items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
                   >
                     <Download className="h-3.5 w-3.5" />
@@ -369,7 +380,7 @@ export default function ProjectDetailPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => exportAsMarkdown("checklist")}
+                    onClick={() => exportAsMarkdown('checklist')}
                     className="flex w-full items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
                   >
                     <Download className="h-3.5 w-3.5" />
@@ -390,11 +401,11 @@ export default function ProjectDetailPage() {
 
           <Panel title="Review checklist">
             <div className="space-y-5">
-              {project.reviewChecklist.categories.map((category) => (
+              {project.reviewChecklist.categories.map(category => (
                 <div key={category.name}>
                   <h3 className="text-sm font-semibold text-zinc-950">{category.name}</h3>
                   <ul className="mt-2 space-y-2">
-                    {category.items.map((item) => (
+                    {category.items.map(item => (
                       <li key={item} className="text-sm leading-6 text-zinc-700">
                         {item}
                       </li>
@@ -422,7 +433,7 @@ function SpecField({ label, value }: { label: string; value: string }) {
 function PromptBlock({
   prompt,
   copied,
-  onCopy
+  onCopy,
 }: {
   prompt: AgentPrompt;
   copied: boolean;
@@ -441,7 +452,7 @@ function PromptBlock({
           className="inline-flex h-9 items-center gap-2 rounded-md border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:border-zinc-300 hover:bg-zinc-50"
         >
           {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-          {copied ? "Copied" : "Copy"}
+          {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
       <textarea

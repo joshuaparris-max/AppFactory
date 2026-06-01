@@ -9,6 +9,7 @@ Step-by-step guide for how agents work together in AppFactory.
 ## Quick Summary
 
 **AppFactory is a 4-agent framework where:**
+
 1. **Copilot** designs and specifies
 2. **Builder** implements code
 3. **QA** tests and validates
@@ -31,7 +32,7 @@ Each agent works on their own Git branch, creates PRs, gets reviewed, and merges
 
 2. Copilot writes specification document
    docs/specs/<feature-name>-spec.md
-   
+
 3. Copilot commits with clear message
    git add docs/specs/
    git commit -m "spec: <feature> specification [#123]"
@@ -52,6 +53,7 @@ Each agent works on their own Git branch, creates PRs, gets reviewed, and merges
 ```
 
 **Copilot Checklist**:
+
 - [ ] Spec is clear and detailed
 - [ ] Spec is implementable (Builder agrees)
 - [ ] No secrets in spec
@@ -93,7 +95,7 @@ Each agent works on their own Git branch, creates PRs, gets reviewed, and merges
 6. Builder commits with clear message
    git add src/ tests/
    git commit -m "feat(<scope>): <description>
-   
+
    - What was implemented
    - Tests added
    - Any gotchas documented"
@@ -114,6 +116,7 @@ Each agent works on their own Git branch, creates PRs, gets reviewed, and merges
 ```
 
 **Builder Checklist**:
+
 - [ ] Matches spec exactly
 - [ ] Tests written for new code
 - [ ] No lint errors
@@ -190,6 +193,7 @@ Each agent works on their own Git branch, creates PRs, gets reviewed, and merges
 ```
 
 **QA Checklist**:
+
 - [ ] Tests cover spec requirements
 - [ ] Edge cases tested
 - [ ] Manual QA plan documented
@@ -281,6 +285,7 @@ Each agent works on their own Git branch, creates PRs, gets reviewed, and merges
 ```
 
 **Deployer Checklist**:
+
 - [ ] All PRs merged
 - [ ] All checks passing
 - [ ] Version bumped
@@ -373,6 +378,7 @@ Josh: Approves when satisfied
 ## When to Ask Josh
 
 ✓ **Do ask Josh**:
+
 - Before deploying to production
 - If you're unsure about security
 - If architecture changes needed
@@ -380,6 +386,7 @@ Josh: Approves when satisfied
 - If agents can't agree
 
 ✓ **Don't ask Josh**:
+
 - For code review (agents review each other)
 - For style/lint issues (use linter)
 - For test failures (fix the code)
@@ -391,21 +398,26 @@ Josh: Approves when satisfied
 
 ```markdown
 ## What Changed?
+
 [Brief description: what feature, what spec section]
 
 ## Why?
+
 [Why this change was needed]
 
 ## How?
+
 [How the change works, architecture if needed]
 
 ## Testing
+
 - [ ] All tests pass
 - [ ] Lint passes
 - [ ] Build passes
 - [ ] Manual testing done (describe)
 
 ## Checklist
+
 - [ ] Matches spec (link spec section)
 - [ ] Tests written
 - [ ] No secrets committed
@@ -413,6 +425,7 @@ Josh: Approves when satisfied
 - [ ] Docs updated (if needed)
 
 ## Review Notes
+
 - Assigned to: [Agent name]
 - Depends on: [PR numbers if any]
 - Closes: [Issue numbers if any]
@@ -454,14 +467,15 @@ git push origin v1.2.3
 
 ## Summary
 
-| Agent | Input | Output | Review By |
-|-------|-------|--------|-----------|
-| Copilot | Idea | Spec | Builder, Josh |
-| Builder | Spec | Code + Tests | Copilot, QA |
-| QA | Spec + Code | Tests + Checklist | Builder, Copilot |
-| Deployer | Merged Code | Release + Deploy | Josh |
+| Agent    | Input       | Output            | Review By        |
+| -------- | ----------- | ----------------- | ---------------- |
+| Copilot  | Idea        | Spec              | Builder, Josh    |
+| Builder  | Spec        | Code + Tests      | Copilot, QA      |
+| QA       | Spec + Code | Tests + Checklist | Builder, Copilot |
+| Deployer | Merged Code | Release + Deploy  | Josh             |
 
 **Golden Rules**:
+
 1. ✓ Spec first, code second, tests third
 2. ✓ Always review from peer agent
 3. ✓ Always pass all checks before merge

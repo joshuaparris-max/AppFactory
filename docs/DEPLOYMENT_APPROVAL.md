@@ -9,5 +9,6 @@ Production deployments require explicit human approval. The minimal steps are:
 5. Only after approval, a release PR or CI job may run the deploy steps.
 
 Notes
+
 - Never store real secrets in the repository. Use secure secret stores and reference them in CI only after approval.
 - Keep a short audit note in the PR describing the deployment time, approver, and any post-deploy checks.

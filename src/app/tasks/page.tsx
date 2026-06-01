@@ -1,22 +1,26 @@
-"use client";
+'use client';
 
-import { PageHeader } from "@/components/page-header";
-import { RiskBadge } from "@/components/project-badges";
-import { Badge } from "@/components/ui/Badge";
-import { useProjectStore } from "@/context/project-store";
-import type { AgentRole } from "../../../lib/generator";
+import { PageHeader } from '@/components/page-header';
+import { RiskBadge } from '@/components/project-badges';
+import { Badge } from '@/components/ui/Badge';
+import { useProjectStore } from '@/context/project-store';
+import type { AgentRole } from '../../../lib/generator';
 
 const columns: AgentRole[] = [
-  "Foundation / architecture",
-  "UI / UX",
-  "Backend / integrations",
-  "QA / tests / docs"
+  'Foundation / architecture',
+  'UI / UX',
+  'Backend / integrations',
+  'QA / tests / docs',
 ];
 
 export default function TaskBoardPage() {
   const { projects } = useProjectStore();
-  const tasks = projects.flatMap((project) =>
-    project.agentTasks.map((task) => ({ ...task, projectName: project.name, projectRisk: project.risk }))
+  const tasks = projects.flatMap(project =>
+    project.agentTasks.map(task => ({
+      ...task,
+      projectName: project.name,
+      projectRisk: project.risk,
+    }))
   );
 
   return (
@@ -28,8 +32,8 @@ export default function TaskBoardPage() {
       />
 
       <div className="grid gap-4 xl:grid-cols-4">
-        {columns.map((role) => {
-          const columnTasks = tasks.filter((task) => task.role === role);
+        {columns.map(role => {
+          const columnTasks = tasks.filter(task => task.role === role);
 
           return (
             <section
@@ -41,7 +45,7 @@ export default function TaskBoardPage() {
                 <Badge>{columnTasks.length}</Badge>
               </div>
               <div className="space-y-3">
-                {columnTasks.map((task) => (
+                {columnTasks.map(task => (
                   <article
                     key={`${task.projectName}-${task.role}`}
                     className="rounded-md border border-zinc-200 bg-zinc-50 p-3"
@@ -56,7 +60,7 @@ export default function TaskBoardPage() {
                       <Badge>{task.ownedPaths.length} owned paths</Badge>
                     </div>
                     <ul className="mt-3 space-y-2">
-                      {task.deliverables.slice(0, 3).map((deliverable) => (
+                      {task.deliverables.slice(0, 3).map(deliverable => (
                         <li key={deliverable} className="text-xs leading-5 text-zinc-600">
                           {deliverable}
                         </li>

@@ -42,7 +42,12 @@ npm run build
 npm run lint
 npm run test
 npm run typecheck
+npm run format
 ```
+
+## Automation
+
+This project now includes GitHub Actions CI for build, lint, and test runs on push and pull requests, plus local pre-commit checks for formatting and secret scanning.
 
 ## Generator Example
 
@@ -50,16 +55,16 @@ npm run typecheck
 import {
   createGeneratorOutput,
   exportMarkdownSpec,
-  formatPromptPackMarkdown
-} from "./lib/generator";
+  formatPromptPackMarkdown,
+} from './lib/generator';
 
 const output = createGeneratorOutput({
-  idea: "A family chore and allowance app with parent approvals, streaks, and simple dashboards.",
-  audience: "busy families with children aged 8-15",
-  mustHaveFeatures: ["parent approval flow", "allowance ledger", "weekly chore board"],
-  integrations: ["email reminders"],
+  idea: 'A family chore and allowance app with parent approvals, streaks, and simple dashboards.',
+  audience: 'busy families with children aged 8-15',
+  mustHaveFeatures: ['parent approval flow', 'allowance ledger', 'weekly chore board'],
+  integrations: ['email reminders'],
   authRequired: true,
-  roles: ["parent", "child"]
+  roles: ['parent', 'child'],
 });
 
 console.log(exportMarkdownSpec(output.spec, output.techPlan));
@@ -72,15 +77,15 @@ The integration keeps the typed generator in `lib/generator` as the source of tr
 
 ## Documentation
 
-| Document | Purpose |
-|----------|---------|
-| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute and work with AppFactory |
-| [docs/APPFACTORY_SPEC.md](docs/APPFACTORY_SPEC.md) | Complete architecture and specifications |
-| [docs/AGENT_WORKFLOW.md](docs/AGENT_WORKFLOW.md) | Step-by-step multi-agent workflow guide |
-| [docs/SAFETY_GUARDRAILS.md](docs/SAFETY_GUARDRAILS.md) | Security, data, and deployment rules |
-| [docs/ROADMAP.md](docs/ROADMAP.md) | Current and planned features |
-| [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md) | Pre-release verification steps |
-| [docs/PROMPT_TEMPLATES.md](docs/PROMPT_TEMPLATES.md) | Templates for agent prompts |
+| Document                                               | Purpose                                    |
+| ------------------------------------------------------ | ------------------------------------------ |
+| [CONTRIBUTING.md](CONTRIBUTING.md)                     | How to contribute and work with AppFactory |
+| [docs/APPFACTORY_SPEC.md](docs/APPFACTORY_SPEC.md)     | Complete architecture and specifications   |
+| [docs/AGENT_WORKFLOW.md](docs/AGENT_WORKFLOW.md)       | Step-by-step multi-agent workflow guide    |
+| [docs/SAFETY_GUARDRAILS.md](docs/SAFETY_GUARDRAILS.md) | Security, data, and deployment rules       |
+| [docs/ROADMAP.md](docs/ROADMAP.md)                     | Current and planned features               |
+| [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md) | Pre-release verification steps             |
+| [docs/PROMPT_TEMPLATES.md](docs/PROMPT_TEMPLATES.md)   | Templates for agent prompts                |
 
 ## Project Status
 
