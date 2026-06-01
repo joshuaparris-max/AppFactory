@@ -1,4 +1,4 @@
-import React from 'react';
+import { Check } from "lucide-react";
 
 interface ProgressProps {
   value: number;
@@ -63,7 +63,7 @@ export function StepProgress({ steps, currentStep }: StepProgressProps) {
                       : 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100'
                 }`}
               >
-                {step.completed ? '✓' : index + 1}
+                {step.completed ? <Check className="h-4 w-4" /> : index + 1}
               </div>
               {index < steps.length - 1 && (
                 <div

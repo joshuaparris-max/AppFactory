@@ -256,30 +256,34 @@ export default function ProjectDetailPage() {
               <button
                 type="button"
                 onClick={() => exportAsMarkdown("spec")}
-                className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
+                className="flex w-full items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
               >
-                📋 Download Spec
+                <Download className="h-3.5 w-3.5" />
+                Download spec
               </button>
               <button
                 type="button"
                 onClick={() => exportAsMarkdown("prompts")}
-                className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
+                className="flex w-full items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
               >
-                💬 Download Prompts
+                <Download className="h-3.5 w-3.5" />
+                Download prompts
               </button>
               <button
                 type="button"
                 onClick={() => exportAsMarkdown("checklist")}
-                className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
+                className="flex w-full items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
               >
-                ✅ Download Checklist
+                <Download className="h-3.5 w-3.5" />
+                Download checklist
               </button>
               <button
                 type="button"
                 onClick={exportAsJSON}
-                className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
+                className="flex w-full items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
               >
-                💾 Download Full JSON
+                <Download className="h-3.5 w-3.5" />
+                Download full JSON
               </button>
             </div>
           </Panel>
