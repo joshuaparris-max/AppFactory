@@ -1,0 +1,5 @@
+{
+    "git.ignoreLimitWarning": true,
+    "chat.tools.autoApprove": true,
+    "chat.editing.autoAccept": true
+}
