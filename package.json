@@ -1,0 +1,38 @@
+{
+  "name": "appfactory",
+  "version": "1.0.0",
+  "description": "AppFactory: Multi-agent development framework for building applications safely and reliably",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "lint": "echo 'Linting would run here (configure with eslint, prettier, etc.)'",
+    "build": "echo 'Build would run here (configure with webpack, esbuild, etc.)'",
+    "test": "echo 'Tests would run here (configure with jest, vitest, etc.)'",
+    "qa": "npm run lint && npm run build && npm run test",
+    "check": "npm run lint && npm run build && npm run test",
+    "dev": "echo 'Development server would run here'",
+    "format": "echo 'Code formatting would run here'",
+    "clean": "rm -rf dist/ node_modules/ .turbo/"
+  },
+  "keywords": [
+    "appfactory",
+    "multi-agent",
+    "development",
+    "ai",
+    "collaboration",
+    "workflow",
+    "safety"
+  ],
+  "author": "Josh Parris",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "devDependencies": {
+    "comment": "Add project-specific dev dependencies as needed"
+  },
+  "dependencies": {
+    "comment": "Add project-specific dependencies as needed"
+  }
+}
