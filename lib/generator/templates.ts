@@ -321,3 +321,17 @@ export const SEED_TEMPLATES: Record<string, SeedTemplate> = {
     ]
   }
 };
+
+// UI review and safety snippets exported so UI layers can show consistent warnings
+export const UI_REVIEW_SNIPPETS: Record<string, string> = {
+  humanApprovalNotice:
+    "Human approval required: production deployments and live-credential changes require explicit owner sign-off.",
+  riskBadge: "Risk: {{level}} — {{shortReason}}",
+  fileOwnershipWarning:
+    "File ownership: check the owning agent branch before editing. Do not overwrite another agent's work without a documented handoff.",
+  branchNamingGuidance:
+    "Branch naming: use the `agent/<project-slug>-<role-slug>` convention to make ownership obvious.",
+  noSecretsReminder: "Reminder: never commit secrets. Use `.env.example` and store secrets in secure stores.",
+  buildMustPass: "Build & tests must pass before merge — CI should gate merges to main.",
+  doNotOverwrite: "Do not overwrite another agent's work: read diffs, coordinate in PR comments, and ask for a handoff if needed."
+};

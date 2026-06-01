@@ -8,6 +8,7 @@
     "lint": "echo 'Linting would run here (configure with eslint, prettier, etc.)'",
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node dist/tests/generator.test.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "qa": "npm run lint && npm run build && npm run test",
     "check": "npm run lint && npm run build && npm run test",
     "dev": "echo 'Development server would run here'",

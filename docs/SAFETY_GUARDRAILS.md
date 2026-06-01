@@ -1,3 +1,23 @@
+# AppFactory Safety Guardrails
+
+This document collects practical, non-blocking safety rules for multi-agent work in AppFactory.
+
+Core principles
+- One branch per agent and clear branch naming: `agent/<project-slug>-<role-slug>`.
+- Never commit secrets, credentials, or private keys. Use `.env.example` for placeholders.
+- Keep live integrations behind service interfaces and disabled by default.
+- Respect file ownership and avoid overwriting another agent's work without a documented handoff.
+- Require human approval for production deploys and any live-credential changes.
+
+Quick actions
+- Before editing shared files: check branch owner, read diffs, and add a PR comment documenting the handoff.
+- Before merging: run `npm run check` (lint + build + test) and ensure required approvals are present.
+- For integrations: implement a mock adapter and document the live API shape in `docs/integrations.md`.
+
+When in doubt
+- Open an issue or flag the PR and ask the project owner for guidance.
+
+See also: `docs/AGENT_WORKFLOW.md`, `lib/generator/guardrails.ts`
 # Safety Guardrails for AppFactory
 
 Critical safety rules and best practices for AppFactory development.
