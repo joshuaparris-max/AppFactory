@@ -27,6 +27,8 @@ export function ProjectStoreProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    // LocalStorage is the MVP persistence boundary; load it after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setProjects(loadProjects());
     setHydrated(true);
   }, []);
