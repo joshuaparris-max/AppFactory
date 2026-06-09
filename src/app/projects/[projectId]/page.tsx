@@ -348,6 +348,88 @@ export default function ProjectDetailPage() {
             </div>
           </Panel>
 
+          <Panel title="Deployment readiness">
+            <div className="rounded-md border border-amber-200 bg-amber-50 p-4">
+              <div className="flex gap-3">
+                <ShieldCheck className="h-5 w-5 text-amber-600" />
+                <div>
+                  <h3 className="text-sm font-semibold text-amber-950">
+                    Safety check: No live deployments
+                  </h3>
+                  <p className="mt-1 text-sm leading-6 text-amber-800">
+                    AppFactory does not automatically create GitHub repositories or Vercel projects.
+                    Use the artifacts below to set up your environment safely.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <button
+                type="button"
+                onClick={() => {
+                  const data = {
+                    projectName: project.name,
+                    githubRepoName: project.name.toLowerCase().replace(/\s+/g, '-'),
+                    visibility: 'private',
+                    branchProtection: true,
+                    agents: project.prompts.map(p => p.role),
+                  };
+                  const blob = new Blob([JSON.stringify(data, null, 2)], {
+                    type: 'application/json',
+                  });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = `github-setup-${project.name.toLowerCase().replace(/\s+/g, '-')}.json`;
+                  link.click();
+                  URL.revokeObjectURL(url);
+                }}
+                className="flex flex-col items-center justify-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-6 text-center transition hover:bg-zinc-100"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm">
+                  <FileJson className="h-6 w-6 text-zinc-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-zinc-950">GitHub readiness</p>
+                  <p className="mt-1 text-xs text-zinc-600">Download repo setup plan</p>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const data = {
+                    projectName: project.name,
+                    framework: 'nextjs',
+                    nodeVersion: '20.x',
+                    installCommand: 'npm install',
+                    buildCommand: 'npm run build',
+                    outputDirectory: '.next',
+                  };
+                  const blob = new Blob([JSON.stringify(data, null, 2)], {
+                    type: 'application/json',
+                  });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = `vercel-setup-${project.name.toLowerCase().replace(/\s+/g, '-')}.json`;
+                  link.click();
+                  URL.revokeObjectURL(url);
+                }}
+                className="flex flex-col items-center justify-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-6 text-center transition hover:bg-zinc-100"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm">
+                  <ExternalLink className="h-6 w-6 text-zinc-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-zinc-950">Vercel readiness</p>
+                  <p className="mt-1 text-xs text-zinc-600">Download deploy setup plan</p>
+                </div>
+              </button>
+            </div>
+          </Panel>
+
           <Panel title="Tech plan">
             <div className="grid gap-4 md:grid-cols-2">
               {Object.entries(project.techPlan.stack).map(([key, value]) => (
