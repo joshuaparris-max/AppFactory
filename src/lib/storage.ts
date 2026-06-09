@@ -41,6 +41,24 @@ export function saveProjects(projects: Project[]): void {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
 }
 
+export function importProjectsFromJson(raw: unknown): Project[] {
+  if (!canUseStorage()) {
+    return [];
+  }
+
+  if (!Array.isArray(raw)) {
+    throw new Error('Import file must contain an array of projects.');
+  }
+
+  const importedProjects = raw.filter(isProject).map(normalizeProject);
+  if (importedProjects.length === 0) {
+    throw new Error('No valid AppFactory projects found in the imported file.');
+  }
+
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(importedProjects));
+  return importedProjects;
+}
+
 export function makeProject(input: CreateProjectInput): Project {
   return createProjectDraft(input);
 }

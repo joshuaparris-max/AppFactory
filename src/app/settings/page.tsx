@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { KeyRound, PlugZap, ShieldCheck } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { useProjectStore } from '@/context/project-store';
 
 const settings = [
   {
@@ -24,6 +25,8 @@ const settings = [
 const GITHUB_REPO_STORAGE_KEY = 'appfactory.githubRepository';
 
 export default function SettingsPage() {
+  const { importProjects } = useProjectStore();
+  const importInputRef = useRef<HTMLInputElement | null>(null);
   const initialRepo =
     typeof window !== 'undefined'
       ? (window.localStorage.getItem(GITHUB_REPO_STORAGE_KEY) ?? '')
@@ -31,6 +34,7 @@ export default function SettingsPage() {
   const [githubRepo, setGithubRepo] = useState(initialRepo);
   const [savedRepo, setSavedRepo] = useState(initialRepo);
   const [savedAt, setSavedAt] = useState(initialRepo ? new Date().toLocaleString() : null);
+  const [importStatus, setImportStatus] = useState('');
 
   const saveGithubRepo = () => {
     const repo = githubRepo.trim();
@@ -44,6 +48,25 @@ export default function SettingsPage() {
     setGithubRepo('');
     setSavedRepo('');
     setSavedAt(null);
+  };
+
+  const handleImportBackup = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith('.json')) {
+      setImportStatus('Please select a JSON file exported from AppFactory.');
+      return;
+    }
+
+    try {
+      const raw = JSON.parse(await file.text());
+      const imported = importProjects(raw);
+      setImportStatus(`Imported ${imported.length} projects successfully.`);
+    } catch (error) {
+      setImportStatus(error instanceof Error ? error.message : 'Invalid import file.');
+    }
   };
 
   return (
@@ -120,6 +143,32 @@ export default function SettingsPage() {
               No GitHub repository saved yet. Add one to keep track of deployment and repo settings.
             </p>
           )}
+
+          <div className="mt-6 rounded-lg bg-slate-50 p-4 text-sm text-zinc-700">
+            <h3 className="font-semibold text-zinc-950">Restore projects from JSON</h3>
+            <p className="mt-2 text-sm text-zinc-600">
+              Upload an AppFactory export file to restore saved projects locally. This will replace
+              the current project list.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => importInputRef.current?.click()}
+                className="h-11 px-4"
+              >
+                Choose JSON file
+              </Button>
+              <input
+                ref={importInputRef}
+                type="file"
+                accept="application/json"
+                className="hidden"
+                onChange={handleImportBackup}
+              />
+            </div>
+            {importStatus ? <p className="mt-3 text-sm text-slate-700">{importStatus}</p> : null}
+          </div>
         </section>
       </div>
     </>

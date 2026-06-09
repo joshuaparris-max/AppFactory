@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { loadProjects, makeProject, saveProjects } from '@/lib/storage';
+import { loadProjects, makeProject, saveProjects, importProjectsFromJson } from '@/lib/storage';
 import { regenerateProject } from '@/lib/mock-data';
 import type { CreateProjectInput, Project } from '@/lib/types';
 
@@ -20,6 +20,7 @@ interface ProjectStoreValue {
   updateProject: (projectId: string, input: CreateProjectInput) => Project | undefined;
   getProject: (projectId: string) => Project | undefined;
   deleteProject: (projectId: string) => void;
+  importProjects: (raw: unknown) => Project[];
 }
 
 const ProjectStoreContext = createContext<ProjectStoreValue | undefined>(undefined);
@@ -76,9 +77,29 @@ export function ProjectStoreProvider({ children }: { children: ReactNode }) {
     setProjects(current => current.filter(project => project.id !== projectId));
   }, []);
 
+  const importProjects = useCallback(
+    (raw: unknown) => {
+      const imported = importProjectsFromJson(raw);
+      setProjects(imported);
+      if (!hydrated) {
+        setHydrated(true);
+      }
+      return imported;
+    },
+    [hydrated]
+  );
+
   const value = useMemo(
-    () => ({ projects, hydrated, createProject, updateProject, getProject, deleteProject }),
-    [projects, hydrated, createProject, updateProject, getProject, deleteProject]
+    () => ({
+      projects,
+      hydrated,
+      createProject,
+      updateProject,
+      getProject,
+      deleteProject,
+      importProjects,
+    }),
+    [projects, hydrated, createProject, updateProject, getProject, deleteProject, importProjects]
   );
 
   return <ProjectStoreContext.Provider value={value}>{children}</ProjectStoreContext.Provider>;
