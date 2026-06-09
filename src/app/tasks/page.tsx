@@ -24,7 +24,7 @@ const owners: AgentTask["owner"][] = [
 ];
 
 export default function TaskBoardPage() {
-  const { projects } = useProjectStore();
+  const { projects, updateTaskStatus } = useProjectStore();
   const [projectFilter, setProjectFilter] = useState("all");
   const [ownerFilter, setOwnerFilter] = useState("all");
 
@@ -119,6 +119,25 @@ export default function TaskBoardPage() {
                     <div className="mt-3 flex flex-wrap gap-2">
                       <PhaseBadge phase={task.phase} />
                       <RiskBadge risk={task.risk} />
+                    </div>
+                    <div className="mt-4 border-t border-zinc-200 pt-3">
+                      <select
+                        value={task.status}
+                        onChange={(e) =>
+                          updateTaskStatus(
+                            task.projectId,
+                            task.id,
+                            e.target.value as any,
+                          )
+                        }
+                        className="w-full bg-transparent text-[10px] font-bold uppercase tracking-wider text-zinc-500 outline-none hover:text-zinc-950"
+                      >
+                        {columns.map((col) => (
+                          <option key={col.id} value={col.id}>
+                            Move to {col.label}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </article>
                 ))}

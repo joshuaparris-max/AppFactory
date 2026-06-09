@@ -20,6 +20,7 @@ interface ProjectStoreValue {
   getProject: (projectId: string) => Project | undefined;
   updateProject: (projectId: string, updates: Partial<Project>) => void;
   deleteProject: (projectId: string) => void;
+  updateTaskStatus: (projectId: string, taskId: string, status: Project["agentTasks"][0]["status"]) => void;
   replaceProjects: (projects: Project[]) => void;
   resetProjects: () => void;
 }
@@ -63,6 +64,25 @@ export function ProjectStoreProvider({ children }: { children: ReactNode }) {
     setProjects((current) => current.filter((project) => project.id !== projectId));
   }, []);
 
+  const updateTaskStatus = useCallback(
+    (projectId: string, taskId: string, status: Project["agentTasks"][0]["status"]) => {
+      setProjects((current) =>
+        current.map((project) =>
+          project.id === projectId
+            ? {
+                ...project,
+                agentTasks: project.agentTasks.map((task) =>
+                  task.id === taskId ? { ...task, status } : task,
+                ),
+                updatedAt: new Date().toISOString(),
+              }
+            : project,
+        ),
+      );
+    },
+    [],
+  );
+
   const replaceProjects = useCallback((nextProjects: Project[]) => {
     setProjects(nextProjects);
   }, []);
@@ -84,6 +104,7 @@ export function ProjectStoreProvider({ children }: { children: ReactNode }) {
       getProject,
       updateProject,
       deleteProject,
+      updateTaskStatus,
       replaceProjects,
       resetProjects,
     }),
@@ -94,6 +115,7 @@ export function ProjectStoreProvider({ children }: { children: ReactNode }) {
       getProject,
       updateProject,
       deleteProject,
+      updateTaskStatus,
       replaceProjects,
       resetProjects,
     ],
