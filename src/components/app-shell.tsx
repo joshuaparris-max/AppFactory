@@ -2,7 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ClipboardCheck, FolderKanban, Home, PlusCircle, Settings, Workflow } from 'lucide-react';
+import {
+  ClipboardCheck,
+  FolderKanban,
+  Home,
+  Info,
+  PlusCircle,
+  Settings,
+  Workflow,
+} from 'lucide-react';
 import { ProjectStoreProvider } from '@/context/project-store';
 
 const navItems = [
@@ -10,6 +18,7 @@ const navItems = [
   { href: '/new', label: 'New App', icon: PlusCircle },
   { href: '/projects', label: 'Projects', icon: FolderKanban },
   { href: '/tasks', label: 'Task Board', icon: ClipboardCheck },
+  { href: '/about', label: 'About', icon: Info },
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
 

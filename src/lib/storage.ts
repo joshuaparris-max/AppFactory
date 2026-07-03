@@ -1,6 +1,7 @@
 'use client';
 
 import { createProjectDraft, demoProjects } from '@/lib/mock-data';
+import { generateNextJsScaffold } from '../../lib/generator';
 import type { CreateProjectInput, Project } from '@/lib/types';
 
 const STORAGE_KEY = 'appfactory.projects.v2';
@@ -19,7 +20,10 @@ export function loadProjects(): Project[] {
   try {
     const parsed: unknown = JSON.parse(raw);
     if (Array.isArray(parsed)) {
-      return parsed.filter(isProject);
+      const projects = parsed.filter(isProject).map(normalizeProject);
+      if (projects.length > 0) {
+        return projects;
+      }
     }
   } catch {
     window.localStorage.removeItem(STORAGE_KEY);
@@ -35,6 +39,24 @@ export function saveProjects(projects: Project[]): void {
   }
 
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+}
+
+export function importProjectsFromJson(raw: unknown): Project[] {
+  if (!canUseStorage()) {
+    return [];
+  }
+
+  if (!Array.isArray(raw)) {
+    throw new Error('Import file must contain an array of projects.');
+  }
+
+  const importedProjects = raw.filter(isProject).map(normalizeProject);
+  if (importedProjects.length === 0) {
+    throw new Error('No valid AppFactory projects found in the imported file.');
+  }
+
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(importedProjects));
+  return importedProjects;
 }
 
 export function makeProject(input: CreateProjectInput): Project {
@@ -62,4 +84,19 @@ function isProject(value: unknown): value is Project {
     candidate.reviewChecklist &&
     candidate.exports
   );
+}
+
+function normalizeProject(project: Project): Project {
+  const scaffoldFiles =
+    Array.isArray(project.exports.scaffoldFiles) && project.exports.scaffoldFiles.length > 0
+      ? project.exports.scaffoldFiles
+      : generateNextJsScaffold(project.name, project.appSpec, project.techPlan);
+
+  return {
+    ...project,
+    exports: {
+      ...project.exports,
+      scaffoldFiles,
+    },
+  };
 }

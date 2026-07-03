@@ -192,10 +192,10 @@ Open [http://localhost:3000](http://localhost:3000) to see your app.
 
 \`\`\`
 src/
-├── app/           # Next.js App Router
-├── components/    # Reusable React components
-├── lib/          # Utility functions
-└── styles/       # Global styles
+|-- app/           # Next.js App Router
+|-- components/    # Reusable React components
+|-- lib/           # Utility functions
+|-- styles/        # Global styles
 \`\`\`
 
 ## Core Features
@@ -308,7 +308,7 @@ body {
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-white mb-6">Core Features</h2>
           <ul className="space-y-3">
-            ${spec.coreFeatures.map(f => `<li className="text-zinc-300">• <strong>${f.name}</strong>: ${f.description}</li>`).join('\n            ')}
+            ${spec.coreFeatures.map(f => `<li className="text-zinc-300">- <strong>${f.name}</strong>: ${f.description}</li>`).join('\n            ')}
           </ul>
         </div>
 
