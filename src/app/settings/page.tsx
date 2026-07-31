@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Download, KeyRound, PlugZap, RotateCcw, ShieldCheck, Upload } from "lucide-react";
+import { ClipboardList, Download, KeyRound, PlugZap, RotateCcw, ShieldCheck, Upload } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -45,6 +45,16 @@ export default function SettingsPage() {
     anchor.click();
     URL.revokeObjectURL(url);
     setMessage("Downloaded local project backup.");
+  }
+
+  async function importBackupFromClipboard() {
+    try {
+      const raw = await navigator.clipboard.readText();
+      replaceProjects(parseProjectsBackup(raw));
+      setMessage("Imported project backup from clipboard.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not import clipboard backup.");
+    }
   }
 
   async function importBackup(file: File) {
@@ -96,6 +106,10 @@ export default function SettingsPage() {
             >
               <Upload className="h-4 w-4" />
               Import backup
+            </Button>
+            <Button type="button" variant="secondary" onClick={importBackupFromClipboard}>
+              <ClipboardList className="h-4 w-4" />
+              Import from clipboard
             </Button>
             <Button type="button" variant="subtle" onClick={confirmReset}>
               <RotateCcw className="h-4 w-4" />
