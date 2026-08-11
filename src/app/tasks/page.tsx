@@ -127,7 +127,7 @@ export default function TaskBoardPage() {
                           updateTaskStatus(
                             task.projectId,
                             task.id,
-                            e.target.value as any,
+                            e.target.value as AgentTask["status"],
                           )
                         }
                         className="w-full bg-transparent text-[10px] font-bold uppercase tracking-wider text-zinc-500 outline-none hover:text-zinc-950"
